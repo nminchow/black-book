@@ -2,6 +2,10 @@
 
 
 import { barbarianData } from './raw/barbarian';
+import { druidData } from './raw/druid';
+import { necromancerData } from './raw/necromancer';
+import { rogueData } from './raw/rogue';
+import { sorcererData } from './raw/sorcerer';
 
 export interface SkillData {
   connections: string[];
@@ -24,22 +28,19 @@ interface SkillMapping {
   [key: string]: SkillData;
 }
 
-const barbarian = barbarianData as unknown as ClassData;
+const classData = [ barbarianData, druidData, necromancerData, rogueData, sorcererData ].map(x => x as unknown as ClassData);
 
-Object.entries(barbarian).map(([ key, value ]) => {
-  if (key === 'Trunk Data') {
-    return {};
-  }
-  return value
-});
+const createSkillMapping = (givenClass:ClassData) => {
+  return Object.entries(givenClass).reduce((acc, [key, value]) => {
+    if (key === 'Trunk Data') {
+      return {};
+    }
+    return { ...acc, ...value };
+  }, {} as SkillMapping);
+};
 
-const combinedSkills = Object.entries(barbarian).reduce((acc, [key, value]) => {
-  if (key === 'Trunk Data') {
-    return {};
-  }
-  return { ...acc, ...value };
+const combinedSkills = classData.reduce((acc, givenClass) => {
+  return ({ ...acc, ...createSkillMapping(givenClass) })
 }, {} as SkillMapping);
-
-// console.log(combinedSkills);
 
 export default combinedSkills;

@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "build": "tsc",
     "dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/bot.ts",
-    "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullDatabase.ts",
+    "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullData.ts",
     "deploy-commands": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/deployment.ts",
     "lint": "gts lint",
     "clean": "gts clean",
