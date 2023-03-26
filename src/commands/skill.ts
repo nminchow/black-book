@@ -5,7 +5,7 @@ import {
   AutocompleteInteraction
 } from 'discord.js';
 import coalesceSkillDescription from '../utility/coalesceSkillDescription';
-import combinedSkills from '../utility/database';
+import combinedSkills from '../data/database';
 
 const name = 'skill';
 const skillNameOption = 'name';

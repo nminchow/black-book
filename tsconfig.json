@@ -16,7 +16,7 @@
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
-    "src/utility/database.ts",
+    "src/data/database.ts",
     "src/data/raw/barbarian.js"
   ]
 }

@@ -1,4 +1,4 @@
-import { SkillData } from "./database";
+import { SkillData } from "../data/database";
 
 const coalesceSkillDescription = (skill:SkillData) => {
   return skill.values.reduce((description, x) => {

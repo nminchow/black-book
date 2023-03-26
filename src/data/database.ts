@@ -1,7 +1,7 @@
 // currently just uses data in raw folder
 
 
-import { barbarianData } from '../data/raw/barbarian';
+import { barbarianData } from './raw/barbarian';
 
 export interface SkillData {
   connections: string[];
