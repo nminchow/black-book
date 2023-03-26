@@ -1,5 +1,5 @@
 {
-  "name": "diablo-info-bot",
+  "name": "black-book",
   "main": "src/bot.ts",
   "license": "MIT",
   "type": "module",
