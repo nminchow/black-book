@@ -1,0 +1,7 @@
+**/node_modules/**
+**.env**
+/bin
+/build
+yarn-error.log
+notes.md
+src/data/raw/**
