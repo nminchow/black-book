@@ -7,7 +7,11 @@ import { necromancerData } from './raw/necromancer';
 import { rogueData } from './raw/rogue';
 import { sorcererData } from './raw/sorcerer';
 
-export interface SkillData {
+export interface SkillData extends RawSkillData {
+  skill: string;
+}
+
+interface RawSkillData {
   connections: string[];
   description: string;
   id: number;
@@ -20,12 +24,12 @@ export interface SkillData {
 
 interface ClassData {
   [key: string]: {
-    [key: string]: SkillData;
+    [key: string]: RawSkillData;
   };
 }
 
 interface SkillMapping {
-  [key: string]: SkillData;
+  [key: string]: RawSkillData;
 }
 
 const classData = [ barbarianData, druidData, necromancerData, rogueData, sorcererData ].map(x => x as unknown as ClassData);

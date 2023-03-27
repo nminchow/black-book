@@ -6,6 +6,7 @@ import {
 } from 'discord.js';
 import coalesceSkillDescription from '../utility/coalesceSkillDescription';
 import combinedSkills from '../data/database';
+import skillViewBuilder from '../views/skill';
 
 const name = 'skill';
 const skillNameOption = 'name';
@@ -28,7 +29,9 @@ const skill = () => ({
       interaction.reply('skill not found!');
       return;
     }
-    interaction.reply(coalesceSkillDescription(skill));
+
+    const skillView = await skillViewBuilder({ skill: skillName, ...skill });
+    interaction.reply({embeds: [skillView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();

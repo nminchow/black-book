@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
-      "dom"
+      "ES2022"
     ],
     "allowJs": true
   },
