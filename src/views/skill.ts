@@ -28,8 +28,8 @@ const findValidIcon = async (skillName:string) => {
 const skill = async (skill: SkillData) => {
   const description = coalesceSkillDescription(skill)
 
+  // instead of all of this logic, we could maybe just use the base skill
   const icon_url = await findValidIcon(skill.skill);
-
 
   const embed: APIEmbed = {
     author: {

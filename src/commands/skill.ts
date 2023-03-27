@@ -4,8 +4,7 @@ import {
   SlashCommandBuilder,
   AutocompleteInteraction
 } from 'discord.js';
-import coalesceSkillDescription from '../utility/coalesceSkillDescription';
-import combinedSkills from '../data/database';
+import combinedSkills, { skillFuse } from '../data/database';
 import skillViewBuilder from '../views/skill';
 
 const name = 'skill';
@@ -30,15 +29,15 @@ const skill = () => ({
       return;
     }
 
-    const skillView = await skillViewBuilder({ skill: skillName, ...skill });
+    const skillView = await skillViewBuilder(skill);
     interaction.reply({embeds: [skillView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();
-    const choices = Object.keys(combinedSkills)
-    const filtered = choices.filter(choice => choice.toLowerCase().startsWith(focusedValue.toLowerCase())).slice(0, 24);
+    const result = skillFuse.search(focusedValue, { limit: 25 });
+    console.log(result);
 		await interaction.respond(
-			filtered.map(choice => ({ name: choice, value: choice })),
+			result.map(({ item: { skill } }) => ({ name: skill, value: skill })),
 		);
   },
 });

@@ -1,11 +1,12 @@
 // currently just uses data in raw folder
-
+import Fuse from 'fuse.js';
 
 import { barbarianData } from './raw/barbarian';
 import { druidData } from './raw/druid';
 import { necromancerData } from './raw/necromancer';
 import { rogueData } from './raw/rogue';
 import { sorcererData } from './raw/sorcerer';
+
 
 export interface SkillData extends RawSkillData {
   skill: string;
@@ -28,8 +29,12 @@ interface ClassData {
   };
 }
 
-interface SkillMapping {
+interface RawSkillMapping {
   [key: string]: RawSkillData;
+}
+
+interface SkillMapping {
+  [key: string]: SkillData;
 }
 
 const classData = [ barbarianData, druidData, necromancerData, rogueData, sorcererData ].map(x => x as unknown as ClassData);
@@ -40,11 +45,23 @@ const createSkillMapping = (givenClass:ClassData) => {
       return {};
     }
     return { ...acc, ...value };
-  }, {} as SkillMapping);
+  }, {} as RawSkillMapping);
 };
 
 const combinedSkills = classData.reduce((acc, givenClass) => {
   return ({ ...acc, ...createSkillMapping(givenClass) })
-}, {} as SkillMapping);
+}, {} as RawSkillMapping);
 
-export default combinedSkills;
+const withSkillName = Object.entries(combinedSkills).reduce((acc, [skill, attributes]) => {
+return { ...acc, [skill]: { skill, ...attributes } }
+}, {} as SkillMapping)
+
+console.log(Object.values(withSkillName).slice(0,3));
+
+const skillFuse = new Fuse(Object.values(withSkillName), {
+  keys: ['skill'],
+  isCaseSensitive: false
+});
+
+export { skillFuse };
+export default withSkillName;
