@@ -10,8 +10,6 @@ const findValidIcon = async (skillName:string) => {
   const normalUrl = `https://rerollcdn.com/DIABLO4/Skills/${normalized}.png`;
   const withoutFirstUrl = `https://rerollcdn.com/DIABLO4/Skills/${withoutFirstWord.join('_')}.png`;
 
-  console.log(withoutFirstUrl);
-
   const [normalResponse, withoutFirstResponse] = await Promise.all(
     [fetch(normalUrl), fetch(withoutFirstUrl)]
   );
