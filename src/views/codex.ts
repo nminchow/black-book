@@ -2,6 +2,7 @@ import { APIEmbed } from "discord.js"
 import { SkillData } from "../data/skillDatabase"
 import fetch from "node-fetch"
 import coalesceSkillDescription from "../utility/coalesceSkillDescription"
+import { CodexEntry } from "../data/codexDatabase";
 
 const findValidIcon = async (skillName:string) => {
   const normalized = skillName.toLowerCase().replaceAll(' ', '_')
@@ -25,16 +26,16 @@ const findValidIcon = async (skillName:string) => {
   return 'https://static.wikia.nocookie.net/diablo/images/b/b3/Fate.png';
 };
 
-const skill = async (skill: SkillData) => {
-  const description = coalesceSkillDescription(skill)
+const codex = async (codex: CodexEntry) => {
+  const description = coalesceSkillDescription(codex)
 
   // instead of all of this logic, we could maybe just use the base skill
-  const icon_url = await findValidIcon(skill.skill);
+  // const icon_url = await findValidIcon(skill.skill);
 
   const embed: APIEmbed = {
     author: {
-      name: skill.skill,
-      icon_url,
+      name: codex.name,
+      icon_url: 'https://static.wikia.nocookie.net/diablo/images/b/b3/Fate.png',
     },
     description
   };
@@ -42,4 +43,4 @@ const skill = async (skill: SkillData) => {
   return embed;;
 }
 
-export default skill;
+export default codex;

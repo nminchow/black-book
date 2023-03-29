@@ -4,7 +4,7 @@ import {
   SlashCommandBuilder,
   AutocompleteInteraction
 } from 'discord.js';
-import combinedSkills, { skillFuse } from '../data/database';
+import combinedSkills, { skillFuse } from '../data/skillDatabase';
 import skillViewBuilder from '../views/skill';
 
 const name = 'skill';

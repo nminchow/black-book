@@ -56,7 +56,7 @@ const withSkillName = Object.entries(combinedSkills).reduce((acc, [skill, attrib
 return { ...acc, [skill]: { skill, ...attributes } }
 }, {} as SkillMapping)
 
-console.log(Object.values(withSkillName).slice(0,3));
+// console.log(Object.values(withSkillName).slice(0,3));
 
 const skillFuse = new Fuse(Object.values(withSkillName), {
   keys: ['skill'],
