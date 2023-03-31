@@ -9,14 +9,22 @@ jobs:
       - run: |
           touch .env.production
           echo "GITHUB_TOKEN=$GITHUB_TOKEN" > .env.production
+  pull-data:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "16.13"
+      - run: yarn pull-data
 workflows:
   heroku_deploy:
     jobs:
       - add-secret
-      - node/run:
+      - pull-data
           requires:
             - add-secret
-          yarn-run: pull-data
       - heroku/deploy-via-git:
           requires:
             - node/run
