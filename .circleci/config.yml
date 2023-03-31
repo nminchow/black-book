@@ -17,9 +17,6 @@ workflows:
           requires:
             - add-secret
           yarn-run: pull-data
-      - deploy:
-          requires:
-            - node/run
       - heroku/deploy-via-git:
           requires:
-            - deploy
+            - node/run
