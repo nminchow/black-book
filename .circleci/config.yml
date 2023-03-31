@@ -1,23 +1,27 @@
 version: '2.1'
 orbs:
   heroku: circleci/heroku@2.0
-  node: circleci/node@x.y
+  node: circleci/node@16.15
 jobs:
+  add-secret:
+    steps:
+      - run: |
+          touch .env.production
+          echo "GITHUB_TOKEN=$GITHUB_TOKEN" > .env.production
   deploy:
     executor: heroku/default
     steps:
       - checkout
       - heroku/install
-      - node/install:
-          install-yarn: true
-          node-version: '16.15'
-      - run: |
-          touch .env.production
-          echo "GITHUB_TOKEN=$GITHUB_TOKEN" > .env.production
-      - node/run:
-          yarn-run: pull-data
       - heroku/deploy-via-git
 workflows:
   heroku_deploy:
     jobs:
+      - add-secret
+      - node/run:
+          requires:
+            - add-secret
+          yarn-run: pull-data
       - deploy
+          requires:
+            - node/run
