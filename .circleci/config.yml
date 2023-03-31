@@ -22,6 +22,6 @@ workflows:
           requires:
             - add-secret
           yarn-run: pull-data
-      - deploy
+      - deploy:
           requires:
             - node/run
