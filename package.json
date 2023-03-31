@@ -18,11 +18,7 @@
     "deploy-commands": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/deployment.ts",
     "lint": "gts lint",
     "clean": "gts clean",
-    "compile": "tsc",
-    "fix": "gts fix",
-    "prepare": "yarn run compile",
-    "pretest": "yarn run compile",
-    "posttest": "yarn run lint"
+    "fix": "gts fix"
   },
   "dependencies": {
     "@types/node": "^18.14.2",
