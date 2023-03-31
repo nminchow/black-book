@@ -27,4 +27,4 @@ workflows:
             - add-secret
       - heroku/deploy-via-git:
           requires:
-            - node/run
+            - pull-data
