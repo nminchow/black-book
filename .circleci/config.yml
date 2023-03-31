@@ -12,7 +12,7 @@ jobs:
           install-yarn: true
           node-version: '16.15'
       - run:
-          command: |
+          command: >
             touch .env.production
             echo "GITHUB_TOKEN=$GITHUB_TOKEN" > .env.production
       - node/run:
