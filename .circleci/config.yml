@@ -27,5 +27,6 @@ workflows:
           requires:
             - add-secret
       - heroku/deploy-via-git:
+          app-name: black-book
           requires:
             - pull-data
