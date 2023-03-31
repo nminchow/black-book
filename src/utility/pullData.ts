@@ -16,6 +16,12 @@ const octokit = new Octokit({ auth });
 
 const paths = [ ...files.map(x => ({ path: `data/${x}.js`, name: x })), {path: 'parser/codex-values.js', name: 'codex-values'}];
 
+const dir = './src/data/raw';
+
+if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir, { recursive: true });
+}
+
 paths.map(async ({ path, name }) => {
   const { data } = await octokit.rest.repos.getContent({
     owner,
@@ -35,5 +41,5 @@ paths.map(async ({ path, name }) => {
     file_sha,
   });
   const content = Buffer.from(blob.data.content, 'base64').toString()
-  fs.writeFileSync(`./src/data/raw/${name}.js`, content);
+  fs.writeFileSync(`${dir}/${name}.js`, content);
 });
