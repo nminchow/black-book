@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "build": "tsc",
     "start": "node --require dotenv/config --experimental-specifier-resolution=node ./build/bot.js",
-    "pull-data": "node --require dotenv --experimental-specifier-resolution=node ./build/utility/pullData.js",
+    "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node ./build/utility/pullData.js",
     "temp": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/data/codexDatabase.ts",
     "dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/bot.ts",
     "pull-data-dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullData.ts",
