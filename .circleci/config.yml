@@ -16,7 +16,7 @@ jobs:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: "16.13"
+          node-version: "16.15.1"
       - run: yarn pull-data
 workflows:
   heroku_deploy:
