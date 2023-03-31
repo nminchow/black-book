@@ -22,7 +22,7 @@ workflows:
   heroku_deploy:
     jobs:
       - add-secret
-      - pull-data
+      - pull-data:
           requires:
             - add-secret
       - heroku/deploy-via-git:
