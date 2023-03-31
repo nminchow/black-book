@@ -1,27 +1,18 @@
 import { APIEmbed } from "discord.js"
-import { SkillData } from "../data/skillDatabase"
 import fetch from "node-fetch"
 import coalesceSkillDescription from "../utility/coalesceSkillDescription"
 import { CodexEntry } from "../data/codexDatabase";
 
-const findValidIcon = async (skillName:string) => {
-  const normalized = skillName.toLowerCase().replaceAll(' ', '_')
-  const [_, ...withoutFirstWord] = normalized.split('_');
+const findValidIcon = async (category:string) => {
 
-  const normalUrl = `https://rerollcdn.com/DIABLO4/Skills/${normalized}.png`;
-  const withoutFirstUrl = `https://rerollcdn.com/DIABLO4/Skills/${withoutFirstWord.join('_')}.png`;
+  const url = `https://rerollcdn.com/DIABLO4/Codex/${category.toLowerCase()}.png`;
 
-  const [normalResponse, withoutFirstResponse] = await Promise.all(
-    [fetch(normalUrl), fetch(withoutFirstUrl)]
-  );
 
-  if (normalResponse.status === 200) {
-    return normalUrl;
+  const response = await fetch(url);
+
+  if (response.status === 200) {
+    return url;
   };
-
-  if (withoutFirstResponse.status === 200) {
-    return withoutFirstUrl;
-  }
 
   return 'https://static.wikia.nocookie.net/diablo/images/b/b3/Fate.png';
 };
@@ -29,13 +20,12 @@ const findValidIcon = async (skillName:string) => {
 const codex = async (codex: CodexEntry) => {
   const description = coalesceSkillDescription(codex)
 
-  // instead of all of this logic, we could maybe just use the base skill
-  // const icon_url = await findValidIcon(skill.skill);
+  const icon_url = await findValidIcon(codex.category);
 
   const embed: APIEmbed = {
     author: {
       name: codex.name,
-      icon_url: 'https://static.wikia.nocookie.net/diablo/images/b/b3/Fate.png',
+      icon_url,
     },
     description
   };

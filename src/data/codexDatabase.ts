@@ -6,6 +6,7 @@ import { codexValues } from './raw/codex-values';
 
 export interface CodexEntry extends RawCodexEntry {
   name: string;
+  category: string;
 }
 
 interface RawCodexEntry {
@@ -33,15 +34,15 @@ interface CodexMapping {
   [key: string]: CodexEntry
 }
 
-const injectEntryName = (category: Category) => {
-  return Object.entries(category).reduce((acc, [name, attributes]) => {
-    return { ...acc, [name]: { name, ...attributes } }
+const injectEntryName = (entries: Category, category: string) => {
+  return Object.entries(entries).reduce((acc, [name, attributes]) => {
+    return { ...acc, [name]: { name, ...attributes, category } }
   }, {} as CodexMapping);
 }
 
 const reKeyByName = (entry: ClassEntry) => {
-  return Object.values(entry).reduce((acc: CodexMapping, value) => {
-    return { ...acc, ...injectEntryName(value) }
+  return Object.entries(entry).reduce((acc: CodexMapping, [categoryName, entries]) => {
+    return { ...acc, ...injectEntryName(entries, categoryName) }
   }, {} as CodexMapping)
 }
 
