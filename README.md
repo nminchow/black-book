@@ -2,6 +2,8 @@
 
 This is a utility bot for viewing data from Blizzard's _Diablo IV_. Currently, skill tree data and legendary affix data are both available.
 
+### [Add Black Book To Your Server](https://discord.com/oauth2/authorize?client_id=1091483908983492639&permissions=377960581696&scope=bot%20applications.commands)
+
 ##### From the work of [Lam Essen](https://diablo.fandom.com/wiki/Lam_Esen%27s_Tome_(Quest)).
 
 ## Support
