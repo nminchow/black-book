@@ -35,7 +35,6 @@ const skill = () => ({
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();
     const result = skillFuse.search(focusedValue, { limit: 25 });
-    console.log(result);
 		await interaction.respond(
 			result.map(({ item: { skill } }) => ({ name: skill, value: skill })),
 		);

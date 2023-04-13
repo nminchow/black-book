@@ -35,7 +35,6 @@ const codex = () => ({
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();
     const result = codexFuse.search(focusedValue, { limit: 25 });
-    console.log(result);
 		await interaction.respond(
 			result.map(({ item: { name } }) => ({ name, value: name })),
 		);

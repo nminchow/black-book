@@ -2,7 +2,6 @@
 import Fuse from 'fuse.js';
 
 import { codexData } from './raw/codex-of-power';
-import { codexValues } from './raw/codex-values';
 
 export interface CodexEntry extends RawCodexEntry {
   name: string;

@@ -1,7 +1,7 @@
 import { Octokit } from "@octokit/rest"
 import * as fs from 'fs';
 
-const files = ['barbarian', 'codex-of-power', 'druid', 'necromancer', 'paragon', 'rogue', 'sorcerer'];
+const files = ['barbarian', 'codex-of-power', 'druid', 'necromancer', 'paragon', 'rogue', 'sorcerer', 'paragon'];
 
 const owner = 'Lothrik';
 const repo = 'diablo4-build-calc';
