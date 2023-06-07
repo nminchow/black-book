@@ -1,6 +1,8 @@
 import { Octokit } from "@octokit/rest"
 import * as fs from 'fs';
 
+console.log('pulling data')
+
 const files = ['barbarian', 'codex-of-power', 'druid', 'necromancer', 'paragon', 'rogue', 'sorcerer', 'paragon'];
 
 const owner = 'Lothrik';

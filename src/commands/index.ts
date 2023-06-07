@@ -5,9 +5,10 @@ import paragon, { paragonBuilder } from "./paragon";
 import about, { aboutBuilder } from "./about";
 import invite, { inviteBuilder } from "./invite";
 import help, { helpBuilder } from "./help";
-import { SlashCommandBuilder } from "discord.js";
+import hellTide, { hellTideBuilder } from "./hellTide";
+import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "discord.js";
 
-export type CommandBuilers = Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">[]
+export type CommandBuilers = Array<Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup"> | SlashCommandSubcommandsOnlyBuilder>
 
 const builders = [
   skillBuilder,
@@ -16,6 +17,7 @@ const builders = [
   inviteBuilder,
   helpBuilder,
   paragonBuilder,
+  hellTideBuilder,
 ];
 
 export const commands = {
@@ -26,8 +28,17 @@ export const commands = {
     const aboutCommand = about();
     const inviteCommand = invite();
     const paragonCommand = paragon();
+    const hellTideCommand = hellTide();
     const helpCommand = help(builders);
-    [skillCommand, codexCommand, aboutCommand, inviteCommand, helpCommand, paragonCommand].map(command => {
+    [
+      skillCommand,
+      codexCommand,
+      aboutCommand,
+      inviteCommand,
+      helpCommand,
+      paragonCommand,
+      hellTideCommand
+    ].map(command => {
       client.commands.set(command.name, command);
     })
   }
