@@ -3,7 +3,7 @@ import {
   ChatInputCommandInteraction,
   SlashCommandBuilder,
 } from 'discord.js';
-import hellTideViewBuilder from '../views/hellTide';
+import hellTideViewBuilder from '../views/hellTideMap';
 
 const name = 'hell-tide';
 // const subCommand = 'tide';

@@ -1,4 +1,5 @@
 import {APIEmbed} from 'discord.js';
+import { author } from './shared';
 
 const about = () => {
   const description =
@@ -10,10 +11,7 @@ const about = () => {
     'by @LeonRdo#4563 - ' +
     `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
   const embed: APIEmbed = {
-    author: {
-      name: 'Diablo Black Book',
-      icon_url: 'https://static.wikia.nocookie.net/diablo/images/0/09/Act3Q4.gif',
-    },
+    author,
     description,
     footer: {
       text,

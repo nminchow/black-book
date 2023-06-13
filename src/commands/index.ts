@@ -1,10 +1,11 @@
-import { ClientAndCommands } from "../bot";
+import { ClientAndCommands, dbWrapper } from "../bot";
 import skill, { skillBuilder } from "./skill";
 import codex, { codexBuilder } from "./codex";
 import paragon, { paragonBuilder } from "./paragon";
 import about, { aboutBuilder } from "./about";
 import invite, { inviteBuilder } from "./invite";
 import help, { helpBuilder } from "./help";
+import events, { eventsBuilder } from "./events";
 import hellTide, { hellTideBuilder } from "./hellTide";
 import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "discord.js";
 
@@ -18,17 +19,19 @@ const builders = [
   helpBuilder,
   paragonBuilder,
   hellTideBuilder,
+  eventsBuilder,
 ];
 
 export const commands = {
   builders,
-  installer: (client: ClientAndCommands) => {
+  installer: (db: dbWrapper,client: ClientAndCommands) => {
     const skillCommand = skill();
     const codexCommand = codex();
     const aboutCommand = about();
     const inviteCommand = invite();
     const paragonCommand = paragon();
     const hellTideCommand = hellTide();
+    const eventsCommand = events(db);
     const helpCommand = help(builders);
     [
       skillCommand,
@@ -37,7 +40,8 @@ export const commands = {
       inviteCommand,
       helpCommand,
       paragonCommand,
-      hellTideCommand
+      hellTideCommand,
+      eventsCommand,
     ].map(command => {
       client.commands.set(command.name, command);
     })

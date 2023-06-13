@@ -9,13 +9,32 @@ import {
   ActivityType,
   AutocompleteInteraction,
 } from 'discord.js';
+import { createClient } from '@supabase/supabase-js'
+import {Database} from './types/supabase';
 import {commands} from './commands';
+import { createListener } from './worldEvents/createListener';
 
 const token = process.env.DISCORD_TOKEN;
 
 if (!token) {
   throw 'discord token not found';
 }
+
+const dbClient = () => {
+  const supabaseUrl = process.env.SUPABASE_URL
+  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
+
+  if (!supabaseAnonKey || !supabaseUrl) {
+    console.log('no supabase config found - event tracking disabled');
+    return null;
+  }
+
+  return createClient<Database>(supabaseUrl, supabaseAnonKey)
+};
+
+const db = dbClient();
+
+export type dbWrapper = typeof db;
 
 interface CommandHandler {
   name: string;
@@ -35,7 +54,7 @@ export class ClientAndCommands extends Client {
     this.loadCommands();
   }
   private loadCommands(): void {
-    commands.installer(this);
+    commands.installer(db, this);
   }
 }
 
@@ -86,7 +105,9 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 client.on(Events.ClientReady, async () => {
+  createListener(client, db);
   client.user?.setActivity('/help', {type: ActivityType.Watching});
 });
+
 
 client.login(token);

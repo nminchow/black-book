@@ -1,5 +1,6 @@
 import {APIEmbed} from 'discord.js';
 import { CommandBuilers } from '../commands';
+import { author } from './shared';
 
 const help = (commands: CommandBuilers) => {
   const description =
@@ -9,10 +10,7 @@ const help = (commands: CommandBuilers) => {
     'by @LeonRdo#4563 - ' +
     `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
   const embed: APIEmbed = {
-    author: {
-      name: 'Diablo Black Book',
-      icon_url: 'https://static.wikia.nocookie.net/diablo/images/0/09/Act3Q4.gif',
-    },
+    author,
     description,
     fields: [
       {
