@@ -31,7 +31,7 @@ const events = (db: dbWrapper) => ({
       console.error(insertionError);
       interaction.reply('something went wrong!')
     }
-    interaction.reply('events will be posted in this channel!');
+    interaction.reply('events will be posted in this channel! (Use `/unsub` to stop event posts)');
   },
 });
 

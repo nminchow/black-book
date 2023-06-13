@@ -8,18 +8,20 @@ import help, { helpBuilder } from "./help";
 import events, { eventsBuilder } from "./events";
 import hellTide, { hellTideBuilder } from "./hellTide";
 import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "discord.js";
+import unsub, { unsubBuilder } from "./unsub";
 
 export type CommandBuilers = Array<Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup"> | SlashCommandSubcommandsOnlyBuilder>
 
 const builders = [
+  helpBuilder,
   skillBuilder,
   codexBuilder,
-  aboutBuilder,
-  inviteBuilder,
-  helpBuilder,
+  eventsBuilder,
+  unsubBuilder,
   paragonBuilder,
   hellTideBuilder,
-  eventsBuilder,
+  aboutBuilder,
+  inviteBuilder,
 ];
 
 export const commands = {
@@ -32,6 +34,7 @@ export const commands = {
     const paragonCommand = paragon();
     const hellTideCommand = hellTide();
     const eventsCommand = events(db);
+    const unsubCommand = unsub(db);
     const helpCommand = help(builders);
     [
       skillCommand,
@@ -42,6 +45,7 @@ export const commands = {
       paragonCommand,
       hellTideCommand,
       eventsCommand,
+      unsubCommand,
     ].map(command => {
       client.commands.set(command.name, command);
     })

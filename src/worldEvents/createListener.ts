@@ -80,7 +80,7 @@ const getView = (eventType: EventType) => {
 }
 
 const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  const { data } = await db.from('subscriptions').select().filter(eventType, 'eq', true);
+  const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
   data?.map(sub => {
     const { channel_id: channelId, role } = sub;
     const channel = client.channels.cache.get(channelId);
