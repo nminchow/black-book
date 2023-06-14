@@ -1,6 +1,8 @@
 # Diablo Black Book
 
-This is a utility bot for viewing data from Blizzard's _Diablo IV_. Currently, skill tree data and legendary affix data are both available.
+This is a utility bot for Blizzard's _Diablo IV_. 
+
+With the bot, you can get notified of upcoming helltide and world boss events as well as lookup data on skills, and affixes. After adding the bot, use the `/help` command for a list of functions!
 
 ### [Add Black Book To Your Server](https://discord.com/oauth2/authorize?client_id=1091483908983492639&permissions=377960581696&scope=bot%20applications.commands)
 
@@ -8,7 +10,7 @@ This is a utility bot for viewing data from Blizzard's _Diablo IV_. Currently, s
 
 ## Support
 
-I monitor issues and PRs, so feel free to ask questions and communicate through gitub. If you aren't a gihub user, my discord username is `@LeonRdo#4563`. You can find me in [my guild's discord server](http://discord.gg/6K46Ue3XG9).
+I monitor issues and PRs, so feel free to ask questions and communicate through gitub. If you aren't a gihub user, my discord username is `@LeonRdo#4563`. You can find me in [the bot's official support server](http://discord.gg/2nkfTRyvJh).
 
 ## Built With
 

@@ -4,8 +4,8 @@ import { author } from './shared';
 
 const help = (commands: CommandBuilers) => {
   const description =
-    `If you need support, hop in ` +
-    `[my guild's discord server](http://discord.gg/6K46Ue3XG9) and ping me (@LeonRdo#4563).\n`;
+    `If you need support, hop into ` +
+    `[the support server](http://discord.gg/2nkfTRyvJh) and ping me (@LeonRdo#4563).\n`;
   const text =
     'by @LeonRdo#4563 - ' +
     `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
