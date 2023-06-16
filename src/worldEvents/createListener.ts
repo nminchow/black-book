@@ -79,7 +79,7 @@ const getView = (eventType: EventType) => {
   return zoneEvent;
 }
 
-type SubRecord = {
+export type SubRecord = {
   boss_role: string | null;
   channel_id: string;
   created_at: string | null;

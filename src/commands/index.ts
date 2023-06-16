@@ -3,6 +3,7 @@ import skill, { skillBuilder } from "./skill";
 import codex, { codexBuilder } from "./codex";
 import paragon, { paragonBuilder } from "./paragon";
 import about, { aboutBuilder } from "./about";
+import config, { configBuilder } from "./config";
 import invite, { inviteBuilder } from "./invite";
 import help, { helpBuilder } from "./help";
 import events, { eventsBuilder } from "./events";
@@ -18,6 +19,7 @@ const builders = [
   codexBuilder,
   eventsBuilder,
   unsubBuilder,
+  configBuilder,
   paragonBuilder,
   hellTideBuilder,
   aboutBuilder,
@@ -30,6 +32,7 @@ export const commands = {
     const skillCommand = skill();
     const codexCommand = codex();
     const aboutCommand = about(db);
+    const configCommand = config(db);
     const inviteCommand = invite();
     const paragonCommand = paragon();
     const hellTideCommand = hellTide();
@@ -40,6 +43,7 @@ export const commands = {
       skillCommand,
       codexCommand,
       aboutCommand,
+      configCommand,
       inviteCommand,
       helpCommand,
       paragonCommand,
