@@ -79,14 +79,48 @@ const getView = (eventType: EventType) => {
   return zoneEvent;
 }
 
+type SubRecord = {
+  boss_role: string | null;
+  channel_id: string;
+  created_at: string | null;
+  event_role: string | null;
+  guild_id: string;
+  helltide: boolean;
+  helltide_role: string | null;
+  id: number;
+  role: string | null;
+  worldboss: boolean;
+  zoneevent: boolean;
+};
+
+const mentionRole = (eventType: EventType, sub: SubRecord) => {
+  if (eventType === EventType.Helltide) {
+    return sub.helltide_role;
+  }
+  if (eventType === EventType.WorldBoss) {
+    return sub.boss_role;
+  }
+  return sub.event_role;
+}
+
+const mentionContent = (eventType: EventType, sub: SubRecord) => {
+  const typeRole = mentionRole(eventType, sub);
+  const { role } = sub;
+
+  if (typeRole && role) {
+    return `${role} - ${typeRole}`;
+  }
+
+  return typeRole || role || undefined;
+};
+
 const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
   data?.map(sub => {
-    const { channel_id: channelId, role } = sub;
+    const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return;
     const eventView = getView(eventType);
-    channel.send({embeds: [eventView(event)]});
+    channel.send({embeds: [eventView(event)], content: mentionContent(eventType, sub)});
   });
-
 };
