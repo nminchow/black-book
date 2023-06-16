@@ -38,6 +38,8 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
   if (Object.keys(event).length === 0) return;
   const { name, time: rawTime, location } = event as EventResponse;
 
+  if (!name || !rawTime) return;
+
   const time = new Date(rawTime).toISOString();
 
   const { data } = await db.from('events')
