@@ -116,11 +116,16 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
 
 const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
-  data?.map(sub => {
+  data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return;
     const eventView = getView(eventType);
-    channel.send({embeds: [eventView(event)], content: mentionContent(eventType, sub)});
+    try {
+      await channel.send({embeds: [eventView(event)], content: mentionContent(eventType, sub)});
+    } catch (error) {
+      console.error(`Error sending event to ${JSON.stringify(sub)}`);
+      console.error(error);
+    }
   });
 };
