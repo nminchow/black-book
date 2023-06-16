@@ -4,22 +4,12 @@ import { author } from './shared';
 const url = 'https://i.imgur.com/N8jNkrp.jpeg';
 
 const hellTideMap = () => {
-  const description =
-    ``;
-  const text =
-    'by @LeonRdo#4563 - ' +
-    `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
   const embed: APIEmbed = {
     title: 'Helltide Mystery Chest Map',
     url,
     author,
-    description,
     image: {
       url
-    },
-    footer: {
-      text,
-      icon_url: 'https://ethos-chat.pages.dev/yoshi.webp',
     },
     fields: [
       {
