@@ -32,7 +32,11 @@ const hellTideMap = () => {
       },
       {
         name: '',
-        value: ' Mystery chests move locations when real time clock hits a full hour in each zone. When this happens, mystery chests can be reopened in the new location, allowing you to get more than two during one helltide.'
+        value: 'Mystery chests move locations when real time clock hits a full hour in each zone. When this happens, mystery chests can be reopened in the new location, allowing you to get more than two during one helltide.'
+      },
+      {
+        name: '',
+        value: `The \`/events\` command can be used to get notifications on upcoming helltides.`
       }
     ]
   };

@@ -1,8 +1,8 @@
 # Diablo Black Book
 
-This is a utility bot for Blizzard's _Diablo IV_. 
+Black Book is a utility bot for Blizzard's _Diablo IV_. 
 
-With the bot, you can get notified of upcoming helltide and world boss events as well as lookup data on skills and affixes. After adding the bot, use the `/help` command for a list of functions!
+With the bot, you can get notified of upcoming helltide and world boss events, get data on skills and affixes,  and look up data on paragon nodes. After adding the bot, use the `/help` command for a list of functions!
 
 ### [Add Black Book To Your Server](https://discord.com/oauth2/authorize?client_id=1091483908983492639&permissions=377960581696&scope=bot%20applications.commands)
 
@@ -31,6 +31,12 @@ DISCORD_CLIENT_ID=1088608613641232414 # your discord application's client ID
 DISCORD_TOKEN="XXX" # your discord application's token
 DISCORD_GUILD_ID=989899054815281243 # the guild ID you'd like commands deployed to
 GITHUB_TOKEN="XXX" # used to pull data from the gihub api
+```
+
+(optional) If you would like to use the bot's event tracker functionality, you will also need a running supabase project either locally or in the cloud:
+```
+SUPABASE_URL="http://127.0.0.1:54321"
+SUPABASE_ANON_KEY="XXX"
 ```
 
 Then, install node 16.15 and a version of yarn compatible with the project.
