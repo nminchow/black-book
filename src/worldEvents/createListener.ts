@@ -23,7 +23,7 @@ type Response = {
 export type EventResponse = {
   name: string,
   location: string,
-  time: number,
+  time: string,
 }
 
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -43,7 +43,7 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
 
   if (!name || !rawTime) return;
 
-  const time = new Date(rawTime).toISOString();
+  const time = new Date(rawTime.toString()).toISOString();
 
   const { data } = await db.from('events')
     .select()
