@@ -17,13 +17,19 @@ enum EventType {
 }
 
 type Response = {
-  event: EventResponse
+  event: RawEventResponse
+}
+
+export type RawEventResponse = {
+  name: string,
+  location: string,
+  time: string,
 }
 
 export type EventResponse = {
   name: string,
   location: string,
-  time: string,
+  time: number,
 }
 
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -36,11 +42,11 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
   const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
   const { event } = await response.json() as Response;
   if (Object.keys(event).length === 0) return;
-  const { name, time: rawTime, location } = event as EventResponse;
+  const { name, time: rawTime, location } = event as RawEventResponse;
 
   if (!name || !rawTime) return;
 
-  const time = new Date(rawTime.toString()).toISOString();
+  const time = new Date(Number(rawTime)).toISOString();
 
   const { data } = await db.from('events')
     .select()
@@ -68,7 +74,7 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
     return;
   }
 
-  sendNotifications(eventType as EventType, event, client, db);
+  sendNotifications(eventType as EventType, { name, time: Number(rawTime), location }, client, db);
 };
 
 const getView = (eventType: EventType) => {
