@@ -2313,9 +2313,9 @@ strtok3@^7.0.0:
     peek-readable "^5.0.0"
 
 supabase@^1.64.8:
-  version "1.64.8"
-  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.64.8.tgz#3ace2d1bff54af155c5a879d5077d138be718f81"
-  integrity sha512-HrJe7vJx8he1JdgUn8if+JxZkDugD030xNqy9Jxlbs8X/lNuEnmo7EW0uDJsMVTz6L8hXTuafHlJy4HiULa1Qw==
+  version "1.68.6"
+  resolved "https://registry.yarnpkg.com/supabase/-/supabase-1.68.6.tgz#2479e9135744045996cff19fb56a214e436f6b90"
+  integrity sha512-3+0SBoY4oRZ1GkDUkMaUfsIAk0ofhw0EntJJo+GZNrciXE0lDZ7AX31g63AyJ1yfNxElbYBcrWIMtsZgeDG35w==
   dependencies:
     bin-links "^4.0.1"
     node-fetch "^3.2.10"

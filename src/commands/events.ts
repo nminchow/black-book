@@ -14,17 +14,17 @@ const name = 'events';
 const hellTideOptionName = 'helltide';
 const hellTideOption = (option: SlashCommandBooleanOption) => option
     .setName(hellTideOptionName)
-    .setDescription('enable alerts on upcoming helltides');
+    .setDescription(`receive alerts on upcoming helltides (defaults to 'true')`);
 
 const worldBossOptionName = 'world-boss';
 const worldBossOption = (option: SlashCommandBooleanOption) => option
     .setName(worldBossOptionName)
-    .setDescription('enable alerts on upcoming world bosses');
+    .setDescription(`receive alerts on upcoming world bosses (defaults to 'true')`);
 
 const zoneEventOptionName = 'zone-event';
 const zoneEventOption = (option: SlashCommandBooleanOption) => option
     .setName(zoneEventOptionName)
-    .setDescription('enable alerts on upcoming zone events');
+    .setDescription(`receive alerts on upcoming zone events (defaults to 'false')`);
 
 const hellTideRoleOptionName = 'helltide-role'
 const hellTideRoleOption = (option: SlashCommandMentionableOption) => option
@@ -46,6 +46,11 @@ const allEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(allEventRoleOptionName)
     .setDescription('set user or role to be alerted on all events');
 
+const deleteMessagesOptionName = 'delete-expired-events';
+const deleteMessageOption = (option: SlashCommandBooleanOption) => option
+    .setName(deleteMessagesOptionName)
+    .setDescription('delete event notifications from the channel after the event has ended');
+
 
 const eventsBuilder = new SlashCommandBuilder()
   .setName(name)
@@ -57,6 +62,7 @@ const eventsBuilder = new SlashCommandBuilder()
   .addMentionableOption(worldBossRoleOption)
   .addMentionableOption(zoneEventRoleOption)
   .addMentionableOption(allEventRoleOption)
+  .addBooleanOption(deleteMessageOption)
 
 
 const events = (db: dbWrapper) => ({
@@ -74,6 +80,7 @@ const events = (db: dbWrapper) => ({
     const worldBossRole = interaction.options.getMentionable(worldBossRoleOptionName);
     const zoneEventRole = interaction.options.getMentionable(zoneEventRoleOptionName);
     const allEventRole = interaction.options.getMentionable(allEventRoleOptionName);
+    const deleteEvents = interaction.options.getBoolean(deleteMessagesOptionName);
 
     const { error: deletionError } = await deleteSubs(db, interaction);
     if (deletionError) {
@@ -95,6 +102,7 @@ const events = (db: dbWrapper) => ({
           boss_role: worldBossRole?.toString(),
           helltide_role: hellTideRole?.toString(),
           event_role: zoneEventRole?.toString(),
+          auto_delete: deleteEvents || false,
         },
       ])
       .select();

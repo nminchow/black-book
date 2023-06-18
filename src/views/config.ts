@@ -13,16 +13,19 @@ const query = (interaction: ChatInputCommandInteraction<CacheType>, db: NonNulla
 
 type SubResponse = SubRecord[] | null;
 
+const roleString = (role: string | null) => role? ` - ${role}` : '';
+
 const getDescription = (data: SubResponse) => {
   if (!data || data.length === 0) {
     return "Events are not being sent to any channels. Use `/events` to start getting alerts!"
   }
 
   const eventText = data.map(x => `<#${x.channel_id}>:
-    Helltides: ${x.helltide} - ${x.helltide_role}
-    World Bosses: ${x.worldboss} - ${x.boss_role}
-    Zone Events: ${x.zoneevent} - ${x.event_role}
-    All Events Role: ${x.role}`).join('\n\n');
+    Helltides: ${x.helltide}${roleString(x.helltide_role)}
+    World Bosses: ${x.worldboss}${roleString(x.boss_role)}
+    Zone Events: ${x.zoneevent}${roleString(x.event_role)}
+    All Events Role: ${x.role}
+    Delete Expired Notifications: ${x.auto_delete}`).join('\n\n');
 
   return `The following channels are listening for events. 'true' or 'false' indicates if events of that type will be sent. The role following the event type will also be mentioned.
   \n${eventText}`;

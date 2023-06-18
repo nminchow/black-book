@@ -3,6 +3,8 @@ import fetch from 'node-fetch';
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
+import { TextBasedChannel } from "discord.js";
+import { Database } from "../types/supabase";
 
 export const createListener = (client: ClientAndCommands, db: dbWrapper) => {
   if (!db) return;
@@ -39,13 +41,64 @@ type RawEventResponse = {
 
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   console.log('doing event checks');
-  checkForType(EventType.WorldBoss, client, db);
+  deleteOldMessages(client, db);
+  // checkForType(EventType.WorldBoss, client, db);
   checkForType(EventType.ZoneEvent, client, db);
-  checkForType(EventType.Helltide, client, db);
+  // checkForType(EventType.Helltide, client, db);
 }
+
+const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
+  const { data } = await db.from('notifications')
+    .select()
+    .filter('flagged_for_deletion', 'eq', true)
+    .filter('deleted', 'eq', false)
+    .filter('time', 'lt', new Date().toISOString());
+
+  if (!data) return;
+
+  data?.map(async ({ channel_id, message_id }) => {
+    const channel = client.channels.cache.get(channel_id);
+    if(!channel?.isTextBased()) return;
+    try {
+      await channel.messages.delete(message_id);
+    } catch (error) {
+      console.error(`unable to delete message ${message_id}`);
+      console.error(error);
+    }
+
+  });
+
+  const { error: updateError } = await db.from('notifications')
+    .update({ deleted: true })
+    .filter('id', 'in', `(${data.map(x => x.id)})`);
+
+  if (updateError) {
+    console.error('error updating deletion rows');
+    console.error(updateError);
+  }
+}
+
 const checkForType = async (eventType: string, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
-  const { event } = await response.json() as Response;
+  // const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
+  // const { event } = await response.json() as Response;
+	const event = {
+		"name": "Ashava the Pestilent",
+		"time": 1687046460000,
+		"location": "Seared Basin - Kehjistan",
+		"confidence": {
+			"name": {
+				"Ashava the Pestilent": 1
+			},
+			"location": {
+				"Seared Basin - Kehjistan": 0.96,
+				"Saraan Caldera - Dry Steppes": 0.04
+			},
+			"time": {
+				"1687046520000": 0.08,
+				"1687046460000": 0.92
+			}
+		}
+	}
   if (Object.keys(event).length === 0) return;
   const { name, time: rawTime, location, confidence: { time: timeCheck } } = event;
 
@@ -93,19 +146,7 @@ const getView = (eventType: EventType) => {
   return zoneEvent;
 }
 
-export type SubRecord = {
-  boss_role: string | null;
-  channel_id: string;
-  created_at: string | null;
-  event_role: string | null;
-  guild_id: string;
-  helltide: boolean;
-  helltide_role: string | null;
-  id: number;
-  role: string | null;
-  worldboss: boolean;
-  zoneevent: boolean;
-};
+export type SubRecord = Database['public']['Tables']['subscriptions']['Row'];
 
 const mentionRole = (eventType: EventType, sub: SubRecord) => {
   if (eventType === EventType.Helltide) {
@@ -128,18 +169,41 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
   return typeRole || role || undefined;
 };
 
+const attemptToSendMessage = async (channel: TextBasedChannel, event: EventResponse, eventType: EventType, sub: SubRecord) => {
+  const eventView = getView(eventType);
+  try {
+    return await channel.send({ embeds: [eventView(event)], content: mentionContent(eventType, sub) });
+  } catch (error) {
+    console.error(`Error sending event to ${JSON.stringify(sub)}`);
+    console.error(error);
+  }
+  return null;
+}
+
 const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return;
-    const eventView = getView(eventType);
-    try {
-      await channel.send({embeds: [eventView(event)], content: mentionContent(eventType, sub)});
-    } catch (error) {
-      console.error(`Error sending event to ${JSON.stringify(sub)}`);
-      console.error(error);
+
+    const message = await attemptToSendMessage(channel, event, eventType, sub);
+
+    if (!message) return;
+
+    const { error: insertionError } = await db
+      .from('notifications')
+      .insert([
+        {
+          channel_id: channelId,
+          flagged_for_deletion: sub.auto_delete,
+          time: new Date(event.time).toISOString(),
+          message_id: message.id,
+        }
+      ]);
+    if (insertionError) {
+      console.error('error inserting notificaiton record');
+      console.error(insertionError);
     }
   });
 };
