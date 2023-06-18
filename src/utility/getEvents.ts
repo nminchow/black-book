@@ -1,4 +1,5 @@
-import { EventType } from "../worldEvents/createListener"
+import { EventType } from "../worldEvents/createListener";
+import fetch from "node-fetch";
 
 type Response = {
   event: RawEventResponse
