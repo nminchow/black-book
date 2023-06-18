@@ -17,13 +17,24 @@ enum EventType {
 }
 
 type Response = {
-  event: EventResponse
+  event: RawEventResponse
 }
 
-export type EventResponse = {
+type ConfidenceObject = {
+  [key: string]: number
+}
+
+export type EventResponse = Pick<RawEventResponse, 'name' | 'location' | 'time'>
+
+type RawEventResponse = {
   name: string,
   location: string,
   time: number,
+  confidence: {
+    name: ConfidenceObject,
+    location: ConfidenceObject,
+    time: ConfidenceObject,
+  }
 }
 
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -36,8 +47,9 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
   const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
   const { event } = await response.json() as Response;
   if (Object.keys(event).length === 0) return;
-  const { name, time: rawTime, location } = event as EventResponse;
+  const { name, time: rawTime, location, confidence: { time: timeCheck } } = event;
 
+  if (!Object.values(timeCheck).some(x => x > 0.55)) return;
   if (!name || !rawTime) return;
 
   const time = new Date(Number(rawTime)).toISOString();
