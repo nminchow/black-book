@@ -5,39 +5,21 @@ import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
 import { TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
+import { RawEventResponse, getEvents } from "../utility/getEvents";
+
+export enum EventType {
+  WorldBoss = 'worldBoss',
+  ZoneEvent = 'zoneEvent',
+  Helltide = 'helltide',
+}
+
+export type EventResponse = Pick<RawEventResponse, 'name' | 'location' | 'time'>
 
 export const createListener = (client: ClientAndCommands, db: dbWrapper) => {
   if (!db) return;
   queryForUpdates(client, db);
   setInterval(() => queryForUpdates(client, db), 60000);
 };
-
-enum EventType {
-  WorldBoss = 'worldBoss',
-  ZoneEvent = 'zoneEvent',
-  Helltide = 'helltide',
-}
-
-type Response = {
-  event: RawEventResponse
-}
-
-type ConfidenceObject = {
-  [key: string]: number
-}
-
-export type EventResponse = Pick<RawEventResponse, 'name' | 'location' | 'time'>
-
-type RawEventResponse = {
-  name: string,
-  location: string,
-  time: number,
-  confidence: {
-    name: ConfidenceObject,
-    location: ConfidenceObject,
-    time: ConfidenceObject,
-  }
-}
 
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   console.log('doing event checks');
@@ -79,8 +61,7 @@ const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWr
 }
 
 const checkForType = async (eventType: string, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
-  const { event } = await response.json() as Response;
+  const event = await getEvents(eventType);
   if (Object.keys(event).length === 0) return;
   const { name, time: rawTime, location, confidence: { time: timeCheck } } = event;
 
