@@ -3,6 +3,13 @@ import fetch from 'node-fetch';
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
+import { StreamType, VoiceConnectionStatus, createAudioPlayer, createAudioResource, joinVoiceChannel } from "@discordjs/voice";
+import { createReadStream } from "node:fs";
+import { join } from "node:path";
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const createListener = (client: ClientAndCommands, db: dbWrapper) => {
   if (!db) return;
@@ -122,6 +129,11 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
   return typeRole || role || undefined;
 };
 
+const resource = createAudioResource(createReadStream(join(__dirname, 'Median_test.ogg'), {
+  // @ts-ignore
+	inputType: StreamType.OggOpus,
+}));
+
 const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
   data?.map(async sub => {
@@ -134,6 +146,25 @@ const sendNotifications = async (eventType: EventType, event: EventResponse, cli
     } catch (error) {
       console.error(`Error sending event to ${JSON.stringify(sub)}`);
       console.error(error);
+    }
+    try {
+      if (channel.isDMBased()) {
+        return;
+      }
+      const connection = joinVoiceChannel({
+        channelId: '458786694083117075',
+        guildId: channel.guildId,
+        adapterCreator: channel.guild.voiceAdapterCreator,
+      });
+      const player  = createAudioPlayer();
+      connection.subscribe(player);
+      setInterval(() => console.log(connection.state), 600);
+      connection.on(VoiceConnectionStatus.Ready, () => {
+        console.log('The connection has entered the Ready state - ready to play audio!');
+        player.play(resource);
+      });
+    } catch (error) {
+      console.error('error with voice connection')
     }
   });
 };

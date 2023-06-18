@@ -59,7 +59,7 @@ export class ClientAndCommands extends Client {
 }
 
 
-const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds]});
+const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates]});
 
 client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand() && !interaction.isAutocomplete()) return;
