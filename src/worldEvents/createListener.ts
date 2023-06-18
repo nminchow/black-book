@@ -42,9 +42,9 @@ type RawEventResponse = {
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   console.log('doing event checks');
   deleteOldMessages(client, db);
-  // checkForType(EventType.WorldBoss, client, db);
+  checkForType(EventType.WorldBoss, client, db);
   checkForType(EventType.ZoneEvent, client, db);
-  // checkForType(EventType.Helltide, client, db);
+  checkForType(EventType.Helltide, client, db);
 }
 
 const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -79,26 +79,8 @@ const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWr
 }
 
 const checkForType = async (eventType: string, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  // const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
-  // const { event } = await response.json() as Response;
-	const event = {
-		"name": "Ashava the Pestilent",
-		"time": 1687046460000,
-		"location": "Seared Basin - Kehjistan",
-		"confidence": {
-			"name": {
-				"Ashava the Pestilent": 1
-			},
-			"location": {
-				"Seared Basin - Kehjistan": 0.96,
-				"Saraan Caldera - Dry Steppes": 0.04
-			},
-			"time": {
-				"1687046520000": 0.08,
-				"1687046460000": 0.92
-			}
-		}
-	}
+  const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
+  const { event } = await response.json() as Response;
   if (Object.keys(event).length === 0) return;
   const { name, time: rawTime, location, confidence: { time: timeCheck } } = event;
 
@@ -145,6 +127,7 @@ const getView = (eventType: EventType) => {
   }
   return zoneEvent;
 }
+
 
 export type SubRecord = Database['public']['Tables']['subscriptions']['Row'];
 
