@@ -9,6 +9,7 @@ import help, { helpBuilder } from "./help";
 import events, { eventsBuilder } from "./events";
 import hellTide, { hellTideBuilder } from "./hellTide";
 import nightmareTier, { nightmareTierBuilder } from "./nightmareTier";
+import nightmareLevel, { nightmareLevelBuilder } from "./nightmareLevel";
 import xpCurve, { xpCurveBuilder } from "./xpCurve";
 import { SlashCommandBuilder, SlashCommandSubcommandsOnlyBuilder } from "discord.js";
 import unsub, { unsubBuilder } from "./unsub";
@@ -25,6 +26,7 @@ const builders = [
   paragonBuilder,
   hellTideBuilder,
   nightmareTierBuilder,
+  nightmareLevelBuilder,
   xpCurveBuilder,
   aboutBuilder,
   inviteBuilder,
@@ -41,6 +43,7 @@ export const commands = {
     const paragonCommand = paragon();
     const hellTideCommand = hellTide();
     const nightmareTierCommand = nightmareTier();
+    const nightmareLevelCommand = nightmareLevel();
     const xpCurveCommand = xpCurve();
     const eventsCommand = events(db);
     const unsubCommand = unsub(db);
@@ -55,6 +58,7 @@ export const commands = {
       paragonCommand,
       hellTideCommand,
       nightmareTierCommand,
+      nightmareLevelCommand,
       xpCurveCommand,
       eventsCommand,
       unsubCommand,
