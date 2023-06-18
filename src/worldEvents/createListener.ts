@@ -68,15 +68,28 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
   if (!Object.values(timeCheck).some(x => x > 0.55)) return;
   if (!name || !rawTime) return;
 
-  const time = new Date(Number(rawTime)).toISOString();
+  const timeAsNumber = Number(rawTime);
+
+  const time = new Date(timeAsNumber).toISOString();
+
+  const threeBefore = new Date(timeAsNumber - 180000).toISOString();
+  const threeAfter = new Date(timeAsNumber + 180000).toISOString();
 
   const { data } = await db.from('events')
     .select()
     .limit(1)
     .filter('type', 'eq', eventType)
-    .filter('time', 'eq', time);
+    .filter('time', 'gt', threeBefore)
+    .filter('time', 'lt', threeAfter);
 
-  if (data && data[0]) return;
+  if (data && data[0]) {
+    const truncatedTime = time.slice(0, time.length-5);
+    if (truncatedTime === data[0].time) return;
+    console.info('hit non-identical existing records:')
+    console.info(`db:  ${data[0].time} - ${data[0].type} - ${data[0].name} - ${data[0].id}`);
+    console.info(`api: ${truncatedTime} - ${eventType} - ${name}`);
+    return;
+  }
 
   const {error: insertionError} = await db
     .from('events')
@@ -96,7 +109,7 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
     return;
   }
 
-  sendNotifications(eventType as EventType, { name, time: Number(rawTime), location }, client, db);
+  sendNotifications(eventType as EventType, { name, time: timeAsNumber, location }, client, db);
 };
 
 const getView = (eventType: EventType) => {
