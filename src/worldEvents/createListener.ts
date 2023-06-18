@@ -17,13 +17,7 @@ enum EventType {
 }
 
 type Response = {
-  event: RawEventResponse
-}
-
-export type RawEventResponse = {
-  name: string,
-  location: string,
-  time: string,
+  event: EventResponse
 }
 
 export type EventResponse = {
@@ -42,7 +36,7 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
   const response = await fetch(`https://diablo4.life/api/trackers/${eventType}/list`);
   const { event } = await response.json() as Response;
   if (Object.keys(event).length === 0) return;
-  const { name, time: rawTime, location } = event as RawEventResponse;
+  const { name, time: rawTime, location } = event as EventResponse;
 
   if (!name || !rawTime) return;
 
