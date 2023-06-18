@@ -1,7 +1,7 @@
 import {APIEmbed} from 'discord.js';
 import { author } from './shared';
 
-const url = 'https://i.imgur.com/N8jNkrp.jpeg';
+const url = 'https://i.imgur.com/hyJ9zsz.jpg';
 
 const hellTideMap = () => {
   const embed: APIEmbed = {
