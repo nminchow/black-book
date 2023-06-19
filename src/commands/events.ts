@@ -82,32 +82,33 @@ const events = (db: dbWrapper) => ({
     const allEventRole = interaction.options.getMentionable(allEventRoleOptionName);
     const deleteEvents = interaction.options.getBoolean(deleteMessagesOptionName);
 
-    const { error: deletionError } = await deleteSubs(db, interaction);
-    if (deletionError) {
-      console.error(deletionError);
-      interaction.reply('something went wrong!');
-      return;
-    }
+    const upsert = {
+      helltide: hellTideEnabled,
+      worldboss: worldBossEnabled,
+      zoneevent: zoneEventEnabled,
+      role: allEventRole?.toString(),
+      boss_role: worldBossRole?.toString(),
+      helltide_role: hellTideRole?.toString(),
+      event_role: zoneEventRole?.toString(),
+      auto_delete: deleteEvents,
+    };
 
-    const {error: insertionError} = await db
+    const upsertAttributes = Object.fromEntries(Object.entries(upsert).filter(([_, v]) => v != null));
+
+    const { error: upsertError } = await db
       .from('subscriptions')
-      .insert([
-        {
-          channel_id: interaction.channelId,
-          guild_id: interaction.guildId || 'unknown',
-          helltide: hellTideEnabled === null ? true : hellTideEnabled,
-          worldboss: worldBossEnabled === null ? true : worldBossEnabled,
-          zoneevent: zoneEventEnabled || false,
-          role: allEventRole?.toString(),
-          boss_role: worldBossRole?.toString(),
-          helltide_role: hellTideRole?.toString(),
-          event_role: zoneEventRole?.toString(),
-          auto_delete: deleteEvents || false,
-        },
-      ])
+      .upsert({
+        channel_id: interaction.channelId,
+        guild_id: interaction.guildId || 'unknown',
+        ...upsertAttributes
+      }, {
+        onConflict: 'channel_id, guild_id',
+        ignoreDuplicates: false,
+        defaultToNull: false,
+      })
       .select();
-    if (insertionError) {
-      console.error(insertionError);
+    if (upsertError) {
+      console.error(upsertError);
       interaction.reply('something went wrong!');
       return;
     }
