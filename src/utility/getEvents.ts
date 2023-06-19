@@ -67,13 +67,13 @@ const simulatedEvents = () => {
       "name": "Avarice",
       "expectedName": "Avarice",
       "nextExpectedName": "Ashava",
-      "timestamp": 1687199600,
+      "timestamp": 1687213849,
       "expected": 1687198689,
       "nextExpected": 1687218202,
       "territory": "Saraan Caldera",
       "zone": "Dry Steppes"
     },
-    "helltide": { "timestamp": 1687190400, "zone": "hawe", "refresh": 0 },
-    "legion": { "timestamp": 1687194461, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
+    "helltide": { "timestamp": 1687213849, "zone": "hawe", "refresh": 0 },
+    "legion": { "timestamp": 1687213849, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
   };
 };

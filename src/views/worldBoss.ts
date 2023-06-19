@@ -1,6 +1,6 @@
 import {APIEmbed} from 'discord.js';
 import { EventResponse } from '../worldEvents/createListener';
-import { eventAuthor as author } from './shared';
+import { author } from './shared';
 
 const worldBoss = (event: EventResponse) => {
   const title = `${event.name} is stirring in ${event.location}!`;

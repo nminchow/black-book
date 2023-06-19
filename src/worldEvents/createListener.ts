@@ -1,5 +1,4 @@
 import { ClientAndCommands, dbWrapper } from "../bot";
-import fetch from 'node-fetch';
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
@@ -65,10 +64,6 @@ const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWr
   }
 }
 
-const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
-
-};
-
 const checkForExisting = async (eventType: EventType, db: NonNullable<dbWrapper>, timeAsNumber: number) => {
   const time = new Date(Number(timeAsNumber)).toISOString();
 
@@ -87,7 +82,7 @@ const checkForExisting = async (eventType: EventType, db: NonNullable<dbWrapper>
       if (truncatedTime === data[0].time) return true;
       console.info('hit non-identical existing records:')
       console.info(`db:  ${data[0].time} - ${data[0].type} - ${data[0].name} - ${data[0].id}`);
-      console.info(`api: ${truncatedTime} - ${eventType} - ${name}`);
+      console.info(`api: ${truncatedTime} - ${eventType}`);
       return true;
     }
 
@@ -115,22 +110,64 @@ const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
   return true;
 };
 
-const bossNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss: RawEventResponse['boss']) => {
-  const timeAsNumber = boss.timestamp * 1000;
-  const time = new Date(timeAsNumber);
-  if (time < new Date()) return;
-  const existing = await checkForExisting(EventType.WorldBoss, db, timeAsNumber);
+type mapping = {
+  [key: string]: string;
+}
+
+const hellTideMapping = {
+  'kehj': 'Kehjistan',
+  'hawe': 'Hawezar',
+  'scos': 'Scosglen',
+  'frac': 'Fractured Peaks',
+  'dry': 'Dry Steppes',
+} as mapping;
+
+const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
+  const event = {
+    time: helltide.timestamp * 1000 + 3600000,
+    location: hellTideMapping[helltide.zone] || 'Sanctuary',
+    type: EventType.Helltide,
+    name: 'The Helltide Rises',
+  };
+  return scanAndNotifyForEvent(client, db, event);
+};
+
+const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, zoneEvent: RawEventResponse['legion']) => {
+  const event = {
+    time: zoneEvent.timestamp * 1000,
+    location: `${zoneEvent.territory}, ${zoneEvent.zone}`,
+    type: EventType.ZoneEvent,
+    name: 'The Gathering Legions assemble',
+  };
+  return scanAndNotifyForEvent(client, db, event);
+};
+
+const bossNotify = (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss: RawEventResponse['boss']) => {
+  const event = {
+    time: boss.timestamp * 1000,
+    location: `${boss.territory}, ${boss.zone}`,
+    type: EventType.WorldBoss,
+    name: boss.name,
+  };
+  return scanAndNotifyForEvent(client, db, event);
+};
+
+const scanAndNotifyForEvent = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, event: EventParams) => {
+  const { time, type } = event;
+  const timeCheck = new Date(time);
+  if (timeCheck < new Date()) return;
+  const existing = await checkForExisting(type, db, time);
   if (existing) return;
-  const params = { name: boss.name, time: timeAsNumber, location: boss.territory, type: EventType.WorldBoss };
-  const insertion = await insertEvent(params, db);
+  const insertion = await insertEvent(event, db);
   if (!insertion) return;
-  const location = `${boss.territory}, ${boss.zone}`;
-  sendNotifications(EventType.WorldBoss, { name: boss.name, time: timeAsNumber, location }, client, db);
+  sendNotifications(event, client, db);
 }
 
 const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const event = await getEvents();
   bossNotify(client, db, event.boss);
+  helltideNotify(client, db, event.helltide);
+  zoneEventNotify(client, db, event.legion);
 };
 
 const getView = (eventType: EventType) => {
@@ -167,25 +204,25 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
   return typeRole || role || undefined;
 };
 
-const attemptToSendMessage = async (channel: TextBasedChannel, event: EventResponse, eventType: EventType, sub: SubRecord) => {
-  const eventView = getView(eventType);
+const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord) => {
+  const eventView = getView(event.type);
   try {
-    return await channel.send({ embeds: [eventView(event)], content: mentionContent(eventType, sub) });
+    return await channel.send({ embeds: [eventView(event)], content: mentionContent(event.type, sub) });
   } catch (error) {
     console.error(`Error sending event to ${JSON.stringify(sub)}`);
     console.error(error);
   }
   return null;
-}
+};
 
-const sendNotifications = async (eventType: EventType, event: EventResponse, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  const { data } = await db.from('subscriptions').select().filter(eventType.toLowerCase(), 'eq', true);
+const sendNotifications = async (event: EventParams, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
+  const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return;
 
-    const message = await attemptToSendMessage(channel, event, eventType, sub);
+    const message = await attemptToSendMessage(channel, event, sub);
 
     if (!message) return;
 

@@ -7,7 +7,10 @@ const hellTide = (event: EventResponse) => {
 
   const url = 'https://diablo4.life/trackers/helltide';
 
-  const description = `[${event.location} chest locations](${url}) - Ends: <t:${event.time / 1000}:R>`
+  const start = `Start: <t:${(event.time - 3600000) / 1000}:R>\n`;
+  const end = `End: <t:${(event.time) / 1000}:R>`
+
+  const description = `[${event.location} chest locations](${url})\n${start}${end}`
 
   const embed: APIEmbed = {
     title,

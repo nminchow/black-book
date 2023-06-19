@@ -3,7 +3,7 @@ import { EventResponse } from '../worldEvents/createListener';
 import { author } from './shared';
 
 const zoneEvent = (event: EventResponse) => {
-  const title = `${event.name} event in ${event.location}!`;
+  const title = `${event.name} in ${event.location}!`;
 
   const url = 'https://diablo4.life/trackers/zone-events';
 
