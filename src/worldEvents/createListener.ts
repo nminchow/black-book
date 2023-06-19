@@ -13,7 +13,14 @@ export enum EventType {
   Helltide = 'helltide',
 }
 
-export type EventResponse = Pick<RawEventResponse, 'name' | 'location' | 'time'>
+export type EventResponse = Pick<EventParams, 'name' | 'location' | 'time'>
+
+export type EventParams = {
+  name: string,
+  time: number,
+  location: string,
+  type: EventType,
+}
 
 export const createListener = (client: ClientAndCommands, db: dbWrapper) => {
   if (!db) return;
@@ -24,9 +31,7 @@ export const createListener = (client: ClientAndCommands, db: dbWrapper) => {
 const queryForUpdates = (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   console.log('doing event checks');
   deleteOldMessages(client, db);
-  checkForType(EventType.WorldBoss, client, db);
-  checkForType(EventType.ZoneEvent, client, db);
-  checkForType(EventType.Helltide, client, db);
+  checkForEvents(client, db);
 }
 
 const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -60,17 +65,12 @@ const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWr
   }
 }
 
-const checkForType = async (eventType: string, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
-  const event = await getEvents(eventType);
-  if (Object.keys(event).length === 0) return;
-  const { name, time: rawTime, location, confidence: { time: timeCheck } } = event;
+const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
 
-  if (!Object.values(timeCheck).some(x => x > 0.55)) return;
-  if (!name || !rawTime) return;
+};
 
-  const timeAsNumber = Number(rawTime);
-
-  const time = new Date(timeAsNumber).toISOString();
+const checkForExisting = async (eventType: EventType, db: NonNullable<dbWrapper>, timeAsNumber: number) => {
+  const time = new Date(Number(timeAsNumber)).toISOString();
 
   const threeBefore = new Date(timeAsNumber - 180000).toISOString();
   const threeAfter = new Date(timeAsNumber + 180000).toISOString();
@@ -82,34 +82,55 @@ const checkForType = async (eventType: string, client: ClientAndCommands, db: No
     .filter('time', 'gt', threeBefore)
     .filter('time', 'lt', threeAfter);
 
-  if (data && data[0]) {
-    const truncatedTime = time.slice(0, time.length-5);
-    if (truncatedTime === data[0].time) return;
-    console.info('hit non-identical existing records:')
-    console.info(`db:  ${data[0].time} - ${data[0].type} - ${data[0].name} - ${data[0].id}`);
-    console.info(`api: ${truncatedTime} - ${eventType} - ${name}`);
-    return;
-  }
+    if (data && data[0]) {
+      const truncatedTime = time.slice(0, time.length-5);
+      if (truncatedTime === data[0].time) return true;
+      console.info('hit non-identical existing records:')
+      console.info(`db:  ${data[0].time} - ${data[0].type} - ${data[0].name} - ${data[0].id}`);
+      console.info(`api: ${truncatedTime} - ${eventType} - ${name}`);
+      return true;
+    }
 
-  const {error: insertionError} = await db
-    .from('events')
-    .insert([
-      {
-        name,
-        time,
-        location,
-        type: eventType,
-      },
-    ])
-    .select();
+    return false;
+};
+
+const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
+    const {error: insertionError} = await db
+      .from('events')
+      .insert([
+        {
+          name: event.name,
+          time: new Date(event.time).toISOString(),
+          location: event.location,
+          type: event.type,
+        },
+      ])
+      .select();
 
   if (insertionError) {
     console.error('event insertion error');
     console.error(insertionError);
-    return;
+    return false;
   }
+  return true;
+};
 
-  sendNotifications(eventType as EventType, { name, time: timeAsNumber, location }, client, db);
+const bossNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss: RawEventResponse['boss']) => {
+  const timeAsNumber = boss.timestamp * 1000;
+  const time = new Date(timeAsNumber);
+  if (time < new Date()) return;
+  const existing = await checkForExisting(EventType.WorldBoss, db, timeAsNumber);
+  if (existing) return;
+  const params = { name: boss.name, time: timeAsNumber, location: boss.territory, type: EventType.WorldBoss };
+  const insertion = await insertEvent(params, db);
+  if (!insertion) return;
+  const location = `${boss.territory}, ${boss.zone}`;
+  sendNotifications(EventType.WorldBoss, { name: boss.name, time: timeAsNumber, location }, client, db);
+}
+
+const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
+  const event = await getEvents();
+  bossNotify(client, db, event.boss);
 };
 
 const getView = (eventType: EventType) => {
