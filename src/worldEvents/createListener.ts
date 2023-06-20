@@ -119,7 +119,7 @@ const hellTideMapping = {
   'hawe': 'Hawezar',
   'scos': 'Scosglen',
   'frac': 'Fractured Peaks',
-  'dry': 'Dry Steppes',
+  'step': 'Dry Steppes',
 } as mapping;
 
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
