@@ -1,6 +1,6 @@
 import {APIEmbed} from 'discord.js';
 import { EventResponse } from '../worldEvents/createListener';
-import { author } from './shared';
+import { addTerritory, author } from './shared';
 
 const zoneEvent = (event: EventResponse) => {
   const title = `${event.name} in ${event.location}!`;
@@ -15,7 +15,7 @@ const zoneEvent = (event: EventResponse) => {
     description,
   };
 
-  return embed;
+  return [addTerritory(embed, event)];
 };
 
 export default zoneEvent;

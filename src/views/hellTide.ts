@@ -5,7 +5,7 @@ import { author } from './shared';
 const hellTide = (event: EventResponse) => {
   const title = `${event.name} in ${event.location}!`;
 
-  const url = 'https://diablo4.life/trackers/helltide';
+  const url = 'https://d4armory.io/events/helltides/';
 
   const start = `Start: <t:${(event.time - 3600000) / 1000}:R>\n`;
   const end = `End: <t:${(event.time) / 1000}:R>`
@@ -18,7 +18,7 @@ const hellTide = (event: EventResponse) => {
     description,
   };
 
-  return embed;
+  return [embed];
 };
 
 export default hellTide;

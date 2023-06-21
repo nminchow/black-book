@@ -46,6 +46,28 @@ const allEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(allEventRoleOptionName)
     .setDescription('set user or role to be alerted on all events');
 
+
+const imagesOptionChoices = [
+  {
+    name: 'images on all alerts',
+    value: 'all'
+  },
+  {
+    name: 'images only on helltide alerts',
+    value: 'helltide'
+  },
+  {
+    name: 'no images',
+    value: 'none'
+  }
+];
+
+const imagesOptionName = 'show-images';
+const imagesOption = (option: SlashCommandStringOption) => option
+    .setName(imagesOptionName)
+    .setDescription('show images in alerts')
+    .addChoices(...imagesOptionChoices)
+
 const deleteMessagesOptionName = 'delete-expired-events';
 const deleteMessageOption = (option: SlashCommandBooleanOption) => option
     .setName(deleteMessagesOptionName)
@@ -62,8 +84,22 @@ const eventsBuilder = new SlashCommandBuilder()
   .addMentionableOption(worldBossRoleOption)
   .addMentionableOption(zoneEventRoleOption)
   .addMentionableOption(allEventRoleOption)
+  .addStringOption(imagesOption)
   .addBooleanOption(deleteMessageOption)
 
+
+const getImageOptions = (choice: string | null) => {
+  if ( choice === imagesOptionChoices[0].value ) {
+    return { zoneAndBossNotify: true, helltideNotify: true };
+  }
+  if ( choice === imagesOptionChoices[1].value ) {
+    return { zoneAndBossNotify: false, helltideNotify: true };
+  }
+  if ( choice === imagesOptionChoices[2].value ) {
+    return { zoneAndBossNotify: false, helltideNotify: false };
+  }
+  return { zoneAndBossNotify: null, helltideNotify: null };
+}
 
 const events = (db: dbWrapper) => ({
   name,
@@ -81,6 +117,9 @@ const events = (db: dbWrapper) => ({
     const zoneEventRole = interaction.options.getMentionable(zoneEventRoleOptionName);
     const allEventRole = interaction.options.getMentionable(allEventRoleOptionName);
     const deleteEvents = interaction.options.getBoolean(deleteMessagesOptionName);
+    const imageSetting = interaction.options.getString(imagesOptionName);
+
+    const { zoneAndBossNotify, helltideNotify } = getImageOptions(imageSetting);
 
     const upsert = {
       helltide: hellTideEnabled,

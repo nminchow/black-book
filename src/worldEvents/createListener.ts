@@ -207,7 +207,7 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
 const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord) => {
   const eventView = getView(event.type);
   try {
-    return await channel.send({ embeds: [eventView(event)], content: mentionContent(event.type, sub) });
+    return await channel.send({ embeds: eventView(event), content: mentionContent(event.type, sub) });
   } catch (error) {
     console.error(`Error sending event to ${JSON.stringify(sub)}`);
     console.error(error);
