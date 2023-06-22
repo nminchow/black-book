@@ -91,15 +91,15 @@ const eventsBuilder = new SlashCommandBuilder()
 
 const getImageOptions = (choice: string | null) => {
   if ( choice === imagesOptionChoices[0].value ) {
-    return { zoneAndBossNotify: true, helltideNotify: true };
+    return { zoneAndBossImages: true, helltideImages: true };
   }
   if ( choice === imagesOptionChoices[1].value ) {
-    return { zoneAndBossNotify: false, helltideNotify: true };
+    return { zoneAndBossImages: false, helltideImages: true };
   }
   if ( choice === imagesOptionChoices[2].value ) {
-    return { zoneAndBossNotify: false, helltideNotify: false };
+    return { zoneAndBossImages: false, helltideImages: false };
   }
-  return { zoneAndBossNotify: null, helltideNotify: null };
+  return { zoneAndBossImages: null, helltideImages: null };
 }
 
 const events = (db: dbWrapper) => ({
@@ -127,7 +127,7 @@ const events = (db: dbWrapper) => ({
     const deleteEvents = interaction.options.getBoolean(deleteMessagesOptionName);
     const imageSetting = interaction.options.getString(imagesOptionName);
 
-    const { zoneAndBossNotify, helltideNotify } = getImageOptions(imageSetting);
+    const { zoneAndBossImages, helltideImages } = getImageOptions(imageSetting);
 
     const upsert = {
       helltide: hellTideEnabled,
@@ -138,6 +138,8 @@ const events = (db: dbWrapper) => ({
       helltide_role: hellTideRole?.toString(),
       event_role: zoneEventRole?.toString(),
       auto_delete: deleteEvents,
+      zone_and_boss_images: zoneAndBossImages,
+      helltide_images: helltideImages,
     };
 
     const upsertAttributes = Object.fromEntries(Object.entries(upsert).filter(([_, v]) => v != null));
