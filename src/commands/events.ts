@@ -1,6 +1,7 @@
 import {
   CacheType,
   ChatInputCommandInteraction,
+  PermissionsBitField,
   SlashCommandBooleanOption,
   SlashCommandBuilder,
   SlashCommandMentionableOption,
@@ -107,6 +108,13 @@ const events = (db: dbWrapper) => ({
     if ( !db ) {
       interaction.reply('db not initialized');
       return;
+    }
+
+    if (interaction.channel && interaction.guild?.members.me && interaction.channel.isTextBased() && !interaction.channel.isDMBased()) {
+      if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel])) {
+        interaction.reply(`The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
+        return;
+      }
     }
 
     const hellTideEnabled = interaction.options.getBoolean(hellTideOptionName)

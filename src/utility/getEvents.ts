@@ -32,9 +32,18 @@ const simulateEvents = process.env.SIMULATE_EVENTS;
 
 export const getEvents = async () => {
   if (simulateEvents) return simulatedEvents();
-  const response = await fetch(`https://d4armory.io/api/events/recent`);
-  const event  = await response.json() as RawEventResponse;
-  return event;
+  try {
+    const response = await fetch(`https://d4armory.io/api/events/recent`);
+    const event  = await response.json() as RawEventResponse;
+    if (!['boss', 'helltide', 'legion'].every(x => Object.keys(event).includes(x))) {
+      throw `missing keys! Response: ${JSON.stringify(event)}`;
+    }
+    return event;
+  } catch(error) {
+    console.error('error fetching api data');
+    console.error(error);
+    return null;
+  }
 }
 
 const simulatedEvents = () => {

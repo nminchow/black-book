@@ -165,6 +165,9 @@ const scanAndNotifyForEvent = async (client: ClientAndCommands, db: NonNullable<
 
 const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
   const event = await getEvents();
+  if (!event) {
+    return;
+  }
   bossNotify(client, db, event.boss);
   helltideNotify(client, db, event.helltide);
   zoneEventNotify(client, db, event.legion);
