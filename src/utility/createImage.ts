@@ -29,7 +29,13 @@ const createBucketIfNeeded = async (db: NonNullable<dbWrapper>) => {
 export const createImage = async (db: NonNullable<dbWrapper>) => {
   const bucketPromise = createBucketIfNeeded(db);
   const imagePromise = captureWebsite.buffer('https://d4armory.io/events/', {
-    element: '#helltideMap', removeElements: ['.leaflet-control-layers-toggle']
+    element: '#helltideMap',
+    removeElements: ['.leaflet-control-layers-toggle'],
+    launchOptions: {
+      args: [
+        '--no-sandbox'
+      ]
+    }
   });
 
   const [,image] = await Promise.all([bucketPromise, imagePromise]);
