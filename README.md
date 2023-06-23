@@ -36,7 +36,7 @@ GITHUB_TOKEN="XXX" # used to pull data from the gihub api
 (optional) If you would like to use the bot's event tracker functionality, you will also need a running supabase project either locally or in the cloud:
 ```
 SUPABASE_URL="http://127.0.0.1:54321"
-SUPABASE_ANON_KEY="XXX"
+SUPABASE_SERVICE_ROLE_KEY="XXX"
 ```
 
 Then, install node 16.15 and a version of yarn compatible with the project.

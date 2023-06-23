@@ -49,10 +49,19 @@ export const getEvents = async () => {
 const simulatedEvents = () => {
 
   const date = new Date();
-  date.setMinutes(date.getMinutes() + 5)
+  date.setMinutes(date.getMinutes() + 5);
   date.setMilliseconds(0);
   var dateWithOffset = new Date(date);
   const dateAsNum = Math.round(dateWithOffset.getTime() / 1000);
+
+  const helltideDate = new Date();
+  // helltideDate.setMinutes(helltideDate.getMinutes() - 1.1);
+  helltideDate.setMinutes(4);
+  helltideDate.setSeconds(0);
+  helltideDate.setMilliseconds(0);
+  const helltideDateWithOffset = new Date(helltideDate);
+  const helltideDateAsNum = Math.round(helltideDateWithOffset.getTime() / 1000);
+
   return {
     "boss": {
       "name": "Avarice",
@@ -64,7 +73,7 @@ const simulatedEvents = () => {
       "territory": "Saraan Caldera",
       "zone": "Dry Steppes"
     },
-    "helltide": { "timestamp": dateAsNum, "zone": "hawe", "refresh": 0 },
+    "helltide": { "timestamp": helltideDateAsNum, "zone": "hawe", "refresh": 0 },
     "legion": { "timestamp": dateAsNum, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
   };
 };

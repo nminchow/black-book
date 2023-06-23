@@ -5,6 +5,7 @@ import zoneEvent from "../views/zoneEvent";
 import { TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
+import { createImage } from "../utility/createImage";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -123,13 +124,31 @@ const hellTideMapping = {
 } as mapping;
 
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
+  const startTime = helltide.timestamp * 1000;
+
+  if (startTime + 60000 > new Date().getTime()) {
+    console.log('helltide started less than a minute ago, skipping processing');
+    return;
+  }
+
   const event = {
-    time: helltide.timestamp * 1000 + 3600000,
+    time: startTime + 3600000,
     location: hellTideMapping[helltide.zone] || 'Sanctuary',
     type: EventType.Helltide,
     name: 'The Helltide Rises',
   };
-  return scanAndNotifyForEvent(client, db, event);
+
+  const createImageWrapper = async () => {
+    try {
+      return { imagePath: await createImage(db) };
+    } catch (error) {
+      console.error('error creating image');
+      console.error(error);
+      return null
+    }
+  }
+
+  return scanAndNotifyForEvent(client, db, event, createImageWrapper);
 };
 
 const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, zoneEvent: RawEventResponse['legion']) => {
@@ -152,7 +171,12 @@ const bossNotify = (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss:
   return scanAndNotifyForEvent(client, db, event);
 };
 
-const scanAndNotifyForEvent = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, event: EventParams) => {
+const scanAndNotifyForEvent = async (
+  client: ClientAndCommands,
+  db: NonNullable<dbWrapper>,
+  event: EventParams,
+  beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: '' })
+) => {
   const { time, type } = event;
   const timeCheck = new Date(time);
   if (timeCheck < new Date()) return;
@@ -160,7 +184,9 @@ const scanAndNotifyForEvent = async (client: ClientAndCommands, db: NonNullable<
   if (existing) return;
   const insertion = await insertEvent(event, db);
   if (!insertion) return;
-  sendNotifications(event, client, db);
+  const metadata = await beforeNotify();
+  if (metadata == null) return;
+  sendNotifications(event, client, db, metadata);
 }
 
 const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -207,10 +233,10 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
   return typeRole || role || undefined;
 };
 
-const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord) => {
+const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord, metadata: NotificationMetadata) => {
   const eventView = getView(event.type);
   try {
-    return await channel.send({ embeds: eventView(event), content: mentionContent(event.type, sub) });
+    return await channel.send({ embeds: eventView(event, metadata, sub), content: mentionContent(event.type, sub) });
   } catch (error) {
     console.error(`Error sending event to ${JSON.stringify(sub)}`);
     console.error(error);
@@ -218,14 +244,18 @@ const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParam
   return null;
 };
 
-const sendNotifications = async (event: EventParams, client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
+export type NotificationMetadata = {
+  imagePath: string,
+}
+
+const sendNotifications = async (event: EventParams, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
   const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return;
 
-    const message = await attemptToSendMessage(channel, event, sub);
+    const message = await attemptToSendMessage(channel, event, sub, metadata);
 
     if (!message) return;
 

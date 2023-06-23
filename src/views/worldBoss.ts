@@ -1,8 +1,8 @@
 import {APIEmbed} from 'discord.js';
-import { EventResponse } from '../worldEvents/createListener';
+import { EventResponse, NotificationMetadata, SubRecord } from '../worldEvents/createListener';
 import { addTerritory, author } from './shared';
 
-const worldBoss = (event: EventResponse) => {
+const worldBoss = (event: EventResponse, _: NotificationMetadata, sub: SubRecord) => {
   const title = `${event.name} is stirring in ${event.location}!`;
 
   const url = 'https://diablo4.life/trackers/world-bosses';
@@ -14,7 +14,7 @@ const worldBoss = (event: EventResponse) => {
     description,
   };
 
-  return [addTerritory(embed, event)];
+  return sub.zone_and_boss_images ? [addTerritory(embed, event)] : [embed];
 };
 
 export default worldBoss;

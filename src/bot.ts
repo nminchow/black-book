@@ -22,14 +22,14 @@ if (!token) {
 
 const dbClient = () => {
   const supabaseUrl = process.env.SUPABASE_URL
-  const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
+  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-  if (!supabaseAnonKey || !supabaseUrl) {
+  if (!supabaseServiceRoleKey || !supabaseUrl) {
     console.log('no supabase config found - event tracking disabled');
     return null;
   }
 
-  return createClient<Database>(supabaseUrl, supabaseAnonKey)
+  return createClient<Database>(supabaseUrl, supabaseServiceRoleKey, { auth: { persistSession: false } })
 };
 
 const db = dbClient();

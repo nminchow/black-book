@@ -1,8 +1,8 @@
 import {APIEmbed} from 'discord.js';
-import { EventResponse } from '../worldEvents/createListener';
+import { EventResponse, NotificationMetadata, SubRecord } from '../worldEvents/createListener';
 import { addTerritory, author } from './shared';
 
-const zoneEvent = (event: EventResponse) => {
+const zoneEvent = (event: EventResponse, _: NotificationMetadata, sub: SubRecord) => {
   const title = `${event.name} in ${event.location}!`;
 
   const url = 'https://diablo4.life/trackers/zone-events';
@@ -15,7 +15,7 @@ const zoneEvent = (event: EventResponse) => {
     description,
   };
 
-  return [addTerritory(embed, event)];
+  return sub.zone_and_boss_images ? [addTerritory(embed, event)] : [embed];
 };
 
 export default zoneEvent;
