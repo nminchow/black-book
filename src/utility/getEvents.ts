@@ -47,42 +47,33 @@ export const getEvents = async () => {
 }
 
 const simulatedEvents = () => {
-  // if (eventType !== EventType.WorldBoss) return { confidence: { name: {}, location: {}, time: {}} };
-  // const date = new Date();
-  // date.setMinutes(date.getMinutes() - 5)
-  // date.setMilliseconds(0);
-  // var dateWithOffset = new Date(date);
 
-  // return {
-  // 	name: "Ashava the Pestilent",
-  // 	time: dateWithOffset.getTime(),
-  // 	location: "Seared Basin - Kehjistan",
-  // 	confidence: {
-  // 		name: {
-  // 			"Ashava the Pestilent": 1
-  // 		},
-  // 		location: {
-  // 			"Seared Basin - Kehjistan": 0.96,
-  // 			"Saraan Caldera - Dry Steppes": 0.04
-  // 		},
-  // 		time: {
-  // 			"1687046520000": 0.08,
-  // 			"1687046460000": 0.92
-  // 		}
-  // 	}
-  // };
+  const date = new Date();
+  date.setMinutes(date.getMinutes() + 5);
+  date.setMilliseconds(0);
+  var dateWithOffset = new Date(date);
+  const dateAsNum = Math.round(dateWithOffset.getTime() / 1000);
+
+  const helltideDate = new Date();
+  // helltideDate.setMinutes(helltideDate.getMinutes() - 1.1);
+  helltideDate.setMinutes(4);
+  helltideDate.setSeconds(0);
+  helltideDate.setMilliseconds(0);
+  const helltideDateWithOffset = new Date(helltideDate);
+  const helltideDateAsNum = Math.round(helltideDateWithOffset.getTime() / 1000);
+
   return {
     "boss": {
       "name": "Avarice",
       "expectedName": "Avarice",
       "nextExpectedName": "Ashava",
-      "timestamp": 1687213849,
+      "timestamp": dateAsNum,
       "expected": 1687198689,
       "nextExpected": 1687218202,
       "territory": "Saraan Caldera",
       "zone": "Dry Steppes"
     },
-    "helltide": { "timestamp": 1687213849, "zone": "hawe", "refresh": 0 },
-    "legion": { "timestamp": 1687213849, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
+    "helltide": { "timestamp": helltideDateAsNum, "zone": "hawe", "refresh": 0 },
+    "legion": { "timestamp": dateAsNum, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
   };
 };
