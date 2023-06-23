@@ -126,7 +126,7 @@ const hellTideMapping = {
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
   const startTime = helltide.timestamp * 1000;
 
-  if (startTime + 60000 > new Date().getTime()) {
+  if (startTime + 120000 > new Date().getTime()) {
     console.log('helltide started less than a minute ago, skipping processing');
     return;
   }
