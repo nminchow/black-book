@@ -1,4 +1,4 @@
-import AutoPoster from 'topgg-autoposter';
+import { AutoPoster } from 'topgg-autoposter';
 import { ClientAndCommands } from "../bot"
 
 
