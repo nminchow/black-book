@@ -13,6 +13,7 @@ import { createClient } from '@supabase/supabase-js'
 import {Database} from './types/supabase';
 import {commands} from './commands';
 import { createListener } from './worldEvents/createListener';
+import { createStatsHook } from './utility/postStats';
 
 const token = process.env.DISCORD_TOKEN;
 
@@ -58,8 +59,9 @@ export class ClientAndCommands extends Client {
   }
 }
 
-
 const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds]});
+
+createStatsHook(client);
 
 client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand() && !interaction.isAutocomplete()) return;

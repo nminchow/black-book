@@ -49,11 +49,11 @@ const about = async (interaction: ChatInputCommandInteraction<CacheType>, db: db
     fields: [
       {
         name: "Server Count",
-        value: interaction.client.guilds.cache.size.toString()
+        value: formatNumber(interaction.client.guilds.cache.size)
       },
       {
         name: "User Count",
-        value: interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0).toString()
+        value: formatNumber(interaction.client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0))
       },
       ...await dbFields(db),
     ]
