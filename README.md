@@ -1,8 +1,8 @@
 # Diablo Black Book
 
-Black Book is a utility bot for Blizzard's _Diablo IV_. 
+Black Book is a Discord bot for Blizzard's _Diablo IV_. 
 
-With the bot, you can get notified of upcoming helltide and world boss events, get data on skills and affixes,  and look up data on paragon nodes. After adding the bot, use the `/help` command for a list of functions!
+With the bot, you can get notified of upcoming helltide and world boss events, get data on skills and affixes, and look up data on paragon nodes. After adding the bot, use the `/help` command for a list of functions!
 
 ### [Add Black Book To Your Server](https://discord.com/oauth2/authorize?client_id=1091483908983492639&permissions=377960581696&scope=bot%20applications.commands)
 
@@ -10,12 +10,14 @@ With the bot, you can get notified of upcoming helltide and world boss events, g
 
 ## Support
 
-I monitor issues and PRs, so feel free to ask questions and communicate through gitub. If you aren't a gihub user, my discord username is `@LeonRdo#4563`. You can find me in [the bot's official support server](http://discord.gg/2nkfTRyvJh).
+[official support server](http://discord.gg/2nkfTRyvJh)
+
+ I monitor issues and PRs, so feel free to ask questions and communicate here as well!
 
 ## Built With
 
 * The data from Lothrik's awesome [build calculator](https://github.com/Lothrik/diablo4-build-calc)
-* Event data from [diablo4.life](https://diablo4.life/trackers/world-bosses)
+* Event data from [d4armory](https://d4armory.io/events/)
 * [discord.js](https://discord.js.org/)
 
 ## Local Development/Deployment
