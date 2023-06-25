@@ -1,5 +1,6 @@
 import captureWebsite from "capture-website";
 import { dbWrapper } from "../bot";
+import fetch, { FormData } from "node-fetch";
 
 const bucketName = 'helltides';
 
@@ -26,7 +27,7 @@ const createBucketIfNeeded = async (db: NonNullable<dbWrapper>) => {
 };
 
 
-export const createImage = async (db: NonNullable<dbWrapper>) => {
+const scanAndUploadImage = async (db: NonNullable<dbWrapper>) => {
   const bucketPromise = createBucketIfNeeded(db);
   const imagePromise = captureWebsite.buffer('https://d4armory.io/events/', {
     element: '#helltideMap',
@@ -56,14 +57,53 @@ export const createImage = async (db: NonNullable<dbWrapper>) => {
     .storage
     .from(bucketName)
     .getPublicUrl(data.path)
+    // note - if running locally or supabase project is upgraded, the following
+    // can be used for image compression:
+    // .getPublicUrl(data.path, { transform: { width: 400 }  })
 
   if (process.env.NGROK_URL) {
     const url = new URL(publicUrl);
-    const newUrl = `${process.env.NGROK_URL}${url.pathname}`;
+    const ngrokUrl = new URL(process.env.NGROK_URL);
+    url.protocol = ngrokUrl.protocol;
+    url.hostname = ngrokUrl.hostname;
+    url.port = ngrokUrl.port;
+    const newUrl =  url.href;
     console.log(`overrideing url with ${newUrl}`);
     return newUrl;
   }
 
   console.log(publicUrl);
   return publicUrl;
+};
+
+type CloudflareResponse = {
+  result: {
+    variants: [string]
+  },
+  success: boolean,
+  errors: [string],
+  messages: [string],
+};
+
+export const createImage = async (db: NonNullable<dbWrapper>) => {
+  const imageUrl = await scanAndUploadImage(db);
+  if (!process.env.CLOUDFLARE_TOKEN || !process.env.CLOUDFLARE_ACCOUNT_ID) return imageUrl;
+  const body = new FormData()
+  body.append('url', imageUrl);
+  const response = await fetch(
+    `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/images/v1`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.CLOUDFLARE_TOKEN}`,
+      },
+      body,
+    },
+  );
+  const images = await response.json() as CloudflareResponse;
+  if (!images.success) {
+    console.error(JSON.stringify(images.errors));
+    throw 'error sending to cloudflare';
+  }
+  return images.result.variants[0];
 };
