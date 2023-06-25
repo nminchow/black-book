@@ -6,6 +6,7 @@ import { TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
 import { createImage } from "../utility/createImage";
+import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -127,7 +128,7 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
   const startTime = helltide.timestamp * 1000;
 
   if (startTime + 120000 > new Date().getTime()) {
-    console.log('helltide started less than a minute ago, skipping processing');
+    console.log('helltide started less than two minutes ago, skipping processing');
     return;
   }
 
@@ -194,6 +195,7 @@ const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapp
   if (!event) {
     return;
   }
+  helltideUpdateCheck(client, db);
   bossNotify(client, db, event.boss);
   helltideNotify(client, db, event.helltide);
   zoneEventNotify(client, db, event.legion);
