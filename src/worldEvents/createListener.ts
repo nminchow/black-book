@@ -7,6 +7,7 @@ import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
 import { createImage } from "../utility/createImage";
 import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
+import { toErrorWithMessage } from "../utility/errorHelper";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -241,8 +242,13 @@ const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParam
   try {
     return await channel.send({ embeds: eventView(event, metadata, sub), content: mentionContent(event.type, sub) });
   } catch (error) {
-    console.error(`Error sending event to ${JSON.stringify(sub)}`);
-    console.error(error);
+    const errorWithMessage = toErrorWithMessage(error);
+    if(errorWithMessage.message === 'Missing Access') {
+      console.error(`no channel access: ${sub.channel_id}`);
+    } else {
+      console.error(`Error sending event to ${JSON.stringify(sub)}`);
+      console.error(error);
+    }
   }
   return null;
 };
@@ -257,7 +263,7 @@ const sendNotifications = async (event: EventParams, row: EventRecord, client: C
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
-    if (!channel || !channel.isTextBased()) return;
+    if (!channel || !channel.isTextBased()) return; // todo - check for missing channels here to clean up old subs
 
     const message = await attemptToSendMessage(channel, event, sub, metadata);
 
