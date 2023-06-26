@@ -70,7 +70,7 @@ export const helltideUpdateCheck = async (client: ClientAndCommands, db: NonNull
 
       const message = await channel.messages.fetch(message_id);
       if (!message.embeds[0]?.image?.url) return; // only update those that had an image when posted.
-      message.edit({embeds: view});
+      await message.edit({embeds: view});
     } catch (error) {
       console.error('error editing message');
       console.error(error);
