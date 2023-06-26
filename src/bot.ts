@@ -111,9 +111,15 @@ client.on(Events.ClientReady, async () => {
   client.user?.setActivity('/help', {type: ActivityType.Watching});
 });
 
+let lastEncounteredLimit = new Date();
+
 client.rest.on('rateLimited', (event)=> {
+  if (lastEncounteredLimit > new Date()) return;
   console.warn('rate limit encountered!');
-  console.warn(JSON.stringify(event));
+  console.warn(JSON.stringify(event.timeToReset));
+  const tenFromNow = new Date();
+  tenFromNow.setSeconds(tenFromNow.getSeconds() + 10);
+  lastEncounteredLimit = tenFromNow;
 });
 
 client.login(token);
