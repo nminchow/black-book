@@ -111,5 +111,9 @@ client.on(Events.ClientReady, async () => {
   client.user?.setActivity('/help', {type: ActivityType.Watching});
 });
 
+client.rest.on('rateLimited', (event)=> {
+  console.warn('rate limit encountered!');
+  console.warn(JSON.stringify(event));
+});
 
 client.login(token);
