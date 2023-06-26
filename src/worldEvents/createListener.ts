@@ -237,13 +237,18 @@ const mentionContent = (eventType: EventType, sub: SubRecord) => {
   return typeRole || role || undefined;
 };
 
+const expectedErrors = [
+  'Missing Access',
+  'Missing Permissions'
+];
+
 const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord, metadata: NotificationMetadata) => {
   const eventView = getView(event.type);
   try {
     return await channel.send({ embeds: eventView(event, metadata, sub), content: mentionContent(event.type, sub) });
   } catch (error) {
     const errorWithMessage = toErrorWithMessage(error);
-    if(errorWithMessage.message === 'Missing Access') {
+    if(expectedErrors.some(x => errorWithMessage.message === x)) {
       console.error(`no channel access: ${sub.channel_id}`);
     } else {
       console.error(`Error sending event to ${JSON.stringify(sub)}`);
