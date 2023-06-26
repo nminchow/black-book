@@ -92,7 +92,7 @@ const checkForExisting = async (eventType: EventType, db: NonNullable<dbWrapper>
 };
 
 const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
-    const {error: insertionError} = await db
+    const { data, error: insertionError} = await db
       .from('events')
       .insert([
         {
@@ -107,9 +107,9 @@ const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
   if (insertionError) {
     console.error('event insertion error');
     console.error(insertionError);
-    return false;
+    return null;
   }
-  return true;
+  return data[0];
 };
 
 type mapping = {
@@ -141,7 +141,7 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
 
   const createImageWrapper = async () => {
     try {
-      return { imagePath: await createImage(db) };
+      return { imagePath: await createImage(db), isUpdated: false };
     } catch (error) {
       console.error('error creating image');
       console.error(error);
@@ -176,18 +176,18 @@ const scanAndNotifyForEvent = async (
   client: ClientAndCommands,
   db: NonNullable<dbWrapper>,
   event: EventParams,
-  beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: '' })
+  beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: '', isUpdated: false })
 ) => {
   const { time, type } = event;
   const timeCheck = new Date(time);
   if (timeCheck < new Date()) return;
   const existing = await checkForExisting(type, db, time);
   if (existing) return;
-  const insertion = await insertEvent(event, db);
-  if (!insertion) return;
+  const row = await insertEvent(event, db);
+  if (!row) return;
   const metadata = await beforeNotify();
   if (metadata == null) return;
-  sendNotifications(event, client, db, metadata);
+  sendNotifications(event, row, client, db, metadata);
 }
 
 const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -213,6 +213,7 @@ const getView = (eventType: EventType) => {
 
 
 export type SubRecord = Database['public']['Tables']['subscriptions']['Row'];
+export type EventRecord = Database['public']['Tables']['events']['Row'];
 
 const mentionRole = (eventType: EventType, sub: SubRecord) => {
   if (eventType === EventType.Helltide) {
@@ -248,9 +249,10 @@ const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParam
 
 export type NotificationMetadata = {
   imagePath: string,
+  isUpdated: boolean,
 }
 
-const sendNotifications = async (event: EventParams, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
+const sendNotifications = async (event: EventParams, row: EventRecord, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
   const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
@@ -269,6 +271,7 @@ const sendNotifications = async (event: EventParams, client: ClientAndCommands, 
           flagged_for_deletion: sub.auto_delete,
           time: new Date(event.time).toISOString(),
           message_id: message.id,
+          event: row.id,
         }
       ]);
     if (insertionError) {
