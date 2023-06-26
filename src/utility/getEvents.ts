@@ -56,7 +56,7 @@ const simulatedEvents = () => {
 
   const helltideDate = new Date();
   // helltideDate.setMinutes(helltideDate.getMinutes() - 1.1);
-  helltideDate.setMinutes(4);
+  helltideDate.setMinutes(helltideDate.getMinutes() -50);
   helltideDate.setSeconds(0);
   helltideDate.setMilliseconds(0);
   const helltideDateWithOffset = new Date(helltideDate);
