@@ -2,20 +2,26 @@ import {
   CacheType,
   ChatInputCommandInteraction,
   SlashCommandBuilder,
-  AutocompleteInteraction
+  AutocompleteInteraction,
 } from 'discord.js';
 import codexDatabase, { codexFuse } from '../data/codexDatabase';
 import codexViewBuilder from '../views/codex';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'codex';
-const codexEntryNameOption = 'name';
+const name = L.en.commands.codex.name();
+const codexEntryNameOption = L.en.commands.codex.options.codexEntryNameOption.name();
 
 const codexBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('find a codex entry by name')
+  .setNameLocalizations(commandLocaleMapping.codex.name)
+  .setDescription(L.en.commands.codex.description())
+  .setDescriptionLocalizations(commandLocaleMapping.codex.description)
   .addStringOption(option =>
 		option.setName(codexEntryNameOption)
-			.setDescription('codex entry name')
+      .setNameLocalizations(commandLocaleMapping.codex.options.codexEntryNameOption.name)
+			.setDescription(L.en.commands.codex.options.codexEntryNameOption.description())
+      .setDescriptionLocalizations(commandLocaleMapping.codex.options.codexEntryNameOption.description)
 			.setAutocomplete(true)
       .setRequired(true));
 
@@ -25,7 +31,7 @@ const codex = () => ({
     const codexEntryName = interaction.options.getString(codexEntryNameOption) || '';
     const codexEntry = codexDatabase[codexEntryName];
     if (!codexEntry) {
-      interaction.reply('codex entry not found!');
+      interaction.reply(L.en.commands.codex.errors.notFound());
       return;
     }
 
