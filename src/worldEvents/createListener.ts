@@ -41,7 +41,8 @@ const deleteOldMessages = async (client: ClientAndCommands, db: NonNullable<dbWr
     .select()
     .filter('flagged_for_deletion', 'eq', true)
     .filter('deleted', 'eq', false)
-    .filter('time', 'lt', new Date().toISOString());
+    .filter('time', 'lt', new Date().toISOString())
+    .limit(500);
 
   if (!data) return;
 
