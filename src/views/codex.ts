@@ -30,7 +30,7 @@ const codex = async (codex: CodexEntry) => {
     description
   };
 
-  return embed;;
+  return embed;
 }
 
 export default codex;
