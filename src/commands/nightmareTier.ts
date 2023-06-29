@@ -4,14 +4,17 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import nightmareTierViewBuilder from '../views/nightmareTier';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'nightmare-tiers';
-// const subCommand = 'tide';
-const description = 'display an efficiency tierlist of nightmare dungeons';
+const name = L.en.commands.nightmareTier.name();
+const description = L.en.commands.nightmareTier.description();
 
 const nightmareTierBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription(description);
+  .setNameLocalizations(commandLocaleMapping.nightmareTier.name)
+  .setDescription(description)
+  .setDescriptionLocalizations(commandLocaleMapping.nightmareTier.description);
 
 const nightmareTier = () => ({
   name,

@@ -4,26 +4,34 @@ import {
   SlashCommandBuilder,
   SlashCommandIntegerOption,
 } from 'discord.js';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'nightmare-level';
-const description = 'calculate the optimal nightmare dungeon level for your character';
+const name = L.en.commands.nightmareLevel.name();
+const description = L.en.commands.nightmareLevel.description();
 
-const levelOptionName = 'level';
+const levelOptionName = L.en.commands.nightmareLevel.options.level.name();
 const levelOption = (option: SlashCommandIntegerOption) => option
   .setName(levelOptionName)
-  .setDescription(`your character level`)
+  .setNameLocalizations(commandLocaleMapping.nightmareLevel.options.level.name)
+  .setDescription(L.en.commands.nightmareLevel.options.level.description())
+  .setDescriptionLocalizations(commandLocaleMapping.nightmareLevel.options.level.description)
   .setRequired(true);
 
-const worldTierOptionName = 'world-tier'
+const worldTierOptionName = L.en.commands.nightmareLevel.options.worldTier.name();
 const worldTierOption = (option: SlashCommandIntegerOption) => option
   .setName(worldTierOptionName)
-  .setDescription(`your world tier (defaults to 4)`);
+  .setNameLocalizations(commandLocaleMapping.nightmareLevel.options.worldTier.name)
+  .setDescription(L.en.commands.nightmareLevel.options.worldTier.description())
+  .setDescriptionLocalizations(commandLocaleMapping.nightmareLevel.options.worldTier.description);
 
 const nightmareLevelBuilder = new SlashCommandBuilder()
   .setName(name)
+  .setNameLocalizations(commandLocaleMapping.nightmareLevel.name)
   .setDescription(description)
+  .setDescriptionLocalizations(commandLocaleMapping.nightmareLevel.description)
   .addIntegerOption(levelOption)
-  .addIntegerOption(worldTierOption)
+  .addIntegerOption(worldTierOption);
 
 const nightmareTier = () => ({
   name,

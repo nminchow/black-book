@@ -6,16 +6,22 @@ import {
 } from 'discord.js';
 import paragonDatabase, { paragonFuse } from '../data/paragonDatabase';
 import paragonViewBuilder from '../views/paragon';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'paragon';
-const paragonEntryNameOption = 'name';
+const name = L.en.commands.paragon.name();
+const paragonEntryNameOption = L.en.commands.paragon.options.entryName.name();
 
 const paragonBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('find a paragon entry by name')
+  .setNameLocalizations(commandLocaleMapping.paragon.name)
+  .setDescription(L.en.commands.paragon.description())
+  .setDescriptionLocalizations(commandLocaleMapping.paragon.description)
   .addStringOption(option =>
 		option.setName(paragonEntryNameOption)
-			.setDescription('paragaon entry name')
+      .setNameLocalizations(commandLocaleMapping.paragon.options.entryName.name)
+			.setDescription(L.en.commands.paragon.options.entryName.description())
+      .setDescriptionLocalizations(commandLocaleMapping.paragon.options.entryName.description)
 			.setAutocomplete(true)
       .setRequired(true));
 
@@ -25,7 +31,7 @@ const paragon = () => ({
     const codexEntryName = interaction.options.getString(paragonEntryNameOption) || '';
     const codexEntry = paragonDatabase[codexEntryName];
     if (!codexEntry) {
-      interaction.reply('codex entry not found!');
+      interaction.reply(L.en.commands.paragon.errors.notFound());
       return;
     }
 

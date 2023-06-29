@@ -4,12 +4,16 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import { dbWrapper } from '../bot';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'unsub';
+const name = L.en.commands.unsub.name();
 
 const unsubBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('unsubscribe from helltide and world boss updates');
+  .setNameLocalizations(commandLocaleMapping.unsub.name)
+  .setDescription(L.en.commands.unsub.description())
+  .setDescriptionLocalizations(commandLocaleMapping.unsub.description);
 
 export const deleteSubs = (db: NonNullable<dbWrapper>, interaction: ChatInputCommandInteraction) => {
   return db
