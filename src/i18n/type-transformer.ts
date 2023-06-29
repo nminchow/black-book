@@ -2,16 +2,35 @@
 // wasn't having much luck. This is the limit of my TS knowledge, and it works
 // pretty well, but when new languages are added, they do need added here.
 
+import { Locale } from 'discord.js';
+import { Locales } from './i18n-types.js';
 import en from './en';
-import enGB from './enGB';
+import en_GB from './gb/index.js';
 
-const locales = {
-  'en-GB': enGB,
-  'en-US': en,
+
+export type LocaleMappingEntry = {
+  staticMapping: typeof en,
+  locale: Locales,
+}
+
+export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB>;
+
+type LocaleMapping = Record<SupportedLocale, LocaleMappingEntry>;
+
+// https://discord.com/developers/docs/reference#locales
+export const localeMapping: LocaleMapping = {
+  [Locale.EnglishUS]: {
+    staticMapping: en,
+    locale: 'en',
+  },
+  [Locale.EnglishGB]: {
+    staticMapping: en_GB,
+    locale: 'gb',
+  },
 };
 
 type CommandType = typeof en.commands;
-type Languages = keyof typeof locales;
+type Languages = keyof typeof localeMapping;
 
 interface Command {
   name: string,
@@ -26,8 +45,10 @@ interface Command {
 
 type LibraryStructure = {
   [key in Languages]: {
-    commands: {
-      [key: string]: Command
+    staticMapping: {
+      commands: {
+        [key: string]: Command
+      }
     }
   }
 }
@@ -60,7 +81,9 @@ const keyByPath = (languageMapping: LibraryStructure): KeyedByPath => {
 
   for (const language in languageMapping) {
     const asKey = language as keyof LibraryStructure;
-    for (const command in languageMapping[asKey].commands) {
+    const entry = languageMapping[asKey];
+    // if (entry === undefined) break;
+    for (const command in entry.staticMapping.commands) {
       if (!commands.commands[command]) {
         commands.commands[command] = {
           name: {},
@@ -68,13 +91,13 @@ const keyByPath = (languageMapping: LibraryStructure): KeyedByPath => {
           options: {}
         };
       }
-      commands.commands[command].name[language] = languageMapping[asKey].commands[command].name;
-      commands.commands[command].description[language] = languageMapping[asKey].commands[command].description;
+      commands.commands[command].name[language] = entry.staticMapping.commands[command].name;
+      commands.commands[command].description[language] = entry.staticMapping.commands[command].description;
 
-      const options = languageMapping[asKey].commands[command].options;
+      const options = entry.staticMapping.commands[command].options;
       if (!options) continue;
       if (options) {
-        for (const option in languageMapping[asKey].commands[command].options) {
+        for (const option in entry.staticMapping.commands[command].options) {
           if (!commands.commands[command].options[option]) {
             commands.commands[command].options[option] = {
               name: {},
@@ -91,7 +114,19 @@ const keyByPath = (languageMapping: LibraryStructure): KeyedByPath => {
   return commands;
 };
 
-const commandLocaleMapping = keyByPath(locales).commands;
+export const commandLocaleMapping = keyByPath(localeMapping).commands;
 
-export { commandLocaleMapping };
+const isKeyOfObject = <T extends Object>(
+  key: string | number | symbol,
+  obj: T,
+): key is keyof T => {
+  return key in obj;
+};
 
+export const parseLocale = (input: string) => {
+  return isKeyOfObject(input, localeMapping) ? localeMapping[input] : localeMapping[Locale.EnglishUS];
+}
+
+export const parseLocaleString = (input: string) => {
+  return isKeyOfObject(input, localeMapping) ? localeMapping[input].locale : localeMapping[Locale.EnglishUS].locale;
+}

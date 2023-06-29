@@ -1,12 +1,13 @@
 import {APIEmbed} from 'discord.js';
 import { EventResponse, NotificationMetadata, SubRecord } from '../worldEvents/createListener';
 import { addTerritory, author } from './shared';
+import L from '../i18n/i18n-node';
 
 const worldBoss = (event: EventResponse, _: NotificationMetadata, sub: SubRecord) => {
-  const title = `${event.name} is stirring in ${event.location}!`;
+  const title = L[sub.locale].views.events.worldBoss.title(event);
 
   const url = 'https://diablo4.life/trackers/world-bosses';
-  const description = `[${event.location}](${url}) - Spawns: <t:${event.time / 1000}:R>`
+  const description = `[${event.location}](${url}) - ${L[sub.locale].views.events.worldBoss.spawnLabel()} <t:${event.time / 1000}:R>`
 
   const embed: APIEmbed = {
     title,

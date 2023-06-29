@@ -1,6 +1,7 @@
 import type { BaseTranslation } from '../i18n-types'
 
 const en = {
+	nativeName: 'English, US',
 	commands: {
 		about: {
 			name: 'about',
@@ -22,8 +23,13 @@ const en = {
 		},
 		config: {
 			name: 'config',
-			description: 'view your current configuration',
-			options: {},
+			description: 'edit and view your current configuration',
+			options: {
+				locale: {
+					name: 'locale',
+					description: 'set the locale for bot in this server'
+				}
+			},
 		},
 		events: {
 			name: 'events',
@@ -142,6 +148,27 @@ const en = {
 			name: 'xp-curve',
 			description: 'show info about xp and the leveling curve',
 			options: {}
+		}
+	},
+	views: {
+		events: {
+			hellide: {
+				title: '{name} in {location}!',
+				updatePending: ' (image will update)',
+				updateDone: ' (image udpated)',
+				chestsRespawnLabel: 'Chests respawn:',
+				startLabel: 'Start:',
+				endLabel: 'End:',
+				locationUrl: '{location} chest locations'
+			},
+			worldBoss: {
+				title: '{name} is stirring in {location}!',
+				spawnLabel: 'Spawns:'
+			},
+			zoneEvent: {
+				title: '{name} in {location}!',
+				startLabel: 'Starts:'
+			}
 		}
 	}
 } satisfies BaseTranslation

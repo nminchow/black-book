@@ -7,13 +7,17 @@ export type BaseLocale = 'en'
 
 export type Locales =
 	| 'en'
-	| 'enGB'
+	| 'gb'
 
 export type Translation = RootTranslation
 
 export type Translations = RootTranslation
 
 type RootTranslation = {
+	/**
+	 * E​n​g​l​i​s​h​,​ ​U​S
+	 */
+	nativeName: string
 	commands: {
 		about: {
 			/**
@@ -61,10 +65,20 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * v​i​e​w​ ​y​o​u​r​ ​c​u​r​r​e​n​t​ ​c​o​n​f​i​g​u​r​a​t​i​o​n
+			 * e​d​i​t​ ​a​n​d​ ​v​i​e​w​ ​y​o​u​r​ ​c​u​r​r​e​n​t​ ​c​o​n​f​i​g​u​r​a​t​i​o​n
 			 */
 			description: string
 			options: {
+				locale: {
+					/**
+					 * l​o​c​a​l​e
+					 */
+					name: string
+					/**
+					 * s​e​t​ ​t​h​e​ ​l​o​c​a​l​e​ ​f​o​r​ ​b​o​t​ ​i​n​ ​t​h​i​s​ ​s​e​r​v​e​r
+					 */
+					description: string
+				}
 			}
 		}
 		events: {
@@ -344,9 +358,74 @@ type RootTranslation = {
 			}
 		}
 	}
+	views: {
+		events: {
+			hellide: {
+				/**
+				 * {​n​a​m​e​}​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
+				 * @param {unknown} location
+				 * @param {unknown} name
+				 */
+				title: RequiredParams<'location' | 'name'>
+				/**
+				 *  ​(​i​m​a​g​e​ ​w​i​l​l​ ​u​p​d​a​t​e​)
+				 */
+				updatePending: string
+				/**
+				 *  ​(​i​m​a​g​e​ ​u​d​p​a​t​e​d​)
+				 */
+				updateDone: string
+				/**
+				 * C​h​e​s​t​s​ ​r​e​s​p​a​w​n​:
+				 */
+				chestsRespawnLabel: string
+				/**
+				 * S​t​a​r​t​:
+				 */
+				startLabel: string
+				/**
+				 * E​n​d​:
+				 */
+				endLabel: string
+				/**
+				 * {​l​o​c​a​t​i​o​n​}​ ​c​h​e​s​t​ ​l​o​c​a​t​i​o​n​s
+				 * @param {unknown} location
+				 */
+				locationUrl: RequiredParams<'location'>
+			}
+			worldBoss: {
+				/**
+				 * {​n​a​m​e​}​ ​i​s​ ​s​t​i​r​r​i​n​g​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
+				 * @param {unknown} location
+				 * @param {unknown} name
+				 */
+				title: RequiredParams<'location' | 'name'>
+				/**
+				 * S​p​a​w​n​s​:
+				 */
+				spawnLabel: string
+			}
+			zoneEvent: {
+				/**
+				 * {​n​a​m​e​}​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
+				 * @param {unknown} location
+				 * @param {unknown} name
+				 */
+				title: RequiredParams<'location' | 'name'>
+				/**
+				 * S​t​a​r​t​s​:
+				 */
+				startLabel: string
+			}
+		}
+	}
 }
 
 export type TranslationFunctions = {
+	/**
+	 * English, US
+	 */
+	nativeName: () => LocalizedString
 	commands: {
 		about: {
 			/**
@@ -394,10 +473,20 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * view your current configuration
+			 * edit and view your current configuration
 			 */
 			description: () => LocalizedString
 			options: {
+				locale: {
+					/**
+					 * locale
+					 */
+					name: () => LocalizedString
+					/**
+					 * set the locale for bot in this server
+					 */
+					description: () => LocalizedString
+				}
 			}
 		}
 		events: {
@@ -672,6 +761,60 @@ export type TranslationFunctions = {
 			 */
 			description: () => LocalizedString
 			options: {
+			}
+		}
+	}
+	views: {
+		events: {
+			hellide: {
+				/**
+				 * {name} in {location}!
+				 */
+				title: (arg: { location: unknown, name: unknown }) => LocalizedString
+				/**
+				 *  (image will update)
+				 */
+				updatePending: () => LocalizedString
+				/**
+				 *  (image udpated)
+				 */
+				updateDone: () => LocalizedString
+				/**
+				 * Chests respawn:
+				 */
+				chestsRespawnLabel: () => LocalizedString
+				/**
+				 * Start:
+				 */
+				startLabel: () => LocalizedString
+				/**
+				 * End:
+				 */
+				endLabel: () => LocalizedString
+				/**
+				 * {location} chest locations
+				 */
+				locationUrl: (arg: { location: unknown }) => LocalizedString
+			}
+			worldBoss: {
+				/**
+				 * {name} is stirring in {location}!
+				 */
+				title: (arg: { location: unknown, name: unknown }) => LocalizedString
+				/**
+				 * Spawns:
+				 */
+				spawnLabel: () => LocalizedString
+			}
+			zoneEvent: {
+				/**
+				 * {name} in {location}!
+				 */
+				title: (arg: { location: unknown, name: unknown }) => LocalizedString
+				/**
+				 * Starts:
+				 */
+				startLabel: () => LocalizedString
 			}
 		}
 	}

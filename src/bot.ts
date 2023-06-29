@@ -8,12 +8,15 @@ import {
   CacheType,
   ActivityType,
   AutocompleteInteraction,
+  Locale,
 } from 'discord.js';
 import { createClient } from '@supabase/supabase-js'
 import {Database} from './types/supabase';
 import {commands} from './commands';
 import { createListener } from './worldEvents/createListener';
 import { createStatsHook } from './utility/postStats';
+import { getGuildIdForInteraction } from './utility/database';
+import { LocaleMappingEntry, localeMapping, parseLocale } from './i18n/type-transformer';
 
 const token = process.env.DISCORD_TOKEN;
 
@@ -40,7 +43,8 @@ export type dbWrapper = typeof db;
 interface CommandHandler {
   name: string;
   execute: (
-    interaction: ChatInputCommandInteraction<CacheType>
+    interaction: ChatInputCommandInteraction<CacheType>,
+    locale: LocaleMappingEntry,
   ) => Promise<void>;
   autocomplete?: (
     interaction: AutocompleteInteraction<CacheType>
@@ -62,6 +66,24 @@ export class ClientAndCommands extends Client {
 const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds]});
 
 createStatsHook(client);
+
+const getLocaleForGuild = async (interaction: ChatInputCommandInteraction<CacheType>) => {
+  if (!db) return localeMapping[Locale.EnglishUS];
+  const id = getGuildIdForInteraction(interaction);
+  if (!id) {
+    console.log('missing guild id on interaction');
+    return localeMapping[Locale.EnglishUS];
+  }
+  const { data, error } = await db.from('guilds').select().filter('guild_id','eq', id).limit(1);
+
+  if (error) {
+    console.error('error looking up guild');
+    console.error(error);
+  }
+
+  if (!data || !data[0]) return localeMapping[Locale.EnglishUS];
+  return parseLocale(data[0].locale);
+};
 
 client.on(Events.InteractionCreate, async interaction => {
   if (!interaction.isChatInputCommand() && !interaction.isAutocomplete()) return;
@@ -88,8 +110,10 @@ client.on(Events.InteractionCreate, async interaction => {
     return;
   }
 
+  const locale = await getLocaleForGuild(interaction);
+
   try {
-    await command.execute(interaction);
+    await command.execute(interaction, locale);
   } catch (error) {
     console.error(error);
     if (interaction.replied || interaction.deferred) {

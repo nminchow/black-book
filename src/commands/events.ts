@@ -9,43 +9,59 @@ import {
 } from 'discord.js';
 import { dbWrapper } from '../bot';
 import L from '../i18n/i18n-node';
+import { LocaleMappingEntry, SupportedLocale, commandLocaleMapping } from '../i18n/type-transformer';
+import { filterNulls } from '../utility/database';
 
 const name = L.en.commands.events.name();
 
 const hellTideOptionName = L.en.commands.events.options.helltide.name();
 const hellTideOption = (option: SlashCommandBooleanOption) => option
     .setName(hellTideOptionName)
-    .setDescription(L.en.commands.events.options.helltide.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.helltide.name)
+    .setDescription(L.en.commands.events.options.helltide.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.helltide.description);
 
 const worldBossOptionName = L.en.commands.events.options.worldBoss.name();
 const worldBossOption = (option: SlashCommandBooleanOption) => option
     .setName(worldBossOptionName)
-    .setDescription(L.en.commands.events.options.worldBoss.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.worldBoss.name)
+    .setDescription(L.en.commands.events.options.worldBoss.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.worldBoss.description);
 
 const zoneEventOptionName = L.en.commands.events.options.zoneEvent.name();
 const zoneEventOption = (option: SlashCommandBooleanOption) => option
     .setName(zoneEventOptionName)
-    .setDescription(L.en.commands.events.options.zoneEvent.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.zoneEvent.name)
+    .setDescription(L.en.commands.events.options.zoneEvent.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.zoneEvent.description);
 
 const hellTideRoleOptionName = L.en.commands.events.options.helltideRole.name();
 const hellTideRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(hellTideRoleOptionName)
-    .setDescription(L.en.commands.events.options.helltideRole.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.helltideRole.name)
+    .setDescription(L.en.commands.events.options.helltideRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.helltideRole.description);
 
 const worldBossRoleOptionName = L.en.commands.events.options.worldBossRole.name();
 const worldBossRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(worldBossRoleOptionName)
-    .setDescription(L.en.commands.events.options.worldBossRole.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.worldBossRole.name)
+    .setDescription(L.en.commands.events.options.worldBossRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.worldBossRole.description);
 
 const zoneEventRoleOptionName = L.en.commands.events.options.zoneEventRole.name();
 const zoneEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(zoneEventRoleOptionName)
-    .setDescription(L.en.commands.events.options.zoneEventRole.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.zoneEventRole.name)
+    .setDescription(L.en.commands.events.options.zoneEventRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.zoneEventRole.description);
 
 const allEventRoleOptionName = L.en.commands.events.options.allEventRole.name();
 const allEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(allEventRoleOptionName)
-    .setDescription(L.en.commands.events.options.allEventRole.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.allEventRole.name)
+    .setDescription(L.en.commands.events.options.allEventRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.allEventRole.description);
 
 // TODO: localize
 const imagesOptionChoices = [
@@ -66,18 +82,24 @@ const imagesOptionChoices = [
 const imagesOptionName = L.en.commands.events.options.images.name();
 const imagesOption = (option: SlashCommandStringOption) => option
     .setName(imagesOptionName)
+    .setNameLocalizations(commandLocaleMapping.events.options.images.name)
     .setDescription(L.en.commands.events.options.images.description())
-    .addChoices(...imagesOptionChoices)
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.images.description)
+    .addChoices(...imagesOptionChoices);
 
 const deleteMessagesOptionName = L.en.commands.events.options.deleteMessages.name();
 const deleteMessageOption = (option: SlashCommandBooleanOption) => option
     .setName(deleteMessagesOptionName)
-    .setDescription(L.en.commands.events.options.deleteMessages.description());
+    .setNameLocalizations(commandLocaleMapping.events.options.deleteMessages.name)
+    .setDescription(L.en.commands.events.options.deleteMessages.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.deleteMessages.description);
 
 
 const eventsBuilder = new SlashCommandBuilder()
   .setName(name)
+  .setNameLocalizations(commandLocaleMapping.events.name)
   .setDescription(L.en.commands.events.description())
+  .setDescriptionLocalizations(commandLocaleMapping.events.description)
   .addBooleanOption(hellTideOption)
   .addBooleanOption(worldBossOption)
   .addBooleanOption(zoneEventOption)
@@ -104,7 +126,7 @@ const getImageOptions = (choice: string | null) => {
 
 const events = (db: dbWrapper) => ({
   name,
-  execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
+  execute: async (interaction: ChatInputCommandInteraction<CacheType>, locale: LocaleMappingEntry) => {
     if ( !db ) {
       interaction.reply('db not initialized');
       return;
@@ -142,7 +164,7 @@ const events = (db: dbWrapper) => ({
       helltide_images: helltideImages,
     };
 
-    const upsertAttributes = Object.fromEntries(Object.entries(upsert).filter(([_, v]) => v != null));
+    const upsertAttributes = filterNulls(upsert);
 
     const { error: upsertError } = await db
       .from('subscriptions')
@@ -161,9 +183,11 @@ const events = (db: dbWrapper) => ({
       interaction.reply('something went wrong!');
       return;
     }
-    interaction.reply(L.en.commands.events.messages.success({
-      unsub: L.en.commands.unsub.name(),
-      events: L.en.commands.events.name()
+    console.log(locale.locale);
+    const entries = L[locale.locale];
+    interaction.reply(entries.commands.events.messages.success({
+      unsub: entries.commands.unsub.name(),
+      events: entries.commands.events.name()
     }));
   },
 });

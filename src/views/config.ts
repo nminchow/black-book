@@ -2,16 +2,16 @@ import {APIEmbed, CacheType, ChatInputCommandInteraction} from 'discord.js';
 import { author } from './shared';
 import { dbWrapper } from '../bot';
 import { SubRecord } from '../worldEvents/createListener';
+import { LocaleMappingEntry } from '../i18n/type-transformer';
 
 const query = (interaction: ChatInputCommandInteraction<CacheType>, db: NonNullable<dbWrapper>) => {
   if (interaction.guildId == null) {
-    console.log('was dm based');
     return db.from('subscriptions').select().filter('channel_id', 'eq', interaction.channelId);
   }
   return db.from('subscriptions').select().filter('guild_id', 'eq', interaction.guildId);
 }
 
-type SubResponse = SubRecord[] | null;
+type SubResponse = Omit<SubRecord, 'locale'>[] | null;
 
 const roleString = (role: string | null) => role? ` - ${role}` : '';
 
@@ -20,7 +20,7 @@ const getDescription = (data: SubResponse) => {
     return "Events are not being sent to any channels. Use `/events` to start getting alerts!"
   }
 
-  const eventText = data.map(x => `<#${x.channel_id}>:
+  const eventText = data.map(x => `<#${x.channel_id}>
     Helltides: ${x.helltide}${roleString(x.helltide_role)}
     World Bosses: ${x.worldboss}${roleString(x.boss_role)}
     Zone Events: ${x.zoneevent}${roleString(x.event_role)}
@@ -31,13 +31,16 @@ const getDescription = (data: SubResponse) => {
   \n${eventText}`;
 }
 
-const about = async (interaction: ChatInputCommandInteraction<CacheType>, db: NonNullable<dbWrapper>) => {
+const about = async (locale: LocaleMappingEntry, interaction: ChatInputCommandInteraction<CacheType>, db: NonNullable<dbWrapper>) => {
   const { data } = await query(interaction, db);
   const description = getDescription(data);
 
   const embed: APIEmbed = {
     author,
     description,
+    footer: {
+      text: `Locale: ${locale.staticMapping.nativeName}`,
+    }
   };
 
   return embed;

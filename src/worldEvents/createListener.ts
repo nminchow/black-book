@@ -2,12 +2,14 @@ import { ClientAndCommands, dbWrapper } from "../bot";
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
-import { TextBasedChannel } from "discord.js";
+import { Locale, TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
 import { createImage } from "../utility/createImage";
 import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 import { toErrorWithMessage } from "../utility/errorHelper";
+import { Locales } from "../i18n/i18n-types";
+import { parseLocaleString } from "../i18n/type-transformer";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -214,7 +216,7 @@ const getView = (eventType: EventType) => {
 }
 
 
-export type SubRecord = Database['public']['Tables']['subscriptions']['Row'];
+export type SubRecord = Database['public']['Tables']['subscriptions']['Row'] & { locale: Locales }
 export type EventRecord = Database['public']['Tables']['events']['Row'];
 
 const mentionRole = (eventType: EventType, sub: SubRecord) => {
@@ -264,14 +266,28 @@ export type NotificationMetadata = {
   isUpdated: boolean,
 }
 
+const getLocales = async (db: NonNullable<dbWrapper>) => {
+  const { data, error } = await db.from('guilds').select('guild_id, locale').filter('locale', 'not.eq', Locale.EnglishUS);
+  if (error) {
+    throw 'error fetching locales';
+  }
+  return data.reduce((acc, { guild_id, locale }) => ({
+    ...acc,
+    [guild_id]: locale
+  }), {} as mapping);
+};
+
 const sendNotifications = async (event: EventParams, row: EventRecord, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
   const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
+  const localeMap = await getLocales(db); // just doing this join in memory, for now. Reevalute if non-us count grows
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return; // todo - check for missing channels here to clean up old subs
 
-    const message = await attemptToSendMessage(channel, event, sub, metadata);
+    const locale = parseLocaleString(localeMap[sub.guild_id]);
+
+    const message = await attemptToSendMessage(channel, event, { locale, ...sub }, metadata);
 
     if (!message) return;
 
@@ -284,6 +300,7 @@ const sendNotifications = async (event: EventParams, row: EventRecord, client: C
           time: new Date(event.time).toISOString(),
           message_id: message.id,
           event: row.id,
+          locale: localeMap[sub.guild_id] || Locale.EnglishUS,
         }
       ]);
     if (insertionError) {
