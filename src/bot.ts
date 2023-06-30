@@ -59,7 +59,7 @@ export class ClientAndCommands extends Client {
   }
 }
 
-const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds]});
+const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds], shards: 'auto'});
 
 createStatsHook(client);
 
