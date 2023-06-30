@@ -1,13 +1,15 @@
 import {APIEmbed} from 'discord.js';
-import { EventResponse, NotificationMetadata, SubRecord } from '../worldEvents/createListener';
-import { addTerritory, author } from './shared';
+import { EventParams, NotificationMetadata, SubRecord } from '../worldEvents/createListener';
+import { addTerritory, author, buildLocationString } from './shared';
+import L from '../i18n/i18n-node';
 
-const zoneEvent = (event: EventResponse, _: NotificationMetadata, sub: SubRecord) => {
-  const title = `${event.name} in ${event.location}!`;
+const zoneEvent = (event: EventParams, _: NotificationMetadata, sub: SubRecord) => {
+  const location = buildLocationString(event, sub.locale);
+  const title = L[sub.locale].views.events.zoneEvent.title({ location });
 
   const url = 'https://diablo4.life/trackers/zone-events';
 
-  const description = `[${event.location}](${url}) - Starts: <t:${event.time / 1000}:R>`
+  const description = `[${location}](${url}) - ${L[sub.locale].views.events.zoneEvent.startLabel()} <t:${event.time / 1000}:R>`
 
   const embed: APIEmbed = {
     title,

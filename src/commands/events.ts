@@ -8,46 +8,62 @@ import {
   SlashCommandStringOption,
 } from 'discord.js';
 import { dbWrapper } from '../bot';
-import { deleteSubs } from './unsub';
+import L from '../i18n/i18n-node';
+import { LocaleMappingEntry, SupportedLocale, commandLocaleMapping } from '../i18n/type-transformer';
+import { filterNulls } from '../utility/database';
 
-const name = 'events';
+const name = L.en.commands.events.name();
 
-const hellTideOptionName = 'helltide';
+const hellTideOptionName = L.en.commands.events.options.helltide.name();
 const hellTideOption = (option: SlashCommandBooleanOption) => option
     .setName(hellTideOptionName)
-    .setDescription(`receive alerts on upcoming helltides (defaults to 'true')`);
+    .setNameLocalizations(commandLocaleMapping.events.options.helltide.name)
+    .setDescription(L.en.commands.events.options.helltide.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.helltide.description);
 
-const worldBossOptionName = 'world-boss';
+const worldBossOptionName = L.en.commands.events.options.worldBoss.name();
 const worldBossOption = (option: SlashCommandBooleanOption) => option
     .setName(worldBossOptionName)
-    .setDescription(`receive alerts on upcoming world bosses (defaults to 'true')`);
+    .setNameLocalizations(commandLocaleMapping.events.options.worldBoss.name)
+    .setDescription(L.en.commands.events.options.worldBoss.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.worldBoss.description);
 
-const zoneEventOptionName = 'zone-event';
+const zoneEventOptionName = L.en.commands.events.options.zoneEvent.name();
 const zoneEventOption = (option: SlashCommandBooleanOption) => option
     .setName(zoneEventOptionName)
-    .setDescription(`receive alerts on upcoming zone events (defaults to 'false')`);
+    .setNameLocalizations(commandLocaleMapping.events.options.zoneEvent.name)
+    .setDescription(L.en.commands.events.options.zoneEvent.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.zoneEvent.description);
 
-const hellTideRoleOptionName = 'helltide-role'
+const hellTideRoleOptionName = L.en.commands.events.options.helltideRole.name();
 const hellTideRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(hellTideRoleOptionName)
-    .setDescription('set user or role to be alerted on upcoming helltides');
+    .setNameLocalizations(commandLocaleMapping.events.options.helltideRole.name)
+    .setDescription(L.en.commands.events.options.helltideRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.helltideRole.description);
 
-const worldBossRoleOptionName = 'world-boss-role'
+const worldBossRoleOptionName = L.en.commands.events.options.worldBossRole.name();
 const worldBossRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(worldBossRoleOptionName)
-    .setDescription('set user or role to be alerted on upcoming world bosses');
+    .setNameLocalizations(commandLocaleMapping.events.options.worldBossRole.name)
+    .setDescription(L.en.commands.events.options.worldBossRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.worldBossRole.description);
 
-const zoneEventRoleOptionName = 'zone-event-role'
+const zoneEventRoleOptionName = L.en.commands.events.options.zoneEventRole.name();
 const zoneEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(zoneEventRoleOptionName)
-    .setDescription('set user or role to be alerted on upcoming zone events');
+    .setNameLocalizations(commandLocaleMapping.events.options.zoneEventRole.name)
+    .setDescription(L.en.commands.events.options.zoneEventRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.zoneEventRole.description);
 
-const allEventRoleOptionName = 'all-event-role';
+const allEventRoleOptionName = L.en.commands.events.options.allEventRole.name();
 const allEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(allEventRoleOptionName)
-    .setDescription('set user or role to be alerted on all events');
+    .setNameLocalizations(commandLocaleMapping.events.options.allEventRole.name)
+    .setDescription(L.en.commands.events.options.allEventRole.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.allEventRole.description);
 
-
+// TODO: localize
 const imagesOptionChoices = [
   {
     name: 'images on all alerts',
@@ -63,21 +79,27 @@ const imagesOptionChoices = [
   }
 ];
 
-const imagesOptionName = 'show-images';
+const imagesOptionName = L.en.commands.events.options.images.name();
 const imagesOption = (option: SlashCommandStringOption) => option
     .setName(imagesOptionName)
-    .setDescription('show images in alerts')
-    .addChoices(...imagesOptionChoices)
+    .setNameLocalizations(commandLocaleMapping.events.options.images.name)
+    .setDescription(L.en.commands.events.options.images.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.images.description)
+    .addChoices(...imagesOptionChoices);
 
-const deleteMessagesOptionName = 'delete-expired-events';
+const deleteMessagesOptionName = L.en.commands.events.options.deleteMessages.name();
 const deleteMessageOption = (option: SlashCommandBooleanOption) => option
     .setName(deleteMessagesOptionName)
-    .setDescription('delete event notifications from the channel after the event has ended');
+    .setNameLocalizations(commandLocaleMapping.events.options.deleteMessages.name)
+    .setDescription(L.en.commands.events.options.deleteMessages.description())
+    .setDescriptionLocalizations(commandLocaleMapping.events.options.deleteMessages.description);
 
 
 const eventsBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('get updates on helltides and world bosses')
+  .setNameLocalizations(commandLocaleMapping.events.name)
+  .setDescription(L.en.commands.events.description())
+  .setDescriptionLocalizations(commandLocaleMapping.events.description)
   .addBooleanOption(hellTideOption)
   .addBooleanOption(worldBossOption)
   .addBooleanOption(zoneEventOption)
@@ -104,7 +126,7 @@ const getImageOptions = (choice: string | null) => {
 
 const events = (db: dbWrapper) => ({
   name,
-  execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
+  execute: async (interaction: ChatInputCommandInteraction<CacheType>, locale: LocaleMappingEntry) => {
     if ( !db ) {
       interaction.reply('db not initialized');
       return;
@@ -112,7 +134,7 @@ const events = (db: dbWrapper) => ({
 
     if (interaction.channel && interaction.guild?.members.me && interaction.channel.isTextBased() && !interaction.channel.isDMBased()) {
       if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel])) {
-        interaction.reply(`The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
+        interaction.reply(L.en.commands.events.errors.permissions());
         return;
       }
     }
@@ -142,7 +164,7 @@ const events = (db: dbWrapper) => ({
       helltide_images: helltideImages,
     };
 
-    const upsertAttributes = Object.fromEntries(Object.entries(upsert).filter(([_, v]) => v != null));
+    const upsertAttributes = filterNulls(upsert);
 
     const { error: upsertError } = await db
       .from('subscriptions')
@@ -161,7 +183,12 @@ const events = (db: dbWrapper) => ({
       interaction.reply('something went wrong!');
       return;
     }
-    interaction.reply('events will be posted in this channel! Use `/unsub` to stop event posts here. Use the `/events` command again to change your configuration.');
+    console.log(locale.locale);
+    const entries = L[locale.locale];
+    interaction.reply(entries.commands.events.messages.success({
+      unsub: entries.commands.unsub.name(),
+      events: entries.commands.events.name()
+    }));
   },
 });
 

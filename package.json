@@ -16,6 +16,7 @@
     "dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/bot.ts",
     "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullData.ts",
     "deploy-commands": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/deployment.ts",
+    "i18n": "typesafe-i18n",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
@@ -24,7 +25,8 @@
     "prepare": "yarn run compile",
     "pretest": "yarn run compile",
     "posttest": "yarn run lint",
-    "heroku-postbuild": "mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
+    "heroku-postbuild": "mkdir ./.cache && mv /app/.cache/puppeteer ./.cache",
+    "typesafe-i18n": "typesafe-i18n"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.24.0",
@@ -34,8 +36,10 @@
     "dotenv": "^16.0.3",
     "fuse.js": "^6.6.2",
     "inquirer": "^9.1.4",
+    "lodash": "^4.17.21",
     "node-fetch": "^3.3.1",
     "topgg-autoposter": "^2.0.1",
+    "typesafe-i18n": "^5.24.3",
     "typescript": "^4.9.5"
   },
   "devDependencies": {

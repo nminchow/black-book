@@ -4,13 +4,17 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import xpCurveViewBuilder from '../views/xpCurve';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'xp-curve';
-const description = 'show info about xp and the leveling curve';
+const name = L.en.commands.xpCurve.name();
+const description = L.en.commands.xpCurve.description();
 
 const xpCurveBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription(description);
+  .setNameLocalizations(commandLocaleMapping.xpCurve.name)
+  .setDescription(description)
+  .setDescriptionLocalizations(commandLocaleMapping.xpCurve.description);
 
 const xpCurve = () => ({
   name,

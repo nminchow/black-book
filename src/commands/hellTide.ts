@@ -4,18 +4,17 @@ import {
   SlashCommandBuilder,
 } from 'discord.js';
 import hellTideViewBuilder from '../views/hellTideMap';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'hell-tide';
-// const subCommand = 'tide';
-const description = 'display map and info about hell tides';
+const name = L.en.commands.helltide.name();
+const description = L.en.commands.helltide.description();
 
 const hellTideBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription(description);
-  // .addSubcommand(subcommand =>
-  //   subcommand
-  //     .setName(subCommand)
-  //     .setDescription(description));
+  .setNameLocalizations(commandLocaleMapping.helltide.name)
+  .setDescription(description)
+  .setDescriptionLocalizations(commandLocaleMapping.helltide.description);
 
 const hellTide = () => ({
   name,

@@ -2,12 +2,14 @@ import { ClientAndCommands, dbWrapper } from "../bot";
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";
-import { TextBasedChannel } from "discord.js";
+import { Locale, TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
 import { createImage, createImageMetadata } from "../utility/createImage";
 import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 import { toErrorWithMessage } from "../utility/errorHelper";
+import { Locales } from "../i18n/i18n-types";
+import { parseLocaleString } from "../i18n/type-transformer";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -20,7 +22,10 @@ export type EventResponse = Pick<EventParams, 'name' | 'location' | 'time'>
 export type EventParams = {
   name: string,
   time: number,
-  location: string,
+  location: {
+    zone: string,
+    territory: string | null,
+  },
   type: EventType,
 }
 
@@ -100,7 +105,7 @@ const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
         {
           name: event.name,
           time: new Date(event.time).toISOString(),
-          location: event.location,
+          location: `${event.location.zone}${event.location.territory ? ` ${event.location.territory}` : ''}`,
           type: event.type,
         },
       ])
@@ -118,14 +123,6 @@ type mapping = {
   [key: string]: string;
 }
 
-const hellTideMapping = {
-  'kehj': 'Kehjistan',
-  'hawe': 'Hawezar',
-  'scos': 'Scosglen',
-  'frac': 'Fractured Peaks',
-  'step': 'Dry Steppes',
-} as mapping;
-
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
   const startTime = helltide.timestamp * 1000;
 
@@ -136,9 +133,9 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
 
   const event = {
     time: startTime + 3600000,
-    location: hellTideMapping[helltide.zone] || 'Sanctuary',
+    location: { zone: helltide.zone, territory: null },//hellTideMapping[helltide.zone] || 'Sanctuary',
     type: EventType.Helltide,
-    name: 'The Helltide Rises',
+    name: 'The Helltide Rises', // written to db, but not used for view
   };
 
   const createImageWrapper = async () => await createImageMetadata(db, false);
@@ -149,9 +146,9 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
 const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, zoneEvent: RawEventResponse['legion']) => {
   const event = {
     time: zoneEvent.timestamp * 1000,
-    location: `${zoneEvent.territory}, ${zoneEvent.zone}`,
+    location: { zone: zoneEvent.zone, territory: zoneEvent.territory },  //`${zoneEvent.territory}, ${zoneEvent.zone}`,
     type: EventType.ZoneEvent,
-    name: 'The Gathering Legions assemble',
+    name: 'The Gathering Legions assemble', // written to db, but not used for view
   };
   return scanAndNotifyForEvent(client, db, event);
 };
@@ -159,7 +156,7 @@ const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrap
 const bossNotify = (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss: RawEventResponse['boss']) => {
   const event = {
     time: boss.timestamp * 1000,
-    location: `${boss.territory}, ${boss.zone}`,
+    location: { zone: boss.zone, territory: boss.territory },
     type: EventType.WorldBoss,
     name: boss.name,
   };
@@ -206,7 +203,7 @@ const getView = (eventType: EventType) => {
 }
 
 
-export type SubRecord = Database['public']['Tables']['subscriptions']['Row'];
+export type SubRecord = Database['public']['Tables']['subscriptions']['Row'] & { locale: Locales }
 export type EventRecord = Database['public']['Tables']['events']['Row'];
 
 const mentionRole = (eventType: EventType, sub: SubRecord) => {
@@ -256,14 +253,28 @@ export type NotificationMetadata = {
   isUpdated: boolean,
 }
 
+const getLocales = async (db: NonNullable<dbWrapper>) => {
+  const { data, error } = await db.from('guilds').select('guild_id, locale').filter('locale', 'not.eq', Locale.EnglishUS);
+  if (error) {
+    throw 'error fetching locales';
+  }
+  return data.reduce((acc, { guild_id, locale }) => ({
+    ...acc,
+    [guild_id]: locale
+  }), {} as mapping);
+};
+
 const sendNotifications = async (event: EventParams, row: EventRecord, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
   const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
+  const localeMap = await getLocales(db); // just doing this join in memory, for now. Reevalute if non-us count grows
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);
     if (!channel || !channel.isTextBased()) return; // todo - check for missing channels here to clean up old subs
 
-    const message = await attemptToSendMessage(channel, event, sub, metadata);
+    const locale = parseLocaleString(localeMap[sub.guild_id]);
+
+    const message = await attemptToSendMessage(channel, event, { locale, ...sub }, metadata);
 
     if (!message) return;
 
@@ -276,6 +287,7 @@ const sendNotifications = async (event: EventParams, row: EventRecord, client: C
           time: new Date(event.time).toISOString(),
           message_id: message.id,
           event: row.id,
+          locale: localeMap[sub.guild_id] || Locale.EnglishUS,
         }
       ]);
     if (insertionError) {

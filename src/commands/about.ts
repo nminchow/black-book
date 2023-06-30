@@ -5,12 +5,16 @@ import {
 } from 'discord.js';
 import aboutViewBuilder from '../views/about';
 import { dbWrapper } from '../bot';
+import L from '../i18n/i18n-node';
+import { commandLocaleMapping } from '../i18n/type-transformer';
 
-const name = 'about';
+const name = L.en.commands.about.name();
 
 const aboutBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('get general info about the bot');
+  .setNameLocalizations(commandLocaleMapping.about.name)
+  .setDescription('get general info about the bot')
+  .setDescriptionLocalizations(commandLocaleMapping.about.description);
 
 const about = (db: dbWrapper) => ({
   name,

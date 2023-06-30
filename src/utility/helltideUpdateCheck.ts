@@ -1,4 +1,5 @@
 import { ClientAndCommands, dbWrapper } from "../bot";
+import { parseLocaleString } from "../i18n/type-transformer";
 import hellTide from "../views/hellTide";
 import { EventType } from "../worldEvents/createListener";
 import { createImageMetadata, createImage } from "./createImage";
@@ -57,19 +58,25 @@ export const helltideUpdateCheck = async (client: ClientAndCommands, db: NonNull
     return;
   }
 
-  const view = hellTide(
-    { name: event.name, location: event.location, time: endTime.getTime() },
-    image,
-    { helltide_images: true }
-  );
-
-  notificationList.map(async ({ channel_id, message_id }) => {
+  notificationList.map(async ({ channel_id, message_id, locale }) => {
     try {
       const channel = client.channels.cache.get(channel_id);
       if (!channel || !channel.isTextBased()) return;
 
       const message = await channel.messages.fetch(message_id);
       if (!message.embeds[0]?.image?.url) return; // only update those that had an image when posted.
+
+      const view = hellTide(
+        {
+          name: event.name,
+          location: { zone: event.location, territory: null }, // we can do this because helltides don't have a territory
+          time: endTime.getTime(),
+          type: EventType.Helltide,
+        },
+        image,
+        { helltide_images: true, locale: parseLocaleString(locale) }
+      );
+
       await message.edit({embeds: view});
     } catch (error) {
       console.error('error editing message');
