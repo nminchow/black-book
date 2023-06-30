@@ -5,6 +5,7 @@ import { snapToHour } from '../utility/helltideUpdateCheck';
 
 const getMessage = (meta: NotificationMetadata, sub: SubRecord | ImageFlag) => {
   if (!sub.helltide_images) return '';
+  if (!meta.imagePath) return ' (image unavailable - this is likely due to a service outage and should resolve shortly)';
   if (meta.isUpdated) return ' (image updated)';
   return ' (image will update)'
 };
@@ -37,7 +38,7 @@ const hellTide = (event: EventResponse, meta: NotificationMetadata, sub: SubReco
     description,
   };
 
-  if (sub.helltide_images) {
+  if (sub.helltide_images && meta.imagePath) {
     embed.image = {
       url: meta.imagePath
     }
