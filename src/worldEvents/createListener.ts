@@ -22,7 +22,10 @@ export type EventResponse = Pick<EventParams, 'name' | 'location' | 'time'>
 export type EventParams = {
   name: string,
   time: number,
-  location: string,
+  location: {
+    zone: string,
+    territory: string | null,
+  },
   type: EventType,
 }
 
@@ -102,7 +105,7 @@ const insertEvent = async (event: EventParams, db: NonNullable<dbWrapper>) => {
         {
           name: event.name,
           time: new Date(event.time).toISOString(),
-          location: event.location,
+          location: `${event.location.zone}${event.location.territory ? ` ${event.location.territory}` : ''}`,
           type: event.type,
         },
       ])
@@ -120,14 +123,6 @@ type mapping = {
   [key: string]: string;
 }
 
-const hellTideMapping = {
-  'kehj': 'Kehjistan',
-  'hawe': 'Hawezar',
-  'scos': 'Scosglen',
-  'frac': 'Fractured Peaks',
-  'step': 'Dry Steppes',
-} as mapping;
-
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
   const startTime = helltide.timestamp * 1000;
 
@@ -138,9 +133,9 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
 
   const event = {
     time: startTime + 3600000,
-    location: hellTideMapping[helltide.zone] || 'Sanctuary',
+    location: { zone: helltide.zone, territory: null },//hellTideMapping[helltide.zone] || 'Sanctuary',
     type: EventType.Helltide,
-    name: 'The Helltide Rises',
+    name: 'The Helltide Rises', // written to db, but not used for view
   };
 
   const createImageWrapper = async () => await createImageMetadata(db, false);
@@ -151,9 +146,9 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
 const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, zoneEvent: RawEventResponse['legion']) => {
   const event = {
     time: zoneEvent.timestamp * 1000,
-    location: `${zoneEvent.territory}, ${zoneEvent.zone}`,
+    location: { zone: zoneEvent.zone, territory: zoneEvent.territory },  //`${zoneEvent.territory}, ${zoneEvent.zone}`,
     type: EventType.ZoneEvent,
-    name: 'The Gathering Legions assemble',
+    name: 'The Gathering Legions assemble', // written to db, but not used for view
   };
   return scanAndNotifyForEvent(client, db, event);
 };
@@ -161,7 +156,7 @@ const zoneEventNotify = async (client: ClientAndCommands, db: NonNullable<dbWrap
 const bossNotify = (client: ClientAndCommands, db: NonNullable<dbWrapper>, boss: RawEventResponse['boss']) => {
   const event = {
     time: boss.timestamp * 1000,
-    location: `${boss.territory}, ${boss.zone}`,
+    location: { zone: boss.zone, territory: boss.territory },
     type: EventType.WorldBoss,
     name: boss.name,
   };

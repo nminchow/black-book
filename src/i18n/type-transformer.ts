@@ -6,6 +6,8 @@ import { Locale } from 'discord.js';
 import { Locales } from './i18n-types.js';
 import en from './en';
 import en_GB from './gb/index.js';
+import es from './es/index.js';
+import br from './br/index.js';
 
 
 export type LocaleMappingEntry = {
@@ -13,7 +15,7 @@ export type LocaleMappingEntry = {
   locale: Locales,
 }
 
-export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB>;
+export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR>;
 
 type LocaleMapping = Record<SupportedLocale, LocaleMappingEntry>;
 
@@ -27,6 +29,14 @@ export const localeMapping: LocaleMapping = {
     staticMapping: en_GB,
     locale: 'gb',
   },
+  [Locale.SpanishES]: {
+    staticMapping: es,
+    locale: 'es',
+  },
+  [Locale.PortugueseBR]: {
+    staticMapping: br,
+    locale: 'br',
+  }
 };
 
 type CommandType = typeof en.commands;

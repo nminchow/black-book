@@ -6,7 +6,9 @@ export type BaseTranslation = BaseTranslationType
 export type BaseLocale = 'en'
 
 export type Locales =
+	| 'br'
 	| 'en'
+	| 'es'
 	| 'gb'
 
 export type Translation = RootTranslation
@@ -362,11 +364,10 @@ type RootTranslation = {
 		events: {
 			hellide: {
 				/**
-				 * {​n​a​m​e​}​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
+				 * T​h​e​ ​H​e​l​l​t​i​d​e​ ​R​i​s​e​s​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
 				 * @param {unknown} location
-				 * @param {unknown} name
 				 */
-				title: RequiredParams<'location' | 'name'>
+				title: RequiredParams<'location'>
 				/**
 				 *  ​(​i​m​a​g​e​ ​w​i​l​l​ ​u​p​d​a​t​e​)
 				 */
@@ -411,15 +412,108 @@ type RootTranslation = {
 			}
 			zoneEvent: {
 				/**
-				 * {​n​a​m​e​}​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
+				 * T​h​e​ ​G​a​t​h​e​r​i​n​g​ ​L​e​g​i​o​n​s​ ​a​s​s​e​m​b​l​e​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
 				 * @param {unknown} location
-				 * @param {unknown} name
 				 */
-				title: RequiredParams<'location' | 'name'>
+				title: RequiredParams<'location'>
 				/**
 				 * S​t​a​r​t​s​:
 				 */
 				startLabel: string
+			}
+			utility: {
+				/**
+				 * {​t​e​r​r​i​t​o​r​y​}​,​ ​{​z​o​n​e​}
+				 * @param {unknown} territory
+				 * @param {unknown} zone
+				 */
+				zoneAndTerritory: RequiredParams<'territory' | 'zone'>
+			}
+		}
+	}
+	gameData: {
+		worldBosses: {
+			/**
+			 * A​v​a​r​i​c​e
+			 */
+			avarice: string
+			/**
+			 * T​h​e​ ​W​a​n​d​e​r​i​n​g​ ​D​e​a​t​h
+			 */
+			theWanderingDeath: string
+			/**
+			 * A​s​h​a​v​a
+			 */
+			ashava: string
+		}
+		map: {
+			/**
+			 * S​a​n​c​t​u​a​r​y
+			 */
+			sanctuary: string
+			territories: {
+				/**
+				 * D​i​l​a​p​i​d​a​t​e​d​ ​A​q​u​e​d​u​c​t​s
+				 */
+				dilapidatedAqueducts: string
+				/**
+				 * H​a​u​n​t​e​d​ ​W​r​e​c​k​a​g​e
+				 */
+				hauntedWreckage: string
+				/**
+				 * T​e​m​p​l​e​ ​o​f​ ​R​o​t
+				 */
+				templeOfRot: string
+				/**
+				 * N​o​r​g​o​i​ ​V​i​g​i​l
+				 */
+				norgoiVigil: string
+				/**
+				 * K​o​r​ ​D​r​a​g​a​n
+				 */
+				korDragan: string
+				/**
+				 * S​a​r​a​a​n​ ​C​a​l​d​e​r​a
+				 */
+				saraanCaldera: string
+				/**
+				 * C​r​u​s​a​d​e​r​s​'​ ​M​o​n​u​m​e​n​t
+				 */
+				crusadersMonument: string
+				/**
+				 * C​a​e​n​ ​A​d​a​r
+				 */
+				caenAdar: string
+				/**
+				 * F​i​e​l​d​s​ ​o​f​ ​D​e​s​e​c​r​a​t​i​o​n
+				 */
+				fieldsOfDesecration: string
+				/**
+				 * S​e​a​r​e​d​ ​B​a​s​i​n
+				 */
+				searedBasin: string
+			}
+			zones: {
+				/**
+				 * K​e​h​j​i​s​t​a​n
+				 */
+				kehjistan: string
+				/**
+				 * H​a​w​e​z​a​r
+				 */
+				hawezar: string
+				/**
+				 * S​c​o​s​g​l​e​n
+				 */
+				scosglen: string
+				/**
+				 * F​r​a​c​t​u​r​e​d​ ​P​e​a​k​s
+				 */
+				fracturedPeaks: string
+				/**
+				 * D​r​y​ ​S​t​e​p​p​e​s
+				 */
+				drySteppes: string
 			}
 		}
 	}
@@ -772,9 +866,9 @@ export type TranslationFunctions = {
 		events: {
 			hellide: {
 				/**
-				 * {name} in {location}!
+				 * The Helltide Rises in {location}!
 				 */
-				title: (arg: { location: unknown, name: unknown }) => LocalizedString
+				title: (arg: { location: unknown }) => LocalizedString
 				/**
 				 *  (image will update)
 				 */
@@ -816,13 +910,105 @@ export type TranslationFunctions = {
 			}
 			zoneEvent: {
 				/**
-				 * {name} in {location}!
+				 * The Gathering Legions assemble in {location}!
 				 */
-				title: (arg: { location: unknown, name: unknown }) => LocalizedString
+				title: (arg: { location: unknown }) => LocalizedString
 				/**
 				 * Starts:
 				 */
 				startLabel: () => LocalizedString
+			}
+			utility: {
+				/**
+				 * {territory}, {zone}
+				 */
+				zoneAndTerritory: (arg: { territory: unknown, zone: unknown }) => LocalizedString
+			}
+		}
+	}
+	gameData: {
+		worldBosses: {
+			/**
+			 * Avarice
+			 */
+			avarice: () => LocalizedString
+			/**
+			 * The Wandering Death
+			 */
+			theWanderingDeath: () => LocalizedString
+			/**
+			 * Ashava
+			 */
+			ashava: () => LocalizedString
+		}
+		map: {
+			/**
+			 * Sanctuary
+			 */
+			sanctuary: () => LocalizedString
+			territories: {
+				/**
+				 * Dilapidated Aqueducts
+				 */
+				dilapidatedAqueducts: () => LocalizedString
+				/**
+				 * Haunted Wreckage
+				 */
+				hauntedWreckage: () => LocalizedString
+				/**
+				 * Temple of Rot
+				 */
+				templeOfRot: () => LocalizedString
+				/**
+				 * Norgoi Vigil
+				 */
+				norgoiVigil: () => LocalizedString
+				/**
+				 * Kor Dragan
+				 */
+				korDragan: () => LocalizedString
+				/**
+				 * Saraan Caldera
+				 */
+				saraanCaldera: () => LocalizedString
+				/**
+				 * Crusaders' Monument
+				 */
+				crusadersMonument: () => LocalizedString
+				/**
+				 * Caen Adar
+				 */
+				caenAdar: () => LocalizedString
+				/**
+				 * Fields of Desecration
+				 */
+				fieldsOfDesecration: () => LocalizedString
+				/**
+				 * Seared Basin
+				 */
+				searedBasin: () => LocalizedString
+			}
+			zones: {
+				/**
+				 * Kehjistan
+				 */
+				kehjistan: () => LocalizedString
+				/**
+				 * Hawezar
+				 */
+				hawezar: () => LocalizedString
+				/**
+				 * Scosglen
+				 */
+				scosglen: () => LocalizedString
+				/**
+				 * Fractured Peaks
+				 */
+				fracturedPeaks: () => LocalizedString
+				/**
+				 * Dry Steppes
+				 */
+				drySteppes: () => LocalizedString
 			}
 		}
 	}

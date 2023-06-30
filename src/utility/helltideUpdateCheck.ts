@@ -67,7 +67,12 @@ export const helltideUpdateCheck = async (client: ClientAndCommands, db: NonNull
       if (!message.embeds[0]?.image?.url) return; // only update those that had an image when posted.
 
       const view = hellTide(
-        { name: event.name, location: event.location, time: endTime.getTime() },
+        {
+          name: event.name,
+          location: { zone: event.location, territory: null }, // we can do this because helltides don't have a territory
+          time: endTime.getTime(),
+          type: EventType.Helltide,
+        },
         image,
         { helltide_images: true, locale: parseLocaleString(locale) }
       );

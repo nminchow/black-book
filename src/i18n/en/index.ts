@@ -153,7 +153,7 @@ const en = {
 	views: {
 		events: {
 			hellide: {
-				title: '{name} in {location}!',
+				title: 'The Helltide Rises in {location}!',
 				updatePending: ' (image will update)',
 				updateDone: ' (image udpated)',
 				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
@@ -167,8 +167,40 @@ const en = {
 				spawnLabel: 'Spawns:'
 			},
 			zoneEvent: {
-				title: '{name} in {location}!',
+				title: 'The Gathering Legions assemble in {location}!',
 				startLabel: 'Starts:'
+			},
+			utility: {
+				zoneAndTerritory: '{territory}, {zone}'
+			}
+		}
+	},
+	gameData: {
+		worldBosses: {
+			avarice: 'Avarice',
+			theWanderingDeath: 'The Wandering Death',
+			ashava: 'Ashava',
+		},
+		map: {
+			sanctuary: 'Sanctuary',
+			territories: {
+				dilapidatedAqueducts: 'Dilapidated Aqueducts',
+				hauntedWreckage: 'Haunted Wreckage',
+				templeOfRot: 'Temple of Rot',
+				norgoiVigil: 'Norgoi Vigil',
+				korDragan: 'Kor Dragan',
+				saraanCaldera: 'Saraan Caldera',
+				crusadersMonument: `Crusaders' Monument`,
+				caenAdar: 'Caen Adar',
+				fieldsOfDesecration: 'Fields of Desecration',
+				searedBasin: 'Seared Basin',
+			},
+			zones: {
+				kehjistan: 'Kehjistan',
+				hawezar: 'Hawezar',
+				scosglen: 'Scosglen',
+				fracturedPeaks: 'Fractured Peaks',
+				drySteppes: 'Dry Steppes',
 			}
 		}
 	}
