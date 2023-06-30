@@ -5,7 +5,7 @@ import zoneEvent from "../views/zoneEvent";
 import { Locale, TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
-import { createImage } from "../utility/createImage";
+import { createImage, createImageMetadata } from "../utility/createImage";
 import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 import { toErrorWithMessage } from "../utility/errorHelper";
 import { Locales } from "../i18n/i18n-types";
@@ -143,15 +143,7 @@ const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapp
     name: 'The Helltide Rises',
   };
 
-  const createImageWrapper = async () => {
-    try {
-      return { imagePath: await createImage(db), isUpdated: false };
-    } catch (error) {
-      console.error('error creating image');
-      console.error(error);
-      return null
-    }
-  }
+  const createImageWrapper = async () => await createImageMetadata(db, false);
 
   return scanAndNotifyForEvent(client, db, event, createImageWrapper);
 };
@@ -180,7 +172,7 @@ const scanAndNotifyForEvent = async (
   client: ClientAndCommands,
   db: NonNullable<dbWrapper>,
   event: EventParams,
-  beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: '', isUpdated: false })
+  beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: null, isUpdated: false })
 ) => {
   const { time, type } = event;
   const timeCheck = new Date(time);
@@ -262,7 +254,7 @@ const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParam
 };
 
 export type NotificationMetadata = {
-  imagePath: string,
+  imagePath: string | null,
   isUpdated: boolean,
 }
 

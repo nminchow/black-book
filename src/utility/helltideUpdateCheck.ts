@@ -2,7 +2,7 @@ import { ClientAndCommands, dbWrapper } from "../bot";
 import { parseLocaleString } from "../i18n/type-transformer";
 import hellTide from "../views/hellTide";
 import { EventType } from "../worldEvents/createListener";
-import { createImage } from "./createImage";
+import { createImageMetadata, createImage } from "./createImage";
 
 export const snapToHour = (dateInput: Date) => {
   const date = new Date(dateInput.getTime()); // clone just to be safe
@@ -47,7 +47,7 @@ export const helltideUpdateCheck = async (client: ClientAndCommands, db: NonNull
     return;
   }
 
-  const image = await createImage(db);
+  const image = await createImageMetadata(db, true)
 
   const { data: notificationList, error: notificationError } = await db.from('notifications')
     .select()
@@ -68,7 +68,7 @@ export const helltideUpdateCheck = async (client: ClientAndCommands, db: NonNull
 
       const view = hellTide(
         { name: event.name, location: event.location, time: endTime.getTime() },
-        { imagePath: image, isUpdated: true },
+        image,
         { helltide_images: true, locale: parseLocaleString(locale) }
       );
 

@@ -376,6 +376,10 @@ type RootTranslation = {
 				 */
 				updateDone: string
 				/**
+				 *  ​(​i​m​a​g​e​ ​u​n​a​v​a​i​l​a​b​l​e​ ​-​ ​t​h​i​s​ ​i​s​ ​l​i​k​e​l​y​ ​d​u​e​ ​t​o​ ​a​ ​s​e​r​v​i​c​e​ ​o​u​t​a​g​e​ ​a​n​d​ ​s​h​o​u​l​d​ ​r​e​s​o​l​v​e​ ​s​h​o​r​t​l​y​)
+				 */
+				noImage: string
+				/**
 				 * C​h​e​s​t​s​ ​r​e​s​p​a​w​n​:
 				 */
 				chestsRespawnLabel: string
@@ -779,6 +783,10 @@ export type TranslationFunctions = {
 				 *  (image udpated)
 				 */
 				updateDone: () => LocalizedString
+				/**
+				 *  (image unavailable - this is likely due to a service outage and should resolve shortly)
+				 */
+				noImage: () => LocalizedString
 				/**
 				 * Chests respawn:
 				 */

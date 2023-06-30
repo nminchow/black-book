@@ -6,6 +6,7 @@ import L from '../i18n/i18n-node';
 
 const getMessage = (meta: NotificationMetadata, sub: SubRecord | HellViewFlags) => {
   if (!sub.helltide_images) return '';
+  if (!meta.imagePath) return L[sub.locale].views.events.hellide.noImage();
   if (meta.isUpdated) return L[sub.locale].views.events.hellide.updateDone();
   return L[sub.locale].views.events.hellide.updatePending();
 };
@@ -38,7 +39,7 @@ const hellTide = (event: EventResponse, meta: NotificationMetadata, sub: SubReco
     description,
   };
 
-  if (sub.helltide_images) {
+  if (sub.helltide_images && meta.imagePath) {
     embed.image = {
       url: meta.imagePath
     }

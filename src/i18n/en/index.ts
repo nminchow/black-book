@@ -156,6 +156,7 @@ const en = {
 				title: '{name} in {location}!',
 				updatePending: ' (image will update)',
 				updateDone: ' (image udpated)',
+				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
 				chestsRespawnLabel: 'Chests respawn:',
 				startLabel: 'Start:',
 				endLabel: 'End:',

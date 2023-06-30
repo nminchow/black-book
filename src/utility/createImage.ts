@@ -107,3 +107,13 @@ export const createImage = async (db: NonNullable<dbWrapper>) => {
   }
   return images.result.variants[0];
 };
+
+export const createImageMetadata = async (db: NonNullable<dbWrapper>, isUpdated: boolean) => {
+  try {
+    return { imagePath: await createImage(db), isUpdated };
+  } catch (error) {
+    console.error('error creating image');
+    console.error(error);
+    return { imagePath: null, isUpdated };
+  }
+}
