@@ -86,7 +86,7 @@ const en = {
 		},
 		help: {
 			name: 'help',
-			description: 'show a list of availble commands',
+			description: 'show a list of available commands',
 			options: {}
 		},
 		invite: {
