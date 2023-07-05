@@ -18,7 +18,7 @@ const hellTideMap = () => {
       },
       {
         name: 'Locations',
-        value: 'Mystery chests are not visible on the overwold map until very close, only your minimap.'
+        value: 'Mystery chests are not visible on the world map until you are in close proximity to them. Once you are near, they will become visible on your minimap.'
       },
       {
         name: '',
