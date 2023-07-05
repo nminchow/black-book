@@ -5,7 +5,7 @@ const en = {
 	commands: {
 		about: {
 			name: 'about',
-			description: 'get general info about the bot',
+			description: 'get general information about the bot',
 			options: {}
 		},
 		codex: {
@@ -27,7 +27,7 @@ const en = {
 			options: {
 				locale: {
 					name: 'locale',
-					description: 'set the locale for bot in this server'
+					description: 'change the locale of this bot for your server',
 				}
 			},
 		},
@@ -81,7 +81,7 @@ const en = {
 		},
 		helltide: {
 			name: 'hell-tide',
-			description: 'display map and info about hell tides',
+			description: 'display map and info about helltides',
 			options: {}
 		},
 		help: {
@@ -155,7 +155,7 @@ const en = {
 			hellide: {
 				title: 'The Helltide Rises in {location}!',
 				updatePending: ' (image will update)',
-				updateDone: ' (image udpated)',
+				updateDone: ' (image updated)',
 				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
 				chestsRespawnLabel: 'Chests respawn:',
 				startLabel: 'Start:',
