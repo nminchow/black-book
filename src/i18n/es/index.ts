@@ -126,6 +126,11 @@ const es = {
         notFound: '¡entrada de codex no encontrada!',
       },
     },
+    season: {
+      name: 'temporada',
+      description: 'obtener información sobre la temporada próxima/actual',
+      options: {},
+    },
     skill: {
       name: 'habilidad',
       description: 'encuentra una habilidad por nombre',

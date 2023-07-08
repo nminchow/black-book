@@ -126,6 +126,11 @@ const en = {
 				notFound: 'codex entry not found!',
 			},
 		},
+		season: {
+			name: 'season',
+			description: 'get information about the upcoming or current season',
+			options: {},
+		},
 		skill: {
 			name: 'skill',
 			description: 'find a skill by name',

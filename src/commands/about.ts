@@ -13,7 +13,7 @@ const name = L.en.commands.about.name();
 const aboutBuilder = new SlashCommandBuilder()
   .setName(name)
   .setNameLocalizations(commandLocaleMapping.about.name)
-  .setDescription('get general info about the bot')
+  .setDescription(L.en.commands.about.description())
   .setDescriptionLocalizations(commandLocaleMapping.about.description);
 
 const about = (db: dbWrapper) => ({
