@@ -27,7 +27,7 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * g​e​t​ ​g​e​n​e​r​a​l​ ​i​n​f​o​ ​a​b​o​u​t​ ​t​h​e​ ​b​o​t
+			 * g​e​t​ ​g​e​n​e​r​a​l​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​t​h​e​ ​b​o​t
 			 */
 			description: string
 			options: {
@@ -77,7 +77,7 @@ type RootTranslation = {
 					 */
 					name: string
 					/**
-					 * s​e​t​ ​t​h​e​ ​l​o​c​a​l​e​ ​f​o​r​ ​b​o​t​ ​i​n​ ​t​h​i​s​ ​s​e​r​v​e​r
+					 * c​h​a​n​g​e​ ​t​h​e​ ​l​o​c​a​l​e​ ​o​f​ ​t​h​i​s​ ​b​o​t​ ​f​o​r​ ​y​o​u​r​ ​s​e​r​v​e​r
 					 */
 					description: string
 				}
@@ -205,7 +205,7 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * d​i​s​p​l​a​y​ ​m​a​p​ ​a​n​d​ ​i​n​f​o​ ​a​b​o​u​t​ ​h​e​l​l​ ​t​i​d​e​s
+			 * d​i​s​p​l​a​y​ ​m​a​p​ ​a​n​d​ ​i​n​f​o​ ​a​b​o​u​t​ ​h​e​l​l​t​i​d​e​s
 			 */
 			description: string
 			options: {
@@ -217,7 +217,7 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * s​h​o​w​ ​a​ ​l​i​s​t​ ​o​f​ ​a​v​a​i​l​b​l​e​ ​c​o​m​m​a​n​d​s
+			 * s​h​o​w​ ​a​ ​l​i​s​t​ ​o​f​ ​a​v​a​i​l​a​b​l​e​ ​c​o​m​m​a​n​d​s
 			 */
 			description: string
 			options: {
@@ -307,6 +307,18 @@ type RootTranslation = {
 				notFound: string
 			}
 		}
+		season: {
+			/**
+			 * s​e​a​s​o​n
+			 */
+			name: string
+			/**
+			 * g​e​t​ ​i​n​f​o​r​m​a​t​i​o​n​ ​a​b​o​u​t​ ​t​h​e​ ​u​p​c​o​m​i​n​g​ ​o​r​ ​c​u​r​r​e​n​t​ ​s​e​a​s​o​n
+			 */
+			description: string
+			options: {
+			}
+		}
 		skill: {
 			/**
 			 * s​k​i​l​l
@@ -373,7 +385,7 @@ type RootTranslation = {
 				 */
 				updatePending: string
 				/**
-				 *  ​(​i​m​a​g​e​ ​u​d​p​a​t​e​d​)
+				 *  ​(​i​m​a​g​e​ ​u​p​d​a​t​e​d​)
 				 */
 				updateDone: string
 				/**
@@ -492,6 +504,18 @@ type RootTranslation = {
 				 * S​e​a​r​e​d​ ​B​a​s​i​n
 				 */
 				searedBasin: string
+				/**
+				 * T​h​e​ ​C​r​u​c​i​b​l​e
+				 */
+				theCrucible: string
+				/**
+				 * C​a​r​r​o​w​c​r​e​s​t​ ​R​u​i​n​s
+				 */
+				carrowcrestRuins: string
+				/**
+				 * A​l​c​a​r​n​u​s
+				 */
+				alcarnus: string
 			}
 			zones: {
 				/**
@@ -531,7 +555,7 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * get general info about the bot
+			 * get general information about the bot
 			 */
 			description: () => LocalizedString
 			options: {
@@ -581,7 +605,7 @@ export type TranslationFunctions = {
 					 */
 					name: () => LocalizedString
 					/**
-					 * set the locale for bot in this server
+					 * change the locale of this bot for your server
 					 */
 					description: () => LocalizedString
 				}
@@ -707,7 +731,7 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * display map and info about hell tides
+			 * display map and info about helltides
 			 */
 			description: () => LocalizedString
 			options: {
@@ -719,7 +743,7 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * show a list of availble commands
+			 * show a list of available commands
 			 */
 			description: () => LocalizedString
 			options: {
@@ -809,6 +833,18 @@ export type TranslationFunctions = {
 				notFound: () => LocalizedString
 			}
 		}
+		season: {
+			/**
+			 * season
+			 */
+			name: () => LocalizedString
+			/**
+			 * get information about the upcoming or current season
+			 */
+			description: () => LocalizedString
+			options: {
+			}
+		}
 		skill: {
 			/**
 			 * skill
@@ -874,7 +910,7 @@ export type TranslationFunctions = {
 				 */
 				updatePending: () => LocalizedString
 				/**
-				 *  (image udpated)
+				 *  (image updated)
 				 */
 				updateDone: () => LocalizedString
 				/**
@@ -987,6 +1023,18 @@ export type TranslationFunctions = {
 				 * Seared Basin
 				 */
 				searedBasin: () => LocalizedString
+				/**
+				 * The Crucible
+				 */
+				theCrucible: () => LocalizedString
+				/**
+				 * Carrowcrest Ruins
+				 */
+				carrowcrestRuins: () => LocalizedString
+				/**
+				 * Alcarnus
+				 */
+				alcarnus: () => LocalizedString
 			}
 			zones: {
 				/**

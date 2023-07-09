@@ -9,6 +9,7 @@ import {
   ActivityType,
   AutocompleteInteraction,
   Locale,
+  Options,
 } from 'discord.js';
 import { createClient } from '@supabase/supabase-js'
 import {Database} from './types/supabase';
@@ -63,7 +64,36 @@ export class ClientAndCommands extends Client {
   }
 }
 
-const client = new ClientAndCommands({intents: [GatewayIntentBits.Guilds], shards: 'auto'});
+const client = new ClientAndCommands({
+  intents: [GatewayIntentBits.Guilds],
+  shards: 'auto',
+  makeCache: Options.cacheWithLimits({
+    ...Options.DefaultMakeCacheSettings,
+    AutoModerationRuleManager: 0,
+    GuildEmojiManager: 0,
+    GuildBanManager: 0,
+    GuildForumThreadManager: 0,
+    GuildInviteManager: 0,
+    GuildScheduledEventManager: 0,
+    GuildStickerManager: 0,
+    GuildTextThreadManager: 0,
+    PresenceManager: 0,
+    ReactionManager: 0,
+    ReactionUserManager: 0,
+    StageInstanceManager: 0,
+    ThreadManager: 0,
+    ThreadMemberManager: 0,
+    UserManager: 0,
+    VoiceStateManager: 0,
+  }),
+  sweepers: {
+    ...Options.DefaultSweeperSettings,
+    messages: {
+      interval: 3600,
+      lifetime: 3600
+    }
+  }
+});
 
 createStatsHook(client);
 

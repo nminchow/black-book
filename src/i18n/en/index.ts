@@ -5,7 +5,7 @@ const en = {
 	commands: {
 		about: {
 			name: 'about',
-			description: 'get general info about the bot',
+			description: 'get general information about the bot',
 			options: {}
 		},
 		codex: {
@@ -27,7 +27,7 @@ const en = {
 			options: {
 				locale: {
 					name: 'locale',
-					description: 'set the locale for bot in this server'
+					description: 'change the locale of this bot for your server',
 				}
 			},
 		},
@@ -81,12 +81,12 @@ const en = {
 		},
 		helltide: {
 			name: 'hell-tide',
-			description: 'display map and info about hell tides',
+			description: 'display map and info about helltides',
 			options: {}
 		},
 		help: {
 			name: 'help',
-			description: 'show a list of availble commands',
+			description: 'show a list of available commands',
 			options: {}
 		},
 		invite: {
@@ -126,6 +126,11 @@ const en = {
 				notFound: 'codex entry not found!',
 			},
 		},
+		season: {
+			name: 'season',
+			description: 'get information about the upcoming or current season',
+			options: {},
+		},
 		skill: {
 			name: 'skill',
 			description: 'find a skill by name',
@@ -155,7 +160,7 @@ const en = {
 			hellide: {
 				title: 'The Helltide Rises in {location}!',
 				updatePending: ' (image will update)',
-				updateDone: ' (image udpated)',
+				updateDone: ' (image updated)',
 				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
 				chestsRespawnLabel: 'Chests respawn:',
 				startLabel: 'Start:',
@@ -194,6 +199,9 @@ const en = {
 				caenAdar: 'Caen Adar',
 				fieldsOfDesecration: 'Fields of Desecration',
 				searedBasin: 'Seared Basin',
+				theCrucible: 'The Crucible',
+				carrowcrestRuins: 'Carrowcrest Ruins',
+				alcarnus: 'Alcarnus',
 			},
 			zones: {
 				kehjistan: 'Kehjistan',

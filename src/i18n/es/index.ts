@@ -126,6 +126,11 @@ const es = {
         notFound: '¡entrada de codex no encontrada!',
       },
     },
+    season: {
+      name: 'temporada',
+      description: 'obtener información sobre la temporada próxima/actual',
+      options: {},
+    },
     skill: {
       name: 'habilidad',
       description: 'encuentra una habilidad por nombre',
@@ -160,7 +165,7 @@ const es = {
         chestsRespawnLabel: 'Los cofres reaparecen:',
         startLabel: 'Comienza:',
         endLabel: 'Termina:',
-        locationUrl: 'ubicaciones de los cofres en {location}'
+        locationUrl: 'Ubicaciones de los cofres en {location}'
       },
       worldBoss: {
         title: '¡{name} se está agitando en {location}!',
@@ -182,7 +187,7 @@ const es = {
       ashava: 'Ashava',
     },
     map: {
-      sanctuary: 'Sanctuary',
+      sanctuary: 'Santuario',
       territories: {
         dilapidatedAqueducts: 'Acueductos Dilapidados',
         hauntedWreckage: 'Restos Embrujados',
@@ -194,6 +199,9 @@ const es = {
         caenAdar: 'Caen Adar',
         fieldsOfDesecration: 'Campos de Desecración',
         searedBasin: 'Cuenca Quemada',
+        theCrucible: 'El Crisol',
+				carrowcrestRuins: 'Ruinas de Carrowcrest',
+				alcarnus: 'Alcarnus',
       },
       zones: {
         kehjistan: 'Kehjistan',

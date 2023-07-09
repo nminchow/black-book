@@ -46,7 +46,7 @@ const nightmareTier = () => ({
 
     const sigil = targetLevel - 50 - worldTier;
 
-    interaction.reply(`Sigil tier ${sigil} will yield enemies at level ${targetLevel}. Running higher level sigils will grant additional xp, but take longer to clear and won't grant as great an advantage per level.`);
+    interaction.reply(`Sigil tier ${sigil} will yield enemies at level ${targetLevel}. For a level ${level} character, running higher level sigils will grant additional xp, but take longer to clear and won't grant as great an advantage per level.`);
   },
 });
 

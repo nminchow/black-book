@@ -126,6 +126,11 @@ const br = {
         notFound: 'entrada do codex não encontrada!',
       },
     },
+    season: {
+      name: 'temporada',
+      description: 'obter informações sobre a temporada futura/atual',
+      options: {},
+    },
     skill: {
       name: 'habilidade',
       description: 'encontre uma habilidade pelo nome',
@@ -160,7 +165,7 @@ const br = {
         chestsRespawnLabel: 'Baús reaparecem:',
         startLabel: 'Início:',
         endLabel: 'Fim:',
-        locationUrl: 'localizações do baú {location}'
+        locationUrl: 'Localizações do baú {location}'
       },
       worldBoss: {
         title: '{name} está se agitando em {location}!',
@@ -194,6 +199,9 @@ const br = {
         caenAdar: 'Caen Adar',
         fieldsOfDesecration: 'Campos de Desecração',
         searedBasin: 'Bacia Chamuscada',
+        theCrucible: 'El Crisol',
+				carrowcrestRuins: 'Ruinas de Carrowcrest',
+				alcarnus: 'Alcarnus',
       },
       zones: {
         kehjistan: 'Kehjistan',
