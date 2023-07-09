@@ -199,6 +199,9 @@ const en = {
 				caenAdar: 'Caen Adar',
 				fieldsOfDesecration: 'Fields of Desecration',
 				searedBasin: 'Seared Basin',
+				theCrucible: 'The Crucible',
+				carrowcrestRuins: 'Carrowcrest Ruins',
+				alcarnus: 'Alcarnus',
 			},
 			zones: {
 				kehjistan: 'Kehjistan',

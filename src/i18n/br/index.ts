@@ -165,7 +165,7 @@ const br = {
         chestsRespawnLabel: 'Baús reaparecem:',
         startLabel: 'Início:',
         endLabel: 'Fim:',
-        locationUrl: 'localizações do baú {location}'
+        locationUrl: 'Localizações do baú {location}'
       },
       worldBoss: {
         title: '{name} está se agitando em {location}!',
@@ -199,6 +199,9 @@ const br = {
         caenAdar: 'Caen Adar',
         fieldsOfDesecration: 'Campos de Desecração',
         searedBasin: 'Bacia Chamuscada',
+        theCrucible: 'El Crisol',
+				carrowcrestRuins: 'Ruinas de Carrowcrest',
+				alcarnus: 'Alcarnus',
       },
       zones: {
         kehjistan: 'Kehjistan',

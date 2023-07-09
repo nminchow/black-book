@@ -504,6 +504,18 @@ type RootTranslation = {
 				 * S​e​a​r​e​d​ ​B​a​s​i​n
 				 */
 				searedBasin: string
+				/**
+				 * T​h​e​ ​C​r​u​c​i​b​l​e
+				 */
+				theCrucible: string
+				/**
+				 * C​a​r​r​o​w​c​r​e​s​t​ ​R​u​i​n​s
+				 */
+				carrowcrestRuins: string
+				/**
+				 * A​l​c​a​r​n​u​s
+				 */
+				alcarnus: string
 			}
 			zones: {
 				/**
@@ -1011,6 +1023,18 @@ export type TranslationFunctions = {
 				 * Seared Basin
 				 */
 				searedBasin: () => LocalizedString
+				/**
+				 * The Crucible
+				 */
+				theCrucible: () => LocalizedString
+				/**
+				 * Carrowcrest Ruins
+				 */
+				carrowcrestRuins: () => LocalizedString
+				/**
+				 * Alcarnus
+				 */
+				alcarnus: () => LocalizedString
 			}
 			zones: {
 				/**
