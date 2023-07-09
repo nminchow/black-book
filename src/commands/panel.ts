@@ -15,22 +15,22 @@ const name = 'panel';
 const hellTideRoleOptionName = 'helltide-role'
 const hellTideRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(hellTideRoleOptionName)
-    .setDescription('override the helltide notificaitons role assigned with the interaciton button');
+    .setDescription('override the helltide notificaitons role assigned with the interaction button');
 
 const worldBossRoleOptionName = 'world-boss-role'
 const worldBossRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(worldBossRoleOptionName)
-    .setDescription('override the world boss notificaions role assigned with the interaciton button');
+    .setDescription('override the world boss notificaions role assigned with the interaction button');
 
 const zoneEventRoleOptionName = 'zone-event-role'
 const zoneEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(zoneEventRoleOptionName)
-    .setDescription('override the zone event notifications role assigned with the interaciton button');
+    .setDescription('override the zone event notifications role assigned with the interaction button');
 
 const allEventRoleOptionName = 'all-event-role';
 const allEventRoleOption = (option: SlashCommandMentionableOption) => option
     .setName(allEventRoleOptionName)
-    .setDescription('override the role for all event notifications assigned with the interaciton button');
+    .setDescription('override the role for all event notifications assigned with the interaction button');
 
 
 
@@ -129,15 +129,28 @@ const panel = (db: dbWrapper) => ({
 
     const upsertAttributes = Object.fromEntries(Object.entries(upsert).filter(([_, v]) => v != null));
 
+    const initialReply = interaction.reply('creating...');
+
+    const updateReply = async (message: string) => {
+      await initialReply;
+      interaction.editReply(message);
+    };
+
     const events = await getEvents();
     if (!events) {
-      interaction.reply('error fetching events, panel not created. If this persists, please let us know in the support server!')
+      updateReply('error fetching events, panel not created. If this persists, please let us know in the support server!')
       return;
     }
 
     const embeds = panelView(events, locale.locale);
 
     const message = await interaction.channel.send({ embeds });
+
+    try {
+      message.pin(); // intentionally not awaited
+    } catch (e) {
+      // likely just a permissions error, swallow it
+    }
 
     const { error: upsertError } = await db
       .from('panels')
@@ -154,10 +167,10 @@ const panel = (db: dbWrapper) => ({
       .select();
     if (upsertError) {
       console.error(upsertError);
-      interaction.reply('something went wrong!');
+      updateReply('something went wrong!');
       return;
     }
-    interaction.reply('panel created! If a new panel is created in this server, this one will no longer receive updates.');
+    updateReply('panel created! If a new panel is created in this server, this one will no longer receive updates.');
   },
 });
 
