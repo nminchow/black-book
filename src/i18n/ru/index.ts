@@ -205,8 +205,8 @@ const ru = {
         fieldsOfDesecration: 'Поруганные поля',
         searedBasin: 'Испарившееся озеро',
         theCrucible: 'Тигель',
-				carrowcrestRuins: 'Руины Карроукреста',
-				alcarnus: 'Алькарн',
+	carrowcrestRuins: 'Руины Карроукреста',
+	alcarnus: 'Алькарн',
       },
       zones: {
         kehjistan: 'Кеджистан',
