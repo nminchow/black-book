@@ -8,6 +8,7 @@ import en from './en';
 import en_GB from './gb/index.js';
 import es from './es/index.js';
 import br from './br/index.js';
+import ru from './ru/index.js';
 
 
 export type LocaleMappingEntry = {
@@ -36,7 +37,10 @@ export const localeMapping: LocaleMapping = {
   [Locale.PortugueseBR]: {
     staticMapping: br,
     locale: 'br',
-  }
+  },
+  [Locale.RussianRU]: {
+    staticMapping: ru,
+    locale: 'ru',
 };
 
 type CommandType = typeof en.commands;
