@@ -10,6 +10,7 @@ import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 import { toErrorWithMessage } from "../utility/errorHelper";
 import { Locales } from "../i18n/i18n-types";
 import { parseLocaleString } from "../i18n/type-transformer";
+import updatePanels from "../utility/updatePanels";
 
 export enum EventType {
   WorldBoss = 'worldBoss',
@@ -179,6 +180,7 @@ const scanAndNotifyForEvent = async (
   const metadata = await beforeNotify();
   if (metadata == null) return;
   sendNotifications(event, row, client, db, metadata);
+  setTimeout(() => updatePanels(client, db), Number.parseInt(process.env.PANEL_DELAY || '0', 10));
 }
 
 const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapper>) => {
@@ -253,8 +255,11 @@ export type NotificationMetadata = {
   isUpdated: boolean,
 }
 
-const getLocales = async (db: NonNullable<dbWrapper>) => {
-  const { data, error } = await db.from('guilds').select('guild_id, locale').filter('locale', 'not.eq', Locale.EnglishUS);
+// just doing this join in memory, for now. Reevalute if non-us count grows
+export const getLocales = async (db: NonNullable<dbWrapper>) => {
+  const { data, error } = await db.from('guilds').select('guild_id, locale')
+    .filter('locale', 'not.eq', Locale.EnglishUS)
+    .filter('locale', 'not.eq', Locale.EnglishGB);
   if (error) {
     throw 'error fetching locales';
   }
@@ -266,7 +271,7 @@ const getLocales = async (db: NonNullable<dbWrapper>) => {
 
 const sendNotifications = async (event: EventParams, row: EventRecord, client: ClientAndCommands, db: NonNullable<dbWrapper>, metadata: NotificationMetadata) => {
   const { data } = await db.from('subscriptions').select().filter(event.type.toLowerCase(), 'eq', true);
-  const localeMap = await getLocales(db); // just doing this join in memory, for now. Reevalute if non-us count grows
+  const localeMap = await getLocales(db);
   data?.map(async sub => {
     const { channel_id: channelId } = sub;
     const channel = client.channels.cache.get(channelId);

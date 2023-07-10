@@ -126,6 +126,11 @@ const br = {
         notFound: 'entrada do codex não encontrada!',
       },
     },
+    panel: {
+      name: 'painel',
+      description: 'criar um painel que mostra horários de eventos mundiais',
+      options: {},
+    },
     season: {
       name: 'temporada',
       description: 'obter informações sobre a temporada futura/atual',

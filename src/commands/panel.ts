@@ -7,13 +7,16 @@ import {
 import { dbWrapper } from '../bot';
 import panelView from '../views/panel';
 import { getEvents } from '../utility/getEvents';
-import { LocaleMappingEntry } from '../i18n/type-transformer';
+import { LocaleMappingEntry, commandLocaleMapping } from '../i18n/type-transformer';
+import L from '../i18n/i18n-node';
 
-const name = 'panel';
+const name = L.en.commands.panel.name();
 
 const panelBuilder = new SlashCommandBuilder()
   .setName(name)
-  .setDescription('create a panel to show world event times')
+  .setNameLocalizations(commandLocaleMapping.panel.name)
+  .setDescription(L.en.commands.panel.description())
+  .setDescriptionLocalizations(commandLocaleMapping.panel.description);
 
 const getGuildId = (interaction: ChatInputCommandInteraction<CacheType>) => {
   if (!interaction.channel || !interaction.channel?.isTextBased()) {
@@ -24,9 +27,6 @@ const getGuildId = (interaction: ChatInputCommandInteraction<CacheType>) => {
   }
   return interaction.guild?.id;
 }
-
-
-
 
 const panel = (db: dbWrapper) => ({
   name,
@@ -56,9 +56,6 @@ const panel = (db: dbWrapper) => ({
       return;
     }
 
-
-
-
     const initialReply = interaction.reply('creating...');
 
     const updateReply = async (message: string) => {
@@ -76,11 +73,8 @@ const panel = (db: dbWrapper) => ({
 
     const message = await interaction.channel.send({ embeds });
 
-    try {
-      message.pin(); // intentionally not awaited
-    } catch (e) {
-      // likely just a permissions error, swallow it
-    }
+    const tryPin = async () => { try { await message.pin() } catch (e) {} };
+    tryPin();
 
     const { error: upsertError } = await db
       .from('panels')

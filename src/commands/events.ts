@@ -9,8 +9,10 @@ import {
 } from 'discord.js';
 import { dbWrapper } from '../bot';
 import L from '../i18n/i18n-node';
-import { LocaleMappingEntry, SupportedLocale, commandLocaleMapping } from '../i18n/type-transformer';
+import { LocaleMappingEntry, commandLocaleMapping } from '../i18n/type-transformer';
 import { filterNulls } from '../utility/database';
+import panelView from '../views/panel';
+import { getEvents } from '../utility/getEvents';
 
 const name = L.en.commands.events.name();
 
@@ -183,12 +185,20 @@ const events = (db: dbWrapper) => ({
       interaction.reply('something went wrong!');
       return;
     }
-    console.log(locale.locale);
     const entries = L[locale.locale];
     interaction.reply(entries.commands.events.messages.success({
       unsub: entries.commands.unsub.name(),
       events: entries.commands.events.name()
     }));
+
+    const events = await getEvents();
+    if (!events) {
+      return;
+    }
+
+    const embeds = panelView(events, locale.locale, true);
+
+    interaction.channel?.send({ embeds });
   },
 });
 
