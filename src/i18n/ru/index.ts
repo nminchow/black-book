@@ -126,6 +126,11 @@ const ru = {
         notFound: 'запись кодекса не найдена!',
       },
     },
+    panel: {
+      name: 'panel',
+      description: 'создать панель, которая показывает время мировых событий',
+      options: {},
+    },
     season: {
       name: 'season',
       description: 'получить информацию о предстоящем/текущем сезоне',
@@ -199,6 +204,9 @@ const ru = {
         caenAdar: 'Каэн Адар',
         fieldsOfDesecration: 'Поруганные поля',
         searedBasin: 'Испарившееся озеро',
+        theCrucible: 'Тигель',
+				carrowcrestRuins: 'Руины Карроукреста',
+				alcarnus: 'Алькарн',
       },
       zones: {
         kehjistan: 'Кеджистан',
