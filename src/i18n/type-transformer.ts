@@ -41,6 +41,7 @@ export const localeMapping: LocaleMapping = {
   [Locale.RussianRU]: {
     staticMapping: ru,
     locale: 'ru',
+  }
 };
 
 type CommandType = typeof en.commands;
