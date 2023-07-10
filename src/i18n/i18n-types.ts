@@ -307,6 +307,18 @@ type RootTranslation = {
 				notFound: string
 			}
 		}
+		panel: {
+			/**
+			 * p​a​n​e​l
+			 */
+			name: string
+			/**
+			 * c​r​e​a​t​e​ ​a​ ​p​a​n​e​l​ ​t​o​ ​s​h​o​w​ ​w​o​r​l​d​ ​e​v​e​n​t​ ​t​i​m​e​s
+			 */
+			description: string
+			options: {
+			}
+		}
 		season: {
 			/**
 			 * s​e​a​s​o​n
@@ -831,6 +843,18 @@ export type TranslationFunctions = {
 				 * codex entry not found!
 				 */
 				notFound: () => LocalizedString
+			}
+		}
+		panel: {
+			/**
+			 * panel
+			 */
+			name: () => LocalizedString
+			/**
+			 * create a panel to show world event times
+			 */
+			description: () => LocalizedString
+			options: {
 			}
 		}
 		season: {

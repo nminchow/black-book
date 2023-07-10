@@ -126,6 +126,11 @@ const en = {
 				notFound: 'codex entry not found!',
 			},
 		},
+		panel:{
+			name: 'panel',
+			description: 'create a panel which shows world event times',
+			options: {},
+		},
 		season: {
 			name: 'season',
 			description: 'get information about the upcoming or current season',
