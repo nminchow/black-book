@@ -8,6 +8,7 @@ import en from './en';
 import en_GB from './gb/index.js';
 import es from './es/index.js';
 import br from './br/index.js';
+import fr from './fr/index.js';
 
 
 export type LocaleMappingEntry = {
@@ -36,6 +37,10 @@ export const localeMapping: LocaleMapping = {
   [Locale.PortugueseBR]: {
     staticMapping: br,
     locale: 'br',
+  },
+  [Locale.FrenchFR]: {
+    staticMapping: fr,
+    locale: 'fr',
   }
 };
 
