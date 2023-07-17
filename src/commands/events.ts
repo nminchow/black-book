@@ -135,7 +135,7 @@ const events = (db: dbWrapper) => ({
     }
 
     if (interaction.channel && interaction.guild?.members.me && interaction.channel.isTextBased() && !interaction.channel.isDMBased()) {
-      if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel])) {
+      if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.EmbedLinks])) {
         interaction.reply(L.en.commands.events.errors.permissions());
         return;
       }

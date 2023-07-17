@@ -73,7 +73,7 @@ const en = {
 				},
 			},
 			errors: {
-				permissions: `The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`,
+				permissions: `The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permissions for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`,
 			},
 			messages: {
 				success: 'events will be posted in this channel! Use `/{unsub}` to stop event posts here. Use the `/{events}` command again to change your configuration.',

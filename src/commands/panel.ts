@@ -42,8 +42,8 @@ const panel = (db: dbWrapper) => ({
     }
 
     if (interaction.guild?.members.me && !interaction.channel.isDMBased()) {
-      if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel])) {
-        interaction.reply(`The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
+      if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.EmbedLinks])) {
+        interaction.reply(`The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
         return;
       }
     }

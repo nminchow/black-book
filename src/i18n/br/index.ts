@@ -73,7 +73,7 @@ const br = {
         },
       },
       errors: {
-        permissions: `O bot atualmente não possui permissão de "Enviar Mensagens" e "Ver Mensagens" para este canal, por isso os alertas não podem ser enviados. Assim que as permissões forem habilitadas, execute este comando novamente!`,
+        permissions: `O bot não tem atualmente as permissões de 'Enviar mensagens', 'Ver mensagens' e 'Incorporar links' para este canal, portanto, alertas não podem ser enviados. Uma vez que as permissões sejam habilitadas, execute novamente este comando!`,
       },
       messages: {
         success: 'os eventos serão postados neste canal! Use `/{unsub}` para parar as postagens de eventos aqui. Use o comando `/{events}` novamente para alterar sua configuração.',
