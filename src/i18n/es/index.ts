@@ -162,15 +162,15 @@ const es = {
   },
   views: {
     events: {
-      hellide: {
+      helltide: {
         title: '¡La Marea Infernal se levanta en {location}!',
         updatePending: ' (la imagen se actualizará)',
         updateDone: ' (imagen actualizada)',
         noImage: ' (imagen no disponible - esto probablemente se deba a una interrupción del servicio y debería resolverse pronto)',
-        chestsRespawnLabel: 'Los cofres reaparecen:',
+        chestsRespawnLabel: 'Los Cofres Reaparecen:',
         startLabel: 'Comienza:',
         endLabel: 'Termina:',
-        locationUrl: 'Ubicaciones de los cofres en {location}'
+        locationUrl: 'Mapa:'
       },
       worldBoss: {
         title: '¡{name} se está agitando en {location}!',

@@ -162,15 +162,15 @@ const br = {
   },
   views: {
     events: {
-      hellide: {
+      helltide: {
         title: 'A Maré do Inferno Surge em {location}!',
         updatePending: ' (imagem será atualizada)',
         updateDone: ' (imagem atualizada)',
         noImage: ' (imagem indisponível - provavelmente devido a uma interrupção do serviço que deve ser resolvida em breve)',
-        chestsRespawnLabel: 'Baús reaparecem:',
+        chestsRespawnLabel: 'Baús Reaparecem:',
         startLabel: 'Início:',
         endLabel: 'Fim:',
-        locationUrl: 'Localizações do baú {location}'
+        locationUrl: 'Mapa:'
       },
       worldBoss: {
         title: '{name} está se agitando em {location}!',

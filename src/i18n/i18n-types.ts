@@ -186,7 +186,7 @@ type RootTranslation = {
 			}
 			errors: {
 				/**
-				 * T​h​e​ ​b​o​t​ ​d​o​e​s​n​'​t​ ​c​u​r​r​e​n​t​l​y​ ​h​a​v​e​ ​t​h​e​ ​"​S​e​n​d​ ​M​e​s​s​a​g​e​s​"​ ​a​n​d​ ​"​V​i​e​w​ ​M​e​s​s​a​g​e​s​"​ ​p​e​r​m​i​s​s​i​o​n​ ​f​o​r​ ​t​h​i​s​ ​c​h​a​n​n​e​l​,​ ​s​o​ ​a​l​e​r​t​s​ ​c​a​n​'​t​ ​b​e​ ​s​e​n​t​.​ ​O​n​c​e​ ​p​e​r​m​i​s​s​i​o​n​s​ ​a​r​e​ ​e​n​a​b​l​e​d​,​ ​r​e​r​u​n​ ​t​h​i​s​ ​c​o​m​m​a​n​d​!
+				 * T​h​e​ ​b​o​t​ ​d​o​e​s​n​'​t​ ​c​u​r​r​e​n​t​l​y​ ​h​a​v​e​ ​t​h​e​ ​"​S​e​n​d​ ​M​e​s​s​a​g​e​s​"​,​ ​"​V​i​e​w​ ​M​e​s​s​a​g​e​s​"​,​ ​a​n​d​ ​"​E​m​b​e​d​ ​L​i​n​k​s​"​ ​p​e​r​m​i​s​s​i​o​n​s​ ​f​o​r​ ​t​h​i​s​ ​c​h​a​n​n​e​l​,​ ​s​o​ ​a​l​e​r​t​s​ ​c​a​n​'​t​ ​b​e​ ​s​e​n​t​.​ ​O​n​c​e​ ​p​e​r​m​i​s​s​i​o​n​s​ ​a​r​e​ ​e​n​a​b​l​e​d​,​ ​r​e​r​u​n​ ​t​h​i​s​ ​c​o​m​m​a​n​d​!
 				 */
 				permissions: string
 			}
@@ -313,7 +313,7 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * c​r​e​a​t​e​ ​a​ ​p​a​n​e​l​ ​t​o​ ​s​h​o​w​ ​w​o​r​l​d​ ​e​v​e​n​t​ ​t​i​m​e​s
+			 * c​r​e​a​t​e​ ​a​ ​p​a​n​e​l​ ​w​h​i​c​h​ ​s​h​o​w​s​ ​w​o​r​l​d​ ​e​v​e​n​t​ ​t​i​m​e​s
 			 */
 			description: string
 			options: {
@@ -386,7 +386,7 @@ type RootTranslation = {
 	}
 	views: {
 		events: {
-			hellide: {
+			helltide: {
 				/**
 				 * T​h​e​ ​H​e​l​l​t​i​d​e​ ​R​i​s​e​s​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
 				 * @param {unknown} location
@@ -405,7 +405,7 @@ type RootTranslation = {
 				 */
 				noImage: string
 				/**
-				 * C​h​e​s​t​s​ ​r​e​s​p​a​w​n​:
+				 * C​h​e​s​t​s​ ​R​e​s​p​a​w​n​:
 				 */
 				chestsRespawnLabel: string
 				/**
@@ -417,10 +417,9 @@ type RootTranslation = {
 				 */
 				endLabel: string
 				/**
-				 * {​l​o​c​a​t​i​o​n​}​ ​c​h​e​s​t​ ​l​o​c​a​t​i​o​n​s
-				 * @param {unknown} location
+				 * I​n​t​e​r​a​c​t​i​v​e​ ​M​a​p​:
 				 */
-				locationUrl: RequiredParams<'location'>
+				locationUrl: string
 			}
 			worldBoss: {
 				/**
@@ -726,7 +725,7 @@ export type TranslationFunctions = {
 			}
 			errors: {
 				/**
-				 * The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!
+				 * The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permissions for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!
 				 */
 				permissions: () => LocalizedString
 			}
@@ -851,7 +850,7 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * create a panel to show world event times
+			 * create a panel which shows world event times
 			 */
 			description: () => LocalizedString
 			options: {
@@ -924,7 +923,7 @@ export type TranslationFunctions = {
 	}
 	views: {
 		events: {
-			hellide: {
+			helltide: {
 				/**
 				 * The Helltide Rises in {location}!
 				 */
@@ -942,7 +941,7 @@ export type TranslationFunctions = {
 				 */
 				noImage: () => LocalizedString
 				/**
-				 * Chests respawn:
+				 * Chests Respawn:
 				 */
 				chestsRespawnLabel: () => LocalizedString
 				/**
@@ -954,9 +953,9 @@ export type TranslationFunctions = {
 				 */
 				endLabel: () => LocalizedString
 				/**
-				 * {location} chest locations
+				 * Interactive Map:
 				 */
-				locationUrl: (arg: { location: unknown }) => LocalizedString
+				locationUrl: () => LocalizedString
 			}
 			worldBoss: {
 				/**

@@ -1,6 +1,6 @@
 import { APIEmbed } from "discord.js";
 import { RawEventResponse } from "../utility/getEvents";
-import { author } from "./shared";
+import { author, colors } from "./shared";
 import { Locales } from "../i18n/i18n-types";
 import L from "../i18n/i18n-node";
 

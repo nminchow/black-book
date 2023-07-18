@@ -162,15 +162,15 @@ const en = {
 	},
 	views: {
 		events: {
-			hellide: {
+			helltide: {
 				title: 'The Helltide Rises in {location}!',
 				updatePending: ' (image will update)',
 				updateDone: ' (image updated)',
 				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
-				chestsRespawnLabel: 'Chests respawn:',
+				chestsRespawnLabel: 'Chests Respawn:',
 				startLabel: 'Start:',
 				endLabel: 'End:',
-				locationUrl: '{location} chest locations'
+				locationUrl: 'Map:'
 			},
 			worldBoss: {
 				title: '{name} is stirring in {location}!',

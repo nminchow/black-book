@@ -10,6 +10,17 @@ export const author = {
   url: 'https://github.com/nminchow/black-book',
 };
 
+export const emptyField = { name: '\u200b', value: '\u200b', inline: true };
+
+export const colors = {
+  helltideRed: 0x49111C,
+  worldBossBrown: 0xA9927D,
+  zoneEventEmber: 0xCEC3B8,
+  whiteSmoke: 0xF2F4F3,
+  black: 0x0A0908,
+}
+
+
 export const addTerritory = (embed: APIEmbed, event: EventParams) => {
   const territory = event.location.territory;
   if (territory) {
