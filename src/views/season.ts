@@ -4,7 +4,7 @@ const url = 'https://news.blizzard.com/en-us/diablo4/23967322/malignance-runs-ra
 
 const season = () => {
 
-  const description = `Starts: <t:1689922800:R>\nEnds (approx): <t:1697785200:D>\n
+  const description = `Starts: <t:1689872400:R>\nEnds (approx): <t:1697785200:D>\n
   Alter and map progress will carry over from eternal, but you will need to log into those characters `
   +`shortly before or after the season begins.
   [More Info](${url})`;
