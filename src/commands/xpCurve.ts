@@ -20,7 +20,7 @@ const xpCurve = () => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const aboutView = xpCurveViewBuilder();
-    interaction.reply({embeds: [aboutView]});
+    await interaction.reply({embeds: [aboutView]});
   },
 });
 

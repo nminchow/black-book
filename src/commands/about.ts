@@ -20,7 +20,7 @@ const about = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const aboutView = await aboutViewBuilder(interaction, db);
-    interaction.reply({embeds: [aboutView]});
+    await interaction.reply({embeds: [aboutView]});
   },
 });
 

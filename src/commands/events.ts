@@ -130,13 +130,13 @@ const events = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>, locale: LocaleMappingEntry) => {
     if ( !db ) {
-      interaction.reply('db not initialized');
+      await interaction.reply('db not initialized');
       return;
     }
 
     if (interaction.channel && interaction.guild?.members.me && interaction.channel.isTextBased() && !interaction.channel.isDMBased()) {
       if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.EmbedLinks])) {
-        interaction.reply(L.en.commands.events.errors.permissions());
+        await interaction.reply(L.en.commands.events.errors.permissions());
         return;
       }
     }
@@ -182,11 +182,11 @@ const events = (db: dbWrapper) => ({
       .select();
     if (upsertError) {
       console.error(upsertError);
-      interaction.reply('something went wrong!');
+      await interaction.reply('something went wrong!');
       return;
     }
     const entries = L[locale.locale];
-    interaction.reply(entries.commands.events.messages.success({
+    await interaction.reply(entries.commands.events.messages.success({
       unsub: entries.commands.unsub.name(),
       events: entries.commands.events.name()
     }));

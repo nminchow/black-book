@@ -19,7 +19,7 @@ const invite = () => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const aboutView = inviteViewBuilder();
-    interaction.reply({embeds: [aboutView]});
+    await interaction.reply({embeds: [aboutView]});
   },
 });
 

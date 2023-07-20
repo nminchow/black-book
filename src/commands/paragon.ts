@@ -31,12 +31,12 @@ const paragon = () => ({
     const codexEntryName = interaction.options.getString(paragonEntryNameOption) || '';
     const codexEntry = paragonDatabase[codexEntryName];
     if (!codexEntry) {
-      interaction.reply(L.en.commands.paragon.errors.notFound());
+      await interaction.reply(L.en.commands.paragon.errors.notFound());
       return;
     }
 
     const codexView = await paragonViewBuilder(codexEntry);
-    interaction.reply({embeds: [codexView]});
+    await interaction.reply({embeds: [codexView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();

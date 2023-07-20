@@ -20,7 +20,7 @@ const help = (commands: CommandBuilers) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const helpView = helpViewBuilder(commands);
-    interaction.reply({embeds: [helpView]});
+    await interaction.reply({embeds: [helpView]});
   },
 });
 

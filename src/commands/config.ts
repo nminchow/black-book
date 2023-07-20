@@ -38,7 +38,7 @@ const config = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     if ( !db ) {
-      interaction.reply('db not initialized');
+      await interaction.reply('db not initialized');
       return;
     }
 
@@ -47,7 +47,7 @@ const config = (db: dbWrapper) => ({
     const guildId = getGuildIdForInteraction(interaction);
 
     if (!guildId) {
-      interaction.reply('command not supported for channel type');
+      await interaction.reply('command not supported for channel type');
       return;
     }
 
@@ -64,13 +64,13 @@ const config = (db: dbWrapper) => ({
       .select();
 
     if (!data || !data[0] || error) {
-      interaction.reply('error fetching config');
+      await interaction.reply('error fetching config');
       console.error(error);
       return;
     }
 
     const configView = await configViewBuilder(parseLocale(data[0].locale), interaction, db);
-    interaction.reply({embeds: [configView]});
+    await interaction.reply({embeds: [configView]});
   },
 });
 

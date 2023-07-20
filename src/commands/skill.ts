@@ -31,12 +31,12 @@ const skill = () => ({
     const skillName = interaction.options.getString(skillNameOption) || '';
     const skill = combinedSkills[skillName];
     if (!skill) {
-      interaction.reply(L.en.commands.skill.errors.notFound());
+      await interaction.reply(L.en.commands.skill.errors.notFound());
       return;
     }
 
     const skillView = await skillViewBuilder(skill);
-    interaction.reply({embeds: [skillView]});
+    await interaction.reply({embeds: [skillView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();

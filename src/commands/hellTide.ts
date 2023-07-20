@@ -20,7 +20,7 @@ const hellTide = () => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const aboutView = hellTideViewBuilder();
-    interaction.reply({embeds: [aboutView]});
+    await interaction.reply({embeds: [aboutView]});
   },
 });
 

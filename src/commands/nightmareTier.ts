@@ -20,7 +20,7 @@ const nightmareTier = () => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const aboutView = nightmareTierViewBuilder();
-    interaction.reply({embeds: [aboutView]});
+    await interaction.reply({embeds: [aboutView]});
   },
 });
 

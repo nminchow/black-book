@@ -31,12 +31,12 @@ const codex = () => ({
     const codexEntryName = interaction.options.getString(codexEntryNameOption) || '';
     const codexEntry = codexDatabase[codexEntryName];
     if (!codexEntry) {
-      interaction.reply(L.en.commands.codex.errors.notFound());
+      await interaction.reply(L.en.commands.codex.errors.notFound());
       return;
     }
 
     const codexView = await codexViewBuilder(codexEntry);
-    interaction.reply({embeds: [codexView]});
+    await interaction.reply({embeds: [codexView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();

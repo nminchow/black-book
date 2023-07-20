@@ -32,18 +32,18 @@ const panel = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>, locale: LocaleMappingEntry) => {
     if ( !db ) {
-      interaction.reply('db not initialized');
+      await interaction.reply('db not initialized');
       return;
     }
 
     if (!interaction.channel || !interaction.channel.isTextBased()) {
-      interaction.reply('panels can only be created in text channels');
+      await interaction.reply('panels can only be created in text channels');
       return;
     }
 
     if (interaction.guild?.members.me && !interaction.channel.isDMBased()) {
       if (!interaction.guild.members.me.permissionsIn(interaction.channel).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.EmbedLinks])) {
-        interaction.reply(`The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
+        await interaction.reply(`The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`);
         return;
       }
     }
@@ -52,7 +52,7 @@ const panel = (db: dbWrapper) => ({
 
     if (!guildId) {
       console.error('could not find guildID for command');
-      interaction.reply(`we couldn't find a server for this panel. If this persists, please let us know in the support server!`);
+      await interaction.reply(`we couldn't find a server for this panel. If this persists, please let us know in the support server!`);
       return;
     }
 
@@ -65,7 +65,7 @@ const panel = (db: dbWrapper) => ({
 
     const events = await getEvents();
     if (!events) {
-      updateReply('error fetching events, panel not created. If this persists, please let us know in the support server!')
+      await updateReply('error fetching events, panel not created. If this persists, please let us know in the support server!')
       return;
     }
 
@@ -90,10 +90,10 @@ const panel = (db: dbWrapper) => ({
       .select();
     if (upsertError) {
       console.error(upsertError);
-      updateReply('something went wrong!');
+      await updateReply('something went wrong!');
       return;
     }
-    updateReply('panel created! If a new panel is created in this server, this one will no longer receive updates.');
+    await updateReply('panel created! If a new panel is created in this server, this one will no longer receive updates.');
   },
 });
 

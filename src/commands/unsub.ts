@@ -27,16 +27,16 @@ const unsub = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     if ( !db ) {
-      interaction.reply('db not initialized');
+      await interaction.reply('db not initialized');
       return;
     }
     const { error: deletionError } = await deleteSubs(db, interaction);
     if (deletionError) {
       console.error(deletionError);
-      interaction.reply('something went wrong!')
+      await interaction.reply('something went wrong!')
       return;
     }
-    interaction.reply('events will no longer be posted here!');
+    await interaction.reply('events will no longer be posted here!');
   },
 });
 

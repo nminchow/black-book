@@ -26,10 +26,10 @@ const seasonBuilder = new SlashCommandBuilder()
     .setDescription(L.en.commands.season.description()))
   .addSubcommand(subcommand => subcommand
     .setName(malignantHeartName)
-    .setDescription('Info about hearts')
+    .setDescription('lookup details about malignant hearts')
     .addStringOption(option =>
       option.setName(malignantHeartNameOption)
-        .setDescription('Malignant Heart Name')
+        .setDescription('malignant heart name')
         .setAutocomplete(true)
         .setRequired(true)
       )
@@ -40,17 +40,17 @@ const season = () => ({
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     if (interaction.options.getSubcommand() == infoName) {
       const seasonView = await seasonViewBuilder();
-      interaction.reply({embeds: [seasonView]});
+      await interaction.reply({embeds: [seasonView]});
       return;
     }
     const entryName = interaction.options.getString(malignantHeartNameOption) || '';
     const entry = seasonalAffixes[entryName];
     if (!entry) {
-      interaction.reply('heart not found');
+      await interaction.reply('heart not found');
       return
     }
    const heartView = await malignantHeart(entry);
-   interaction.reply({embeds: [heartView]});
+   await interaction.reply({embeds: [heartView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();
