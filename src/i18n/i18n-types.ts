@@ -9,8 +9,8 @@ export type Locales =
 	| 'br'
 	| 'en'
 	| 'es'
-	| 'gb'
 	| 'fr'
+	| 'gb'
 
 export type Translation = RootTranslation
 
@@ -314,7 +314,7 @@ type RootTranslation = {
 			 */
 			name: string
 			/**
-			 * c​r​e​a​t​e​ ​a​ ​p​a​n​e​l​ ​t​o​ ​s​h​o​w​ ​w​o​r​l​d​ ​e​v​e​n​t​ ​t​i​m​e​s
+			 * c​r​e​a​t​e​ ​a​ ​p​a​n​e​l​ ​w​h​i​c​h​ ​s​h​o​w​s​ ​w​o​r​l​d​ ​e​v​e​n​t​ ​t​i​m​e​s
 			 */
 			description: string
 			options: {
@@ -852,7 +852,7 @@ export type TranslationFunctions = {
 			 */
 			name: () => LocalizedString
 			/**
-			 * create a panel to show world event times
+			 * create a panel which shows world event times
 			 */
 			description: () => LocalizedString
 			options: {

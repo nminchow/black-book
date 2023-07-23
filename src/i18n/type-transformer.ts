@@ -16,7 +16,7 @@ export type LocaleMappingEntry = {
   locale: Locales,
 }
 
-export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR>;
+export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR | Locale.French>;
 
 type LocaleMapping = Record<SupportedLocale, LocaleMappingEntry>;
 
@@ -38,7 +38,7 @@ export const localeMapping: LocaleMapping = {
     staticMapping: br,
     locale: 'br',
   },
-  [Locale.FrenchFR]: {
+  [Locale.French]: {
     staticMapping: fr,
     locale: 'fr',
   }

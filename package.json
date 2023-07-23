@@ -37,6 +37,7 @@
     "fuse.js": "^6.6.2",
     "inquirer": "^9.1.4",
     "lodash": "^4.17.21",
+    "node": "^16.20.1",
     "node-fetch": "^3.3.1",
     "topgg-autoposter": "^2.0.1",
     "typesafe-i18n": "^5.24.3",
