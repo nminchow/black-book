@@ -16,7 +16,7 @@ export type LocaleMappingEntry = {
   locale: Locales,
 }
 
-export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR>;
+export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR | Locale.Russian>;
 
 type LocaleMapping = Record<SupportedLocale, LocaleMappingEntry>;
 
