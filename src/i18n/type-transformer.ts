@@ -38,7 +38,7 @@ export const localeMapping: LocaleMapping = {
     staticMapping: br,
     locale: 'br',
   },
-  [Locale.RussianRU]: {
+  [Locale.Russian]: {
     staticMapping: ru,
     locale: 'ru',
   }
