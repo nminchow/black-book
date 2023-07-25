@@ -8,12 +8,14 @@ import { loadedFormatters, loadedLocales, locales } from './i18n-util.js'
 import br from './br/index.js'
 import en from './en/index.js'
 import es from './es/index.js'
+import fr from './fr/index.js'
 import gb from './gb/index.js'
 
 const localeTranslations = {
 	br,
 	en,
 	es,
+	fr,
 	gb,
 }
 

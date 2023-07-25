@@ -8,6 +8,7 @@ import en from './en';
 import en_GB from './gb/index.js';
 import es from './es/index.js';
 import br from './br/index.js';
+import fr from './fr/index.js';
 
 
 export type LocaleMappingEntry = {
@@ -15,7 +16,7 @@ export type LocaleMappingEntry = {
   locale: Locales,
 }
 
-export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR>;
+export type SupportedLocale = Extract<Locale, Locale.EnglishUS | Locale.EnglishGB | Locale.SpanishES | Locale.PortugueseBR | Locale.French>;
 
 type LocaleMapping = Record<SupportedLocale, LocaleMappingEntry>;
 
@@ -36,6 +37,10 @@ export const localeMapping: LocaleMapping = {
   [Locale.PortugueseBR]: {
     staticMapping: br,
     locale: 'br',
+  },
+  [Locale.French]: {
+    staticMapping: fr,
+    locale: 'fr',
   }
 };
 
