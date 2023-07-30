@@ -152,7 +152,12 @@ const es = {
     unsub: {
       name: 'unsub',
       description: 'cancela la suscripción a las actualizaciones de marea infernal y jefe mundial',
-      options: {}
+      options: {
+				channelId: {
+					name: 'canal',
+					description: 'canal ID'
+				}
+			}
     },
     xpCurve: {
       name: 'xp-curve',

@@ -152,7 +152,12 @@ const br = {
     unsub: {
       name: 'cancelar-inscrição',
       description: 'cancelar a inscrição nas atualizações de maré do inferno e chefe do mundo',
-      options: {}
+      options: {
+				channelId: {
+					name: 'canal',
+					description: 'canal ID'
+				}
+			}
     },
     xpCurve: {
       name: 'curva-xp',

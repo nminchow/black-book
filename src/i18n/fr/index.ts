@@ -152,7 +152,12 @@ const fr = {
     unsub: {
       name: 'désabonner',
       description: `annuler l'abonnement a les nouvelles de vagues infernales et boss mondial`,
-      options: {}
+      options: {
+				channelId: {
+					name: 'canal',
+					description: 'canal ID'
+				}
+			}
     },
     xpCurve: {
       name: 'courbe-xp',

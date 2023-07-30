@@ -187,7 +187,7 @@ type RootTranslation = {
 			}
 			errors: {
 				/**
-				 * T​h​e​ ​b​o​t​ ​d​o​e​s​n​'​t​ ​c​u​r​r​e​n​t​l​y​ ​h​a​v​e​ ​t​h​e​ ​"​S​e​n​d​ ​M​e​s​s​a​g​e​s​"​ ​a​n​d​ ​"​V​i​e​w​ ​M​e​s​s​a​g​e​s​"​ ​p​e​r​m​i​s​s​i​o​n​ ​f​o​r​ ​t​h​i​s​ ​c​h​a​n​n​e​l​,​ ​s​o​ ​a​l​e​r​t​s​ ​c​a​n​'​t​ ​b​e​ ​s​e​n​t​.​ ​O​n​c​e​ ​p​e​r​m​i​s​s​i​o​n​s​ ​a​r​e​ ​e​n​a​b​l​e​d​,​ ​r​e​r​u​n​ ​t​h​i​s​ ​c​o​m​m​a​n​d​!
+				 * T​h​e​ ​b​o​t​ ​d​o​e​s​n​'​t​ ​c​u​r​r​e​n​t​l​y​ ​h​a​v​e​ ​t​h​e​ ​"​S​e​n​d​ ​M​e​s​s​a​g​e​s​"​,​ ​"​V​i​e​w​ ​M​e​s​s​a​g​e​s​"​,​ ​a​n​d​ ​"​E​m​b​e​d​ ​L​i​n​k​s​"​ ​p​e​r​m​i​s​s​i​o​n​s​ ​f​o​r​ ​t​h​i​s​ ​c​h​a​n​n​e​l​,​ ​s​o​ ​a​l​e​r​t​s​ ​c​a​n​'​t​ ​b​e​ ​s​e​n​t​.​ ​O​n​c​e​ ​p​e​r​m​i​s​s​i​o​n​s​ ​a​r​e​ ​e​n​a​b​l​e​d​,​ ​r​e​r​u​n​ ​t​h​i​s​ ​c​o​m​m​a​n​d​!
 				 */
 				permissions: string
 			}
@@ -370,6 +370,16 @@ type RootTranslation = {
 			 */
 			description: string
 			options: {
+				channelId: {
+					/**
+					 * c​h​a​n​n​e​l
+					 */
+					name: string
+					/**
+					 * c​h​a​n​n​e​l​ ​I​D
+					 */
+					description: string
+				}
 			}
 		}
 		xpCurve: {
@@ -727,7 +737,7 @@ export type TranslationFunctions = {
 			}
 			errors: {
 				/**
-				 * The bot doesn't currently have the "Send Messages" and "View Messages" permission for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!
+				 * The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permissions for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!
 				 */
 				permissions: () => LocalizedString
 			}
@@ -908,6 +918,16 @@ export type TranslationFunctions = {
 			 */
 			description: () => LocalizedString
 			options: {
+				channelId: {
+					/**
+					 * channel
+					 */
+					name: () => LocalizedString
+					/**
+					 * channel ID
+					 */
+					description: () => LocalizedString
+				}
 			}
 		}
 		xpCurve: {

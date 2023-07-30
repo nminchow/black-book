@@ -152,7 +152,12 @@ const en = {
 		unsub: {
 			name: 'unsub',
 			description: 'unsubscribe from helltide and world boss updates',
-			options: {}
+			options: {
+				channelId: {
+					name: 'channel',
+					description: 'channel ID'
+				}
+			}
 		},
 		xpCurve: {
 			name: 'xp-curve',

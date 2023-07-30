@@ -12,15 +12,23 @@ const query = (interaction: ChatInputCommandInteraction<CacheType>, db: NonNulla
 }
 
 type SubResponse = Omit<SubRecord, 'locale'>[] | null;
+type SubResponseEntry = NonNullable<SubResponse>[0]
 
 const roleString = (role: string | null) => role? ` - ${role}` : '';
+
+const channelTitle = (data: SubResponseEntry) => {
+  if (!data.disabled) {
+    return `<#${data.channel_id}>`;
+  }
+  return `<#${data.channel_id}> - (remove with with \`/unsub channel:${data.channel_id}\`)`;
+}
 
 const getDescription = (data: SubResponse) => {
   if (!data || data.length === 0) {
     return "Events are not being sent to any channels. Use `/events` to start getting alerts!"
   }
 
-  const eventText = data.map(x => `<#${x.channel_id}>
+  const eventText = data.map(x => `${channelTitle(x)}
     Helltides: ${x.helltide}${roleString(x.helltide_role)}
     World Bosses: ${x.worldboss}${roleString(x.boss_role)}
     Zone Events: ${x.zoneevent}${roleString(x.event_role)}

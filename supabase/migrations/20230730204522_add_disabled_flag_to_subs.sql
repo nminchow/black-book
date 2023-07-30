@@ -1,0 +1,1 @@
+alter table subscriptions add column disabled boolean not null default false;
