@@ -36,7 +36,7 @@ const about = async (interaction: ChatInputCommandInteraction<CacheType>, db: db
     'If there is something wrong with the bot itself, please let me know!\n\n You can find me in ' +
     `[the official support server](http://discord.gg/2nkfTRyvJh).\n`;
   const text =
-    'by @LeonRdo#4563 - ' +
+    'by @LeonRdo - ' +
     `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
 
   const embed: APIEmbed = {

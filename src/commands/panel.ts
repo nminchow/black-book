@@ -56,7 +56,7 @@ const panel = (db: dbWrapper) => ({
       return;
     }
 
-    const initialReply = interaction.reply('creating...');
+    const initialReply = interaction.deferReply();
 
     const updateReply = async (message: string) => {
       await initialReply;

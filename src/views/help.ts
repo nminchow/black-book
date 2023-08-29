@@ -7,7 +7,7 @@ const help = (commands: CommandBuilers) => {
     `If you need support, hop into ` +
     `[the support server](http://discord.gg/2nkfTRyvJh) and ping me (@LeonRdo#4563).\n`;
   const text =
-    'by @LeonRdo#4563 - ' +
+    'by @LeonRdo - ' +
     `Need a custom bot? Email me at noel@paysly.io, or hop into the discord server listed above and DM me.`;
   const embed: APIEmbed = {
     author,

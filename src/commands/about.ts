@@ -1,6 +1,7 @@
 import {
   CacheType,
   ChatInputCommandInteraction,
+  InteractionEditReplyOptions,
   SlashCommandBuilder,
 } from 'discord.js';
 import aboutViewBuilder from '../views/about';
@@ -19,8 +20,13 @@ const aboutBuilder = new SlashCommandBuilder()
 const about = (db: dbWrapper) => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
+    const initialReply = interaction.deferReply();
+    const updateReply = async (message: InteractionEditReplyOptions) => {
+      await initialReply;
+      interaction.editReply(message);
+    };
     const aboutView = await aboutViewBuilder(interaction, db);
-    await interaction.reply({embeds: [aboutView]});
+    await updateReply({embeds: [aboutView]});
   },
 });
 
