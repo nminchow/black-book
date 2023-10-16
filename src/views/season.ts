@@ -1,19 +1,18 @@
 import {APIEmbed} from 'discord.js';
 
-const url = 'https://news.blizzard.com/en-us/diablo4/23967322/malignance-runs-rampant-in-the-first-season-of-diablo-iv';
+const url = 'https://diablo4.blizzard.com/en-us/upcoming';
 
 const season = () => {
 
-  const description = `Starts: <t:1689872400:R>\nEnds (approx): <t:1697785200:D>\n
-  Alter and map progress will carry over from eternal, but you will need to log into those characters `
-  +`shortly before or after the season begins.
+  const description = `Starts: <t:1697562000:R>\nEnds (approx): <t:1705514400:D>\n
+  Going forward, renown will always persist between seasons and new characters!\n
   [More Info](${url})`;
   const embed: APIEmbed = {
-    title: 'Season of the Malignant',
+    title: 'Season of Blood',
     description,
     url,
     thumbnail: {
-      url: 'https://imagedelivery.net/4IwmCTEGUuDpGZFeCvePxQ/f3d7bfdf-ea89-40a6-8120-3a3143fdb900/public'
+      url: 'https://imagedelivery.net/4IwmCTEGUuDpGZFeCvePxQ/102dca39-b1bd-48b0-badb-11525d377400/public'
     },
   };
 

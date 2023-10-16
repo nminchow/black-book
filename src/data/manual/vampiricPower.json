@@ -1,0 +1,222 @@
+[
+  {
+      "name": "Anticipation",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 1,
+          "eternity": 0,
+          "ferocity": 0
+      },
+      "description": "Your Ultimate Skills gain 20% Cooldown Reduction. Your Ultimate Skills gain 12% increased damage for each nearby enemy affected by your Damage Over Time effects."
+  },
+  {
+      "name": "Coven’s Fangs",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 2,
+          "eternity": 0,
+          "ferocity": 0
+      },
+      "description": "Your Conjuration, Companion, Minion, and Bat Familiar attacks deal 52% increased damage to Crowd Controlled enemies. Lucky Hit: Your Conjuration, Companion, Minion, and Bat Familiar have up to a 30% chance to inflict Vampiric Curse when hitting enemies."
+  },
+  {
+      "name": "Domination",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 0,
+          "ferocity": 1
+      },
+      "description": "You deal 24% increased damage to enemies who are Stunned, Immobilized, Frozen, or Feared. If they're also Injured and not an Elite, they're instantly killed."
+  },
+  {
+      "name": "Feed the Coven",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 1,
+          "ferocity": 0
+      },
+      "description": "Lucky Hit: Conjuration, Companion, Minion and Bat Familiar attacks have up to a 60% chance to restore 10 Primary Resource to you and increase your Damage by 10% for 4 seconds."
+  },
+  {
+      "name": "Hectic",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 3,
+          "eternity": 0,
+          "ferocity": 0
+      },
+      "description": "For every 5 Basic Skills you cast, one of your active Cooldowns is reduced by 2 seconds."
+  },
+  {
+      "name": "Hemomancy",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 3,
+          "ferocity": 0
+      },
+      "description": "Your attacks deal 80% of your Maximum Life as Physical damage to nearby enemies. This can only occur once every 4 seconds. You heal for 1% of your Maximum Life for each enemy damaged this way."
+  },
+  {
+      "name": "Infection",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 0,
+          "ferocity": 1
+      },
+      "description": "Hitting enemies with direct damage infects them with Pox. Inflicting Pox 8 times on an enemy expunges their infection, dealing 70% Poison damage."
+  },
+  {
+      "name": "Jagged Spikes",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 1,
+          "eternity": 0,
+          "ferocity": 1
+      },
+      "description": "Thorns have a 10% chance to deal 300% increased damage and Chill enemies for 8%."
+  },
+  {
+      "name": "Prey on the Weak",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 0,
+          "ferocity": 2
+      },
+      "description": "You deal 16% increased damage to Vulnerable enemies. Enemies are Vulnerable while affected by a Vampiric Curse from your other Vampiric Powers."
+  },
+  {
+      "name": "Rampart",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 1,
+          "eternity": 1,
+          "ferocity": 0
+      },
+      "description": "After not moving for 3 seconds, you gain a Barrier for 40% of your Maximum Life for 6 seconds. This effect can occur once every 20 seconds."
+  },
+  {
+      "name": "Ravenous",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 0,
+          "ferocity": 3
+      },
+      "description": "Lucky Hit: Up to a 20% chance to increase your Attack Speed by 40% of your Total Movement Speed for 6 seconds."
+  },
+  {
+      "name": "Resilience",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 2,
+          "ferocity": 0
+      },
+      "description": "You gain 1% Damage Reduction for each 2% Life you are missing."
+  },
+  {
+      "name": "Sanguine Brace",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 1,
+          "eternity": 1,
+          "ferocity": 0
+      },
+      "description": "When you kill an enemy, Fortify for 6% of your Base Life. While you have more Fortify than half of your Maximum Life, you gain 8% Critical Strike Chance."
+  },
+  {
+      "name": "Terror",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 1,
+          "eternity": 1,
+          "ferocity": 1
+      },
+      "description": "When struck, you have a 14% chance to Fear nearby enemies and Slow them by 80% for 2 seconds. You are guaranteed to Critically Strike enemies who are Feared."
+  },
+  {
+      "name": "Undying",
+      "type": "Minor",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 1,
+          "ferocity": 0
+      },
+      "description": "Casting Skills heals you for 3% Life. Double this bonus while below 50% Life."
+  },
+  {
+      "name": "Accursed Touch",
+      "type": "Major",
+      "requirements": {
+          "divinity": 6,
+          "eternity": 0,
+          "ferocity": 0
+      },
+      "description": "Lucky Hit: Up to a 44% chance to inflict Vampiric Curse on enemies. Enemies with the Vampiric Curse have a 15% chance to spread it to other surrounding enemies. Accursed Souls deal 200% increased damage."
+  },
+  {
+      "name": "Bathe in Blood",
+      "type": "Major",
+      "requirements": {
+          "divinity": 3,
+          "eternity": 3,
+          "ferocity": 0
+      },
+      "description": "While Channeling a Skill, you form a pool of blood beneath you. While channeling a skill in a pool, your Channeled Skills deal 40% increased damage and you gain 30% Damage Reduction. A pool can only form once every 8 seconds."
+  },
+  {
+      "name": "Blood Boil",
+      "type": "Major",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 6,
+          "ferocity": 0
+      },
+      "description": "When your Core Skills Overpower an enemy, you spawn 3 Volatile Blood Drops. Collecting a Volatile Blood Drop causes it to explode, dealing 60% Physical damage around you. Every 20 seconds, your next Skill is guaranteed to Overpower."
+  },
+  {
+      "name": "Call Familiar",
+      "type": "Major",
+      "requirements": {
+          "divinity": 3,
+          "eternity": 0,
+          "ferocity": 3
+      },
+      "description": "Casting a Mastery, Weapon Mastery, Macabre, Wrath, or Imbuement Skill calls a bat ally to attack nearby enemies, dealing 80% Physical damage with a 30% chance to Stun."
+  },
+  {
+      "name": "Flowing Veins",
+      "type": "Major",
+      "requirements": {
+          "divinity": 2,
+          "eternity": 2,
+          "ferocity": 2
+      },
+      "description": "You deal 60% increased Damage Over Time to enemies that are moving or affected by a Vampiric Curse."
+  },
+  {
+      "name": "Metamorphosis",
+      "type": "Major",
+      "requirements": {
+          "divinity": 2,
+          "eternity": 2,
+          "ferocity": 2
+      },
+      "description": "When you Evade you turn into a cloud of bats, becoming Unstoppable for 4 seconds. Enemies along your path take 160% Physical damage and are inflicted with Vampiric Curse."
+  },
+  {
+      "name": "Moonrise",
+      "type": "Major",
+      "requirements": {
+          "divinity": 0,
+          "eternity": 0,
+          "ferocity": 6
+      },
+      "description": "Hitting an enemy with a Basic Skill grants you 4% Attack Speed for 10 seconds, stacking up to 5 times. Upon reaching maximum stacks, you enter a Vampiric Bloodrage, gaining 160% Basic Skill damage and 15% Movement Speed for 10 seconds."
+  }
+]

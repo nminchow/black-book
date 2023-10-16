@@ -7,14 +7,15 @@ import {
 import seasonViewBuilder from '../views/season';
 import L from '../i18n/i18n-node';
 import { commandLocaleMapping } from '../i18n/type-transformer';
-import seasonalAffixes, { seasonalAffixesFuse } from '../data/affixDatabase';
-import malignantHeart from '../views/malignantHeart';
+import vampiricPowers, { vampiricPowerFuse } from '../data/vampiricPowerDatabase';
+import vampiricPower from '../views/vampiricPower';
 
 const name = L.en.commands.season.name();
 
-const malignantHeartName = 'malignant-heart';
-const malignantHeartNameOption = 'name';
 const infoName = 'info';
+
+const vampiricPowerName = 'vampiric-power';
+const vampiricPowerNameOption = 'name';
 
 const seasonBuilder = new SlashCommandBuilder()
   .setName(name)
@@ -25,11 +26,11 @@ const seasonBuilder = new SlashCommandBuilder()
     .setName(infoName)
     .setDescription(L.en.commands.season.description()))
   .addSubcommand(subcommand => subcommand
-    .setName(malignantHeartName)
-    .setDescription('lookup details about malignant hearts')
+    .setName(vampiricPowerName)
+    .setDescription('lookup details about vampiric powers')
     .addStringOption(option =>
-      option.setName(malignantHeartNameOption)
-        .setDescription('malignant heart name')
+      option.setName(vampiricPowerNameOption)
+        .setDescription('vampiric power name')
         .setAutocomplete(true)
         .setRequired(true)
       )
@@ -43,18 +44,18 @@ const season = () => ({
       await interaction.reply({embeds: [seasonView]});
       return;
     }
-    const entryName = interaction.options.getString(malignantHeartNameOption) || '';
-    const entry = seasonalAffixes[entryName];
+    const entryName = interaction.options.getString(vampiricPowerNameOption) || '';
+    const entry = vampiricPowers[entryName];
     if (!entry) {
       await interaction.reply('heart not found');
       return
     }
-   const heartView = await malignantHeart(entry);
+   const heartView = await vampiricPower(entry);
    await interaction.reply({embeds: [heartView]});
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     const focusedValue = interaction.options.getFocused();
-    const result = seasonalAffixesFuse.search(focusedValue, { limit: 25 });
+    const result = vampiricPowerFuse.search(focusedValue, { limit: 25 });
 		await interaction.respond(
 			result.map(({ item: { name } }) => ({ name, value: name })),
 		);
