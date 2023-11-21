@@ -1,55 +1,55 @@
 import type { BaseTranslation } from '../i18n-types'
 
-const en = {
+const hk = {
 	nativeName: 'Chinese, HK',
 	commands: {
 		about: {
-			name: 'about',
-			description: 'get general information about the bot',
+			name: '關於',
+			description: 'Bot 系統',
 			options: {}
 		},
 		codex: {
-			name: 'codex',
-			description: 'find a codex entry by name',
+			name: '資料庫',
+			description: '搜尋',
 			options: {
 				codexEntryNameOption: {
-					name: 'name',
-					description: 'codex entry name',
+					name: '名稱',
+					description: '物品或技能名稱',
 				}
 			},
 			errors: {
-				notFound: 'codex entry not found',
+				notFound: '搵唔到呀...',
 			}
 		},
 		config: {
-			name: 'config',
-			description: 'edit and view your current configuration',
+			name: '設定',
+			description: '查看或更改 Bot 資料',
 			options: {
 				locale: {
-					name: 'locale',
-					description: 'change the locale of this bot for your server',
+					name: '語言',
+					description: '轉變語言',
 				}
 			},
 		},
 		events: {
-			name: 'events',
-			description: 'get updates on helltides and world bosses',
+			name: '事件',
+			description: '可以接受 地獄浪潮 世界王 通知',
 			options: {
 				helltide: {
-					name: 'helltide',
-					description: `receive alerts on upcoming helltides (defaults to 'true')`,
+					name: '地獄浪潮',
+					description: `地獄浪潮通知 ( 預設 : 開)`,
 				},
 				worldBoss: {
-					name: 'world-boss',
-					description: `receive alerts on upcoming world bosses (defaults to 'true')`,
+					name: '世界王',
+					description: `世界王通知 ( 預設 : 開)`,
 				},
 				zoneEvent: {
-					name: 'zone-event',
-					description: `receive alerts on upcoming zone events (defaults to 'false')`,
+					name: '區域事件',
+					description: `區域事件通知 ( 預設 : 關)`,
 				},
 				helltideRole: {
-					name: 'helltide-role',
-					description: 'set user or role to be alerted on upcoming helltides',
+					name: '地獄浪潮 個別通知',
+					description: '設定特定用戶接受即將來臨既地獄浪潮',
 				},
 				worldBossRole: {
 					name: 'world-boss-role',
@@ -192,36 +192,36 @@ const en = {
 	},
 	gameData: {
 		worldBosses: {
-			avarice: 'Avarice',
-			theWanderingDeath: 'The Wandering Death',
-			ashava: 'Ashava',
+			avarice: '咒金者貪婪獸',
+			theWanderingDeath: '漫遊死亡行者',
+			ashava: '疫病者艾薩瓦',
 		},
 		map: {
 			sanctuary: 'Sanctuary',
 			territories: {
-				dilapidatedAqueducts: 'Dilapidated Aqueducts',
-				hauntedWreckage: 'Haunted Wreckage',
-				templeOfRot: 'Temple of Rot',
-				norgoiVigil: 'Norgoi Vigil',
-				korDragan: 'Kor Dragan',
-				saraanCaldera: 'Saraan Caldera',
-				crusadersMonument: `Crusaders' Monument`,
-				caenAdar: 'Caen Adar',
-				fieldsOfDesecration: 'Fields of Desecration',
-				searedBasin: 'Seared Basin',
-				theCrucible: 'The Crucible',
-				carrowcrestRuins: 'Carrowcrest Ruins',
-				alcarnus: 'Alcarnus',
+				dilapidatedAqueducts: '破敗渠道',
+				hauntedWreckage: '鬧鬼殘駭',
+				templeOfRot: '腐爛神殿',
+				norgoiVigil: '諾戈守夜地',
+				korDragan: '科卓岡',
+				saraanCaldera: '薩蘭火山口',
+				crusadersMonument: `聖教軍紀念碑`,
+				caenAdar: '卡恩艾達',
+				fieldsOfDesecration: '褻瀆之境',
+				searedBasin: '焦烙盆地',
+				theCrucible: '試煉之地',
+				carrowcrestRuins: '卡羅奎斯廢墟',
+				alcarnus: '奧卡納斯',
 			},
 			zones: {
-				kehjistan: 'Kehjistan',
-				hawezar: 'Hawezar',
-				scosglen: 'Scosglen',
-				fracturedPeaks: 'Fractured Peaks',
-				drySteppes: 'Dry Steppes',
+				kehjistan: '卡基斯坦',
+				hawezar: '哈維薩',
+				scosglen: '斯科斯格倫',
+				fracturedPeaks: '碎峰嶺',
+				drySteppes: '大乾原',
 			}
 		}
 	}
 } satisfies BaseTranslation
 
-export default en
+export default hk
