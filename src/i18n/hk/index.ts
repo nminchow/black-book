@@ -37,15 +37,15 @@ const hk = {
 			options: {
 				helltide: {
 					name: '地獄浪潮',
-					description: `地獄浪潮通知 ( 預設 : 開)`,
+					description: `地獄浪潮通知 ( 預設:開)`,
 				},
 				worldBoss: {
 					name: '世界王',
-					description: `世界王通知 ( 預設 : 開)`,
+					description: `世界王通知 ( 預設:開)`,
 				},
 				zoneEvent: {
 					name: '區域事件',
-					description: `區域事件通知 ( 預設 : 關)`,
+					description: `區域事件通知 ( 預設:關)`,
 				},
 				helltideRole: {
 					name: '地獄浪潮多人通知',
@@ -168,22 +168,22 @@ const hk = {
 	views: {
 		events: {
 			hellide: {
-				title: 'The Helltide Rises in {location}!',
-				updatePending: ' (image will update)',
-				updateDone: ' (image updated)',
-				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',
-				chestsRespawnLabel: 'Chests respawn:',
-				startLabel: 'Start:',
-				endLabel: 'End:',
-				locationUrl: '{location} chest locations'
+				title: '地獄浪潮 發生在 {location}!',
+				updatePending: ' (圖片將會更新)',
+				updateDone: ' (圖片已更新)',
+				noImage: ' (技術問題，請等等)',
+				chestsRespawnLabel: '寶箱更新時間:',
+				startLabel: '開始:',
+				endLabel: '終結:',
+				locationUrl: '{location} 寶箱位置'
 			},
 			worldBoss: {
-				title: '{name} is stirring in {location}!',
-				spawnLabel: 'Spawns:'
+				title: '{name} 即將降臨 {location}!',
+				spawnLabel: '出世:'
 			},
 			zoneEvent: {
-				title: 'The Gathering Legions assemble in {location}!',
-				startLabel: 'Starts:'
+				title: '血宴 發生在 {location}!',
+				startLabel: '開始:'
 			},
 			utility: {
 				zoneAndTerritory: '{territory}, {zone}'
