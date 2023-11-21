@@ -1,7 +1,7 @@
 import type { BaseTranslation } from '../i18n-types'
 
 const hk = {
-	nativeName: 'Chinese, HK',
+	nativeName: 'Traditional Chinese, HK',
 	commands: {
 		about: {
 			name: '關於',
