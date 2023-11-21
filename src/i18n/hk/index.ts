@@ -48,50 +48,50 @@ const hk = {
 					description: `區域事件通知 ( 預設 : 關)`,
 				},
 				helltideRole: {
-					name: '地獄浪潮 個別通知',
-					description: '設定特定用戶接受即將來臨既地獄浪潮',
+					name: '地獄浪潮多人通知',
+					description: '設定特定用戶接受即將來臨既地獄浪潮通知',
 				},
 				worldBossRole: {
-					name: 'world-boss-role',
-					description: 'set user or role to be alerted on upcoming world bosses',
+					name: '世界王多人通知',
+					description: '設定特定用戶接受即將來臨既世界王通知',
 				},
 				zoneEventRole: {
-					name: 'zone-event-role',
-					description: 'set user or role to be alerted on upcoming zone events',
+					name: '區域事件多人通知',
+					description: '設定特定用戶接受即將來臨既區域事件通知',
 				},
 				allEventRole: {
-					name: 'all-event-role',
-					description: 'set user or role to be alerted on all events',
+					name: '全部事件多人通知',
+					description: '設定特定用戶接受即將來臨既全部事件通知',
 				},
 				images: {
-					name: 'show-images',
-					description: 'show images in alerts',
+					name: '顯示圖片',
+					description: '係通知會出圖片',
 				},
 				deleteMessages: {
-					name: 'delete-expired-events',
-					description: 'delete event notifications from the channel after the event has ended',
+					name: '刪除過期訊息',
+					description: '當事件完結會自動刪除過期既訊息',
 				},
 			},
 			errors: {
-				permissions: `The bot doesn't currently have the "Send Messages", "View Messages", and "Embed Links" permissions for this channel, so alerts can't be sent. Once permissions are enabled, rerun this command!`,
+				permissions: `個 Bot 冇權限呀!開番權限再重新試過!`,
 			},
 			messages: {
-				success: 'events will be posted in this channel! Use `/{unsub}` to stop event posts here. Use the `/{events}` command again to change your configuration.',
+				success: '事件會成功係呢個 Channel 出，打 `/{unsub}` 可以停止係呢個 Channel 出，打 `/{events}` 就可以出番',
 			}
 		},
 		helltide: {
 			name: 'hell-tide',
-			description: 'display map and info about helltides',
+			description: '顯示地獄浪潮地圖',
 			options: {}
 		},
 		help: {
 			name: 'help',
-			description: 'show a list of available commands',
+			description: '唔記得指令碼專用',
 			options: {}
 		},
 		invite: {
 			name: 'invite',
-			description: `get the bot's invite link and add it to other servers`,
+			description: `可以邀請 Bot 到其他 Server`,
 			options: {}
 		},
 		nightmareLevel: {
