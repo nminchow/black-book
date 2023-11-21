@@ -197,7 +197,7 @@ const hk = {
 			ashava: '疫病者艾薩瓦',
 		},
 		map: {
-			sanctuary: 'Sanctuary',
+			sanctuary: '聖休亞瑞',
 			territories: {
 				dilapidatedAqueducts: '破敗渠道',
 				hauntedWreckage: '鬧鬼殘駭',
