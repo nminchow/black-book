@@ -24,7 +24,7 @@ const dbFields = async (db: dbWrapper) => {
     },
     {
       name: 'Notifications Sent',
-      value: formatNumber(notificaitons),
+      value: formatNumber((notificaitons || 0) + Number.parseInt(process.env.ARCHIVED_NOTIFICATIONS || '0', 10)),
     },
   ];
 }
