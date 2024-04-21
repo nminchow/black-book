@@ -1,5 +1,6 @@
 import { ClientAndCommands, dbWrapper } from "../bot";
 import skill, { skillBuilder } from "./skill";
+import build, { buildBuilder } from "./build";
 import codex, { codexBuilder } from "./codex";
 import paragon, { paragonBuilder } from "./paragon";
 import about, { aboutBuilder } from "./about";
@@ -34,6 +35,7 @@ const builders = [
   xpCurveBuilder,
   aboutBuilder,
   inviteBuilder,
+  buildBuilder,
 ];
 
 export const commands = {
@@ -54,6 +56,7 @@ export const commands = {
     const helpCommand = help(builders);
     const panelCommand = panel(db);
     const seasonCommand = season();
+    const buildCommand = build();
     [
       skillCommand,
       codexCommand,
@@ -70,6 +73,7 @@ export const commands = {
       unsubCommand,
       panelCommand,
       seasonCommand,
+      buildCommand,
     ].map(command => {
       client.commands.set(command.name, command);
     })

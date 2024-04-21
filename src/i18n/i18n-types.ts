@@ -34,6 +34,34 @@ type RootTranslation = {
 			options: {
 			}
 		}
+		build: {
+			/**
+			 * b​u​i​l​d
+			 */
+			name: string
+			/**
+			 * l​o​o​k​ ​u​p​ ​m​a​x​r​o​l​l​ ​b​u​i​l​d​ ​i​n​f​o
+			 */
+			description: string
+			options: {
+				buildName: {
+					/**
+					 * n​a​m​e
+					 */
+					name: string
+					/**
+					 * b​u​i​l​d​ ​n​a​m​e
+					 */
+					description: string
+				}
+			}
+			errors: {
+				/**
+				 * b​u​i​l​d​ ​n​o​t​ ​f​o​u​n​d​!
+				 */
+				notFound: string
+			}
+		}
 		codex: {
 			/**
 			 * c​o​d​e​x
@@ -582,6 +610,34 @@ export type TranslationFunctions = {
 			 */
 			description: () => LocalizedString
 			options: {
+			}
+		}
+		build: {
+			/**
+			 * build
+			 */
+			name: () => LocalizedString
+			/**
+			 * look up maxroll build info
+			 */
+			description: () => LocalizedString
+			options: {
+				buildName: {
+					/**
+					 * name
+					 */
+					name: () => LocalizedString
+					/**
+					 * build name
+					 */
+					description: () => LocalizedString
+				}
+			}
+			errors: {
+				/**
+				 * build not found!
+				 */
+				notFound: () => LocalizedString
 			}
 		}
 		codex: {

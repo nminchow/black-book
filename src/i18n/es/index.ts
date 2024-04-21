@@ -8,6 +8,19 @@ const es = {
       description: 'obtener información general sobre el bot',
       options: {}
     },
+    build: {
+			name: 'build',
+			description: 'look up maxroll build info',
+			options: {
+				buildName: {
+					name: 'name',
+					description: 'build name'
+				}
+			},
+			errors: {
+				notFound: 'build not found!',
+			},
+		},
     codex: {
       name: 'codex',
       description: 'encuentra una entrada de codex por nombre',
