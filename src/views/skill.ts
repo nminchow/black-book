@@ -39,7 +39,7 @@ const skill = async (skill: SkillData) => {
     description
   };
 
-  return embed;;
+  return embed;
 }
 
 export default skill;

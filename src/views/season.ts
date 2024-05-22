@@ -4,15 +4,15 @@ const url = 'https://diablo4.blizzard.com/en-us/upcoming';
 
 const season = () => {
 
-  const description = `Starts: <t:1697562000:R>\nEnds (approx): <t:1705514400:D>\n
-  Going forward, renown will always persist between seasons and new characters!\n
+  const description = `Starts: <t:1715698800:R>\nEnds (approx): <t:1722956400:D>\n
+  Loot Reborn! D4 ~~bad~~ good!\n
   [More Info](${url})`;
   const embed: APIEmbed = {
-    title: 'Season of Blood',
+    title: 'Season of Loot Reborn',
     description,
     url,
     thumbnail: {
-      url: 'https://imagedelivery.net/4IwmCTEGUuDpGZFeCvePxQ/102dca39-b1bd-48b0-badb-11525d377400/public'
+      url: 'https://blz-contentstack-images.akamaized.net/v3/assets/bltf408a0557f4e4998/blta6d501757dc037ff/663d2ee5f64609224f6a9662/en_Partner_Logo.png?imwidth=320&imdensity=2.625'
     },
   };
 

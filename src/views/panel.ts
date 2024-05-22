@@ -5,7 +5,7 @@ import { Locales } from "../i18n/i18n-types";
 import L from "../i18n/i18n-node";
 
 const helltideValue = ({ helltide: { timestamp } }: RawEventResponse) => {
-  const nextStart = timestamp + 8100;
+  const nextStart = timestamp + 3600;
   return `Current/Previous: <t:${timestamp}:R>\nNext:<t:${nextStart}:R>`;
 };
 

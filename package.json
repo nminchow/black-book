@@ -4,8 +4,8 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": "16.15.1",
-    "yarn": "1.22.19"
+    "node": "16.20.2",
+    "yarn": "1.22.22"
   },
   "scripts": {
     "supa": "supabase",
