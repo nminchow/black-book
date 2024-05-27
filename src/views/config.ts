@@ -1,6 +1,6 @@
 import {APIEmbed, CacheType, ChatInputCommandInteraction} from 'discord.js';
 import { author } from './shared';
-import { dbWrapper } from '../bot';
+import { dbWrapper } from '../utility/database';
 import { SubRecord } from '../worldEvents/createListener';
 import { LocaleMappingEntry } from '../i18n/type-transformer';
 

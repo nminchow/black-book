@@ -1,5 +1,6 @@
 import { Locale } from "discord.js";
-import { ClientAndCommands, dbWrapper } from "../bot";
+import { ClientAndCommands } from "../bot";
+import { dbWrapper } from './database';
 import panel from "../views/panel";
 import { getLocales } from "../worldEvents/createListener";
 import { getEvents } from "./getEvents";

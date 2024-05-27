@@ -1,5 +1,5 @@
 import captureWebsite from "capture-website";
-import { dbWrapper } from "../bot";
+import { dbWrapper } from './database';
 import fetch, { FormData } from "node-fetch";
 
 const bucketName = 'helltides';

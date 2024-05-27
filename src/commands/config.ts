@@ -5,7 +5,7 @@ import {
   SlashCommandStringOption,
 } from 'discord.js';
 import configViewBuilder from '../views/config';
-import { dbWrapper } from '../bot';
+import { dbWrapper } from '../utility/database';
 import L from '../i18n/i18n-node';
 import { commandLocaleMapping, localeMapping, parseLocale } from '../i18n/type-transformer';
 import { locales } from '../i18n/i18n-util';

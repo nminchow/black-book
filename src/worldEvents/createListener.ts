@@ -1,4 +1,5 @@
-import { ClientAndCommands, dbWrapper } from "../bot";
+import { ClientAndCommands } from "../bot";
+import { dbWrapper } from '../utility/database';
 import hellTide from "../views/hellTide";
 import worldBoss from "../views/worldBoss";
 import zoneEvent from "../views/zoneEvent";

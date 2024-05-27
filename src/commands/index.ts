@@ -1,4 +1,5 @@
-import { ClientAndCommands, dbWrapper } from "../bot";
+import { ClientAndCommands } from "../bot";
+import { dbWrapper } from '../utility/database';
 import skill, { skillBuilder } from "./skill";
 import codex, { codexBuilder } from "./codex";
 import paragon, { paragonBuilder } from "./paragon";

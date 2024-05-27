@@ -4,7 +4,7 @@ import {
   PermissionsBitField,
   SlashCommandBuilder,
 } from 'discord.js';
-import { dbWrapper } from '../bot';
+import { dbWrapper } from '../utility/database';
 import panelView from '../views/panel';
 import { getEvents } from '../utility/getEvents';
 import { LocaleMappingEntry, commandLocaleMapping } from '../i18n/type-transformer';

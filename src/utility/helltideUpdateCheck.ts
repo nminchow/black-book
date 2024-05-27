@@ -1,4 +1,5 @@
-import { ClientAndCommands, dbWrapper } from "../bot";
+import { ClientAndCommands } from "../bot";
+import { dbWrapper } from './database';
 import { parseLocaleString } from "../i18n/type-transformer";
 import hellTide from "../views/hellTide";
 import { EventType } from "../worldEvents/createListener";

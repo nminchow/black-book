@@ -16,6 +16,7 @@
     "dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/bot.ts",
     "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullData.ts",
     "deploy-commands": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/deployment.ts",
+    "clean-storage": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/cleanStorage.ts",
     "i18n": "typesafe-i18n",
     "lint": "gts lint",
     "clean": "gts clean",
