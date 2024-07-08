@@ -6,15 +6,16 @@ import L from "../i18n/i18n-node";
 
 const helltideValue = ({ helltide: { timestamp } }: RawEventResponse) => {
   const nextStart = timestamp + 3600;
-  return `Current/Previous: <t:${timestamp}:R>\nNext:<t:${nextStart}:R>`;
+  return `Current/Previous: <t:${timestamp}:R>\nNext: <t:${nextStart}:R>`;
 };
 
-const bossValue = ({ boss: { expected, expectedName, nextExpected, nextExpectedName } }: RawEventResponse) => {
-  return `Next: ${expectedName} <t:${expected}:R>\nFollowing:  ${nextExpectedName} <t:${nextExpected}:R>`;
+const bossValue = ({ boss: { name, timestamp } }: RawEventResponse) => {
+  const nameValue = name === 'TBD' ? '' : `${name} `
+  return `Next: ${nameValue}<t:${timestamp}:R>`;
 };
 
 const zoneEvent = ({ legion: { timestamp } }: RawEventResponse) => {
-  return `Next: <t:${timestamp + 1800}:R>`;
+  return `Next: <t:${timestamp}:R>`;
 }
 
 const panel = (apiData: RawEventResponse, locale: Locales, willNotUpdate = false) => {

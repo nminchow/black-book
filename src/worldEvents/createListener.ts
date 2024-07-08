@@ -7,7 +7,6 @@ import { Locale, TextBasedChannel } from "discord.js";
 import { Database } from "../types/supabase";
 import { RawEventResponse, getEvents } from "../utility/getEvents";
 import { createImage, createImageMetadata } from "../utility/createImage";
-import { helltideUpdateCheck } from "../utility/helltideUpdateCheck";
 import { toErrorWithMessage } from "../utility/errorHelper";
 import { Locales } from "../i18n/i18n-types";
 import { parseLocaleString } from "../i18n/type-transformer";
@@ -25,8 +24,8 @@ export type EventParams = {
   name: string,
   time: number,
   location: {
-    zone: string,
-    territory: string | null,
+    zone?: string,
+    territory?: string,
   },
   type: EventType,
 }
@@ -128,14 +127,14 @@ type mapping = {
 const helltideNotify = async (client: ClientAndCommands, db: NonNullable<dbWrapper>, helltide: RawEventResponse['helltide']) => {
   const startTime = helltide.timestamp * 1000;
 
-  if (startTime + 120000 > new Date().getTime()) {
-    console.log('helltide started less than two minutes ago, skipping processing');
+  if (startTime + 240000 > new Date().getTime()) {
+    console.log('helltide started less than four minutes ago, skipping processing');
     return;
   }
 
   const event = {
-    time: startTime + 3600000,
-    location: { zone: helltide.zone, territory: null },//hellTideMapping[helltide.zone] || 'Sanctuary',
+    time: startTime + 3300000,
+    location: { zone: helltide.zone, undefined },//hellTideMapping[helltide.zone] || 'Sanctuary',
     type: EventType.Helltide,
     name: 'The Helltide Rises', // written to db, but not used for view
   };
@@ -171,9 +170,10 @@ const scanAndNotifyForEvent = async (
   event: EventParams,
   beforeNotify: () => Promise<NotificationMetadata | null> = async () => ({ imagePath: null, isUpdated: false })
 ) => {
-  const { time, type } = event;
+  const { time, type, location: { zone }} = event;
   const timeCheck = new Date(time);
   if (timeCheck < new Date()) return;
+  if (!zone) return;
   const existing = await checkForExisting(type, db, time);
   if (existing) return;
   const row = await insertEvent(event, db);
@@ -189,7 +189,6 @@ const checkForEvents = async (client: ClientAndCommands, db: NonNullable<dbWrapp
   if (!event) {
     return;
   }
-  helltideUpdateCheck(client, db);
   bossNotify(client, db, event.boss);
   helltideNotify(client, db, event.helltide);
   zoneEventNotify(client, db, event.legion);
