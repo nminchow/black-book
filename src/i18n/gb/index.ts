@@ -12,7 +12,7 @@ if (process.env.USE_GB_AS_LANGUAGE_TEST) {
 	overrides.gameData.map.zones.kehjistan = 'Kehjiztan'
 	overrides.gameData.worldBosses.avarice = 'Avarize'
 	overrides.views.events.hellide.chestsRespawnLabel = 'cheztz rezpawn:'
-	overrides.views.events.hellide.title = '{location} is where the helltide is'
+	overrides.views.events.hellide.title = 'the helltide rises'
 	overrides.views.events.zoneEvent.title = '{location} is the gathering legions!'
 	overrides.views.events.worldBoss.title = '{location} is where {name} is'
 	overrides.views.events.hellide.startLabel = 'Ztart:'
