@@ -48,7 +48,7 @@ type SimplifiedEventResponse = [WorldBossData, HelltideData, LegionData]
 const simulateEvents = process.env.SIMULATE_EVENTS;
 
 export const getEvents = async () => {
-  // if (simulateEvents) return simulatedEvents();
+  if (simulateEvents) return simulatedEvents();
   try {
     const response = await fetch(`https://d4armory.io/api/events.json`);
     const simplifiedEvent  = await response.json() as SimplifiedEventResponse;
@@ -80,7 +80,8 @@ export const getEvents = async () => {
 }
 
 const simulatedEvents = () => {
-
+  const now = new Date();
+  now.setMinutes(0, 0, 0);
   const date = new Date();
   date.setMinutes(date.getMinutes() + 5);
   date.setMilliseconds(0);
@@ -96,17 +97,20 @@ const simulatedEvents = () => {
   const helltideDateAsNum = Math.round(helltideDateWithOffset.getTime() / 1000);
 
   return {
-    "boss": {
-      "name": "Avarice",
-      "expectedName": "Avarice",
-      "nextExpectedName": "Ashava",
-      "timestamp": dateAsNum,
-      "expected": 1687198689,
-      "nextExpected": 1687218202,
-      "territory": "Saraan Caldera",
-      "zone": "Dry Steppes"
+    boss: {
+      name: 'boss man',
+      timestamp: 0,
+      territory: undefined,
+      zone: undefined
     },
-    "helltide": { "timestamp": helltideDateAsNum, "zone": "hawe", "refresh": 0 },
-    "legion": { "timestamp": dateAsNum, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
+    helltide: {
+      zone: 'somewhere',
+      timestamp: now.getTime() / 1000
+    },
+    legion: {
+      timestamp: 0,
+      territory: undefined,
+      zone: undefined,
+    }
   };
 };
