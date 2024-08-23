@@ -31,7 +31,7 @@ const scanAndUploadImage = async (db: NonNullable<dbWrapper>) => {
   const bucketPromise = createBucketIfNeeded(db);
   const imagePromise = captureWebsite.buffer('https://helltides.com/', {
     element: '#map',
-    removeElements: ['.inline-flex', '.leaflet-top', 'body > span'],
+    removeElements: ['.inline-flex', '.ad-anchor-container', '.leaflet-top', 'body > span', '#outstream-player-div'],
     beforeScreenshot: async (page) => {
       await page.$$eval('.fc-ccpa-root', elements => {
         elements.forEach(element => element.remove());
