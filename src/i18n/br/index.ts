@@ -181,7 +181,7 @@ const br = {
   views: {
     events: {
       hellide: {
-        title: 'A Maré do Inferno Surge em {location}!',
+        title: 'A Maré Infernal se ergue!',
         updatePending: ' (imagem será atualizada)',
         updateDone: ' (imagem atualizada)',
         noImage: ' (imagem indisponível - provavelmente devido a uma interrupção do serviço que deve ser resolvida em breve)',

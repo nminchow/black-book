@@ -181,7 +181,7 @@ const en = {
 	views: {
 		events: {
 			hellide: {
-				title: 'The Helltide Rises in {location}!',
+				title: 'The Helltide Rises!',
 				updatePending: ' (image will update)',
 				updateDone: ' (image updated)',
 				noImage: ' (image unavailable - this is likely due to a service outage and should resolve shortly)',

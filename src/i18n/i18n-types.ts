@@ -427,10 +427,9 @@ type RootTranslation = {
 		events: {
 			hellide: {
 				/**
-				 * T​h​e​ ​H​e​l​l​t​i​d​e​ ​R​i​s​e​s​ ​i​n​ ​{​l​o​c​a​t​i​o​n​}​!
-				 * @param {unknown} location
+				 * T​h​e​ ​H​e​l​l​t​i​d​e​ ​R​i​s​e​s​!
 				 */
-				title: RequiredParams<'location'>
+				title: string
 				/**
 				 *  ​(​i​m​a​g​e​ ​w​i​l​l​ ​u​p​d​a​t​e​)
 				 */
@@ -1003,9 +1002,9 @@ export type TranslationFunctions = {
 		events: {
 			hellide: {
 				/**
-				 * The Helltide Rises in {location}!
+				 * The Helltide Rises!
 				 */
-				title: (arg: { location: unknown }) => LocalizedString
+				title: () => LocalizedString
 				/**
 				 *  (image will update)
 				 */

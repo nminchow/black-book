@@ -1,5 +1,5 @@
 import captureWebsite from "capture-website";
-import { dbWrapper } from "../bot";
+import { dbWrapper } from './database';
 import fetch, { FormData } from "node-fetch";
 
 const bucketName = 'helltides';
@@ -29,9 +29,14 @@ const createBucketIfNeeded = async (db: NonNullable<dbWrapper>) => {
 
 const scanAndUploadImage = async (db: NonNullable<dbWrapper>) => {
   const bucketPromise = createBucketIfNeeded(db);
-  const imagePromise = captureWebsite.buffer('https://d4armory.io/events/', {
-    element: '#helltideMap',
-    removeElements: ['.leaflet-control-layers-toggle'],
+  const imagePromise = captureWebsite.buffer('https://helltides.com/', {
+    element: '#map',
+    removeElements: ['.inline-flex', '.ad-anchor-container', '.leaflet-top', 'body > span', '#outstream-player-div'],
+    beforeScreenshot: async (page) => {
+      await page.$$eval('.fc-ccpa-root', elements => {
+        elements.forEach(element => element.remove());
+      });
+    },
     launchOptions: {
       args: [
         '--no-sandbox'

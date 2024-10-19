@@ -181,7 +181,7 @@ const fr = {
   views: {
     events: {
       hellide: {
-        title: 'La Vague Infernale déferle sur {location}!',
+        title: 'La Vague Infernale se lève!',
         updatePending: ` (l'image sera actualisée) `,
         updateDone: ' (image actualisée)',
         noImage: ` (image non disponible - il s'agit probablement d'une panne de service et devrait bientôt être resolu)`,

@@ -181,7 +181,7 @@ const es = {
   views: {
     events: {
       hellide: {
-        title: '¡La Marea Infernal se levanta en {location}!',
+        title: '¡La Marea Infernal se levanta!',
         updatePending: ' (la imagen se actualizará)',
         updateDone: ' (imagen actualizada)',
         noImage: ' (imagen no disponible - esto probablemente se deba a una interrupción del servicio y debería resolverse pronto)',

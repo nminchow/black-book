@@ -8,35 +8,68 @@ type ConfidenceObject = {
 export type RawEventResponse = {
   boss: {
     name: string,
-    expectedName: string,
-    nextExpectedName: string,
     timestamp: number,
-    expected: number,
-    nextExpected: number,
-    territory: string,
-    zone: string,
+    territory?: string,
+    zone?: string,
   }
   helltide: {
     timestamp: number,
     zone: string,
-    refresh: number,
   },
   legion: {
     timestamp: number
-    territory: string,
-    zone: string,
+    territory?: string,
+    zone?: string,
   }
 }
+
+type WorldBossData = {
+  e: string,
+  n: string,
+  ts: number,
+  t?: string,
+  z?: string
+}
+
+type HelltideData = {
+  e: string,
+  z: string,
+}
+
+type LegionData = {
+  e: string,
+  ts: number,
+  t?: string,
+  z?: string
+}
+
+type SimplifiedEventResponse = [WorldBossData, HelltideData, LegionData]
 
 const simulateEvents = process.env.SIMULATE_EVENTS;
 
 export const getEvents = async () => {
   if (simulateEvents) return simulatedEvents();
   try {
-    const response = await fetch(`https://d4armory.io/api/events/recent`);
-    const event  = await response.json() as RawEventResponse;
-    if (!['boss', 'helltide', 'legion'].every(x => Object.keys(event).includes(x))) {
-      throw `missing keys! Response: ${JSON.stringify(event)}`;
+    const response = await fetch(`https://d4armory.io/api/events.json`);
+    const simplifiedEvent  = await response.json() as SimplifiedEventResponse;
+    const now = new Date();
+    now.setMinutes(0, 0, 0);
+    const event = {
+      boss: {
+        name: simplifiedEvent[0].n,
+        timestamp: simplifiedEvent[0].ts,
+        territory: simplifiedEvent[0].t,
+        zone: simplifiedEvent[0].z
+      },
+      helltide: {
+        zone: simplifiedEvent[1].z,
+        timestamp: now.getTime() / 1000
+      },
+      legion: {
+        timestamp: simplifiedEvent[2].ts,
+        territory: simplifiedEvent[2].t,
+        zone: simplifiedEvent[2].z,
+      }
     }
     return event;
   } catch(error) {
@@ -47,7 +80,8 @@ export const getEvents = async () => {
 }
 
 const simulatedEvents = () => {
-
+  const now = new Date();
+  now.setMinutes(0, 0, 0);
   const date = new Date();
   date.setMinutes(date.getMinutes() + 5);
   date.setMilliseconds(0);
@@ -63,17 +97,20 @@ const simulatedEvents = () => {
   const helltideDateAsNum = Math.round(helltideDateWithOffset.getTime() / 1000);
 
   return {
-    "boss": {
-      "name": "Avarice",
-      "expectedName": "Avarice",
-      "nextExpectedName": "Ashava",
-      "timestamp": dateAsNum,
-      "expected": 1687198689,
-      "nextExpected": 1687218202,
-      "territory": "Saraan Caldera",
-      "zone": "Dry Steppes"
+    boss: {
+      name: 'boss man',
+      timestamp: 0,
+      territory: undefined,
+      zone: undefined
     },
-    "helltide": { "timestamp": helltideDateAsNum, "zone": "hawe", "refresh": 0 },
-    "legion": { "timestamp": dateAsNum, "territory": "Dilapidated Aqueducts", "zone": "Kehjistan" }
+    helltide: {
+      zone: 'somewhere',
+      timestamp: now.getTime() / 1000
+    },
+    legion: {
+      timestamp: 0,
+      territory: undefined,
+      zone: undefined,
+    }
   };
 };

@@ -16,7 +16,7 @@ import {Database} from './types/supabase';
 import {commands} from './commands';
 import { createListener } from './worldEvents/createListener';
 import { createStatsHook } from './utility/postStats';
-import { getGuildIdForInteraction } from './utility/database';
+import { dbClient, getGuildIdForInteraction } from './utility/database';
 import { LocaleMappingEntry, localeMapping, parseLocale } from './i18n/type-transformer';
 
 const token = process.env.DISCORD_TOKEN;
@@ -25,21 +25,7 @@ if (!token) {
   throw 'discord token not found';
 }
 
-const dbClient = () => {
-  const supabaseUrl = process.env.SUPABASE_URL
-  const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-  if (!supabaseServiceRoleKey || !supabaseUrl) {
-    console.log('no supabase config found - event tracking disabled');
-    return null;
-  }
-
-  return createClient<Database>(supabaseUrl, supabaseServiceRoleKey, { auth: { persistSession: false } })
-};
-
-const db = dbClient();
-
-export type dbWrapper = typeof db;
+export const db = dbClient();
 
 interface CommandHandler {
   name: string;

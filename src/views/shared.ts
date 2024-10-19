@@ -56,9 +56,8 @@ export const localizedBoss = (boss: string, locale: Locales) => {
 
 export const buildLocationString = (event: EventParams, locale: Locales) => {
   const { location: { zone: rawZone, territory: rawTerritory } } = event;
-  const mappedZone = event.type == EventType.Helltide ? hellTideMapping[rawZone] || L.en.gameData.map.sanctuary() : rawZone;
 
-  const zone = localizedZone(mappedZone, locale);
+  const zone = localizedZone(rawZone || L.en.gameData.map.sanctuary(), locale);
   if (!rawTerritory) return zone;
 
   const territory = localizedTerritory(rawTerritory, locale);

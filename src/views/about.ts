@@ -1,6 +1,6 @@
 import {APIEmbed, CacheType, ChatInputCommandInteraction} from 'discord.js';
 import { author } from './shared';
-import { dbWrapper } from '../bot';
+import { dbWrapper } from '../utility/database';
 
 const formatNumber = (count: number | null) => {
   return new Intl.NumberFormat().format(count || 0);

@@ -4,8 +4,8 @@
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": "16.15.1",
-    "yarn": "1.22.19"
+    "node": "16.20.2",
+    "yarn": "1.22.22"
   },
   "scripts": {
     "supa": "supabase",
@@ -16,6 +16,8 @@
     "dev": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/bot.ts",
     "pull-data": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/pullData.ts",
     "deploy-commands": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/deployment.ts",
+    "clean-storage": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/cleanStorage.ts",
+    "clean-database": "node --require dotenv/config --experimental-specifier-resolution=node --loader ts-node/esm ./src/utility/cleanDatabase.ts",
     "i18n": "typesafe-i18n",
     "lint": "gts lint",
     "clean": "gts clean",
