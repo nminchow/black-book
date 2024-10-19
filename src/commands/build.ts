@@ -37,6 +37,7 @@ type Post = {
   post_modified_formatted: string;
   metadata: null | any;
   taxonomies: Taxonomies;
+  permalink: string;
 };
 
 type SearchResponse = {
@@ -60,14 +61,7 @@ const build = () => ({
   name,
   execute: async (interaction: ChatInputCommandInteraction<CacheType>) => {
     const buildName = interaction.options.getString(buildNameOption) || '';
-    // const build = combinedSkills[buildName];
-    // if (!build) {
-    //   await interaction.reply(L.en.commands.build.errors.notFound());
-    //   return;
-    // }
-
-    // const buildView = await buildViewBuilder(build);
-    // await interaction.reply({embeds: [buildView]});
+    await interaction.reply(buildName);
   },
   autocomplete: async (interaction: AutocompleteInteraction<CacheType>) => {
     console.log('yo');
@@ -103,7 +97,7 @@ const build = () => ({
 
     // const result = buildFuse.search(focusedValue, { limit: 25 });
 		await interaction.respond(
-			data.hits.map(({ post_title, id }) => ({ name: post_title, value: id })),
+			data.hits.map(({ post_title, permalink }) => ({ name: post_title, value: permalink })),
 		);
   },
 });
