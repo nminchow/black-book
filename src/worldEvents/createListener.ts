@@ -236,11 +236,13 @@ const expectedErrors = [
 
 const attemptToSendMessage = async (channel: TextBasedChannel, event: EventParams, sub: SubRecord, metadata: NotificationMetadata, db: NonNullable<dbWrapper>) => {
   const eventView = getView(event.type);
+  const content = mentionContent(event.type, sub);
+  const flags = content ? undefined : "SuppressNotifications"
   try {
     return await channel.send({
       embeds: eventView(event, metadata, sub),
-      content: mentionContent(event.type, sub),
-      flags: "SuppressNotifications"
+      content,
+      flags,
     });
   } catch (error) {
     const errorWithMessage = toErrorWithMessage(error);
